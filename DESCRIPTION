@@ -1,7 +1,8 @@
 Package: fertplan
 Type: Package
-Title: Compute N, P, K, Fertilization Plans 
+Title: Compute NPK Fertilization Plans 
 Version: 0.1.0
+Date: 2020-04-03
 Authors@R: c(person("Marco", "Bascietto", role = c("aut", "cre"),
                      email = "marco.bascietto@crea.gov.it"))
 Description: Compute Nitrogen, Phosphorus (P2O5), and Potassium (K2O) concentrations to be 

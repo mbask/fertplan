@@ -1,15 +1,32 @@
 fertplan introduction
 ================
 
+The goal of the package is to provide the necessary computation
+algorithm to perform a fertilization plan for the fields of a farm. It
+heavily follows the agronomic guidelines for integrated agriculture,
+issued by [Lazio
+Region](https://www.regione.lazio.it/rl_agricoltura/?vw=contenutidettaglio&id=164 "Web-site of Lazio Region (in italian)"),
+a public administration in Italy. Fertilization plans in the Lazio
+region territory have to follow these agronomic guidelines with specific
+attention to [attachment no.
+2](http://www.regione.lazio.it/binary/rl_main/tbl_documenti/AGC_DD_G01782_24_02_2020_Allegato1.pdf "PDF file of the Attachment 2 of the guidelines")
+(from now on *the guidelines*).
+
+The package provides a set of functions to compute the components of the
+supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
+\(K_2O\) nutrients to field crops.
+
+## Nitrogen fertilization plan
+
 The estimation of Nitrogen fertilization concentrations for a yearly
-crop is the most complex among the ones detailed in the ‘Disciplinare’.
+crop is the most complex among the ones detailed in the *guidelines*.
 The Nitrogen fertilization concentration in kg/ha is estimated as the
 net resultant of a N balance into the availability pool for the crop and
-out of it The N balance involves 8 flux components. Fluxes that increase
-N availability to the crop are \> 0 (positive sign), fluxes that deplete
+out of it The N balance involves 8 flow components. flowes that increase
+N availability to the crop are \> 0 (positive sign), flowes that deplete
 soil N pool or N availability for the crop are \< 0 (negative sign).
 
-The N flux components include:
+The N flow components include:
 
 1.  **A** Crop demand for Nitrogen on the basis of its expected yield
 2.  **B** Nitrogen concentration currently in the soil due to its
@@ -68,8 +85,8 @@ Matching-variables are:
 
   - **Crop**, this is the name of the crop to be sown and will be used
     to lookup the its Nitrogen demand in table 15.2 (page 63) of the
-    ‘Disciplinare’ to contribute to **A** component. The name must
-    match one of the following crop names available. Partial matching is
+    *guidelines* to contribute to **A** component. The name must match
+    one of the following crop names available. Partial matching is
     allowed, provided that the partial string is unique among crop
     names. The allowed crop names is:
 
@@ -252,9 +269,9 @@ Matching-variables are:
 | uva spina biomassa epigea                                           |
 
   - **Crop type**, this is the type of crop to be sown to be looked up
-    in table 15.3 (page 67) of the ‘Disciplinare’. It is used to
-    estimate the time coefficient, as a ratio of an year, during which
-    the mineralization of Nitrogen will take place and, thus, will be
+    in table 15.3 (page 67) of the *guidelines*. It is used to estimate
+    the time coefficient, as a ratio of an year, during which the
+    mineralization of Nitrogen will take place and, thus, will be
     available to the crop itself. Crop type contributes to b2
     sub-component of **B** component. Available crop types are:
 
@@ -280,7 +297,7 @@ Matching-variables are:
 
   - **Previous crop**, this is the crop present previously than the one
     that will be sown. Previous crop is look up in table 5 (page 24) of
-    the ‘Disciplinare’. Previous crop contributes to **E** component.
+    the *guidelines*. Previous crop contributes to **E** component.
     Available matches include:
 
 | x                                                                  |
@@ -306,11 +323,11 @@ Matching-variables are:
 | Sovescio di leguminose (in copertura autunno-invernale o estiva)   |
 
   - **Texture**, soil texture, one of Sandy, Loam, Clayey. Soil texture
-    enters in several fluxes of the Nitrogen balance.
+    enters in several flowes of the Nitrogen balance.
 
   - **Drainage rate**, it contributes to **D** component, can be one of
     no drainage, slow, normal, fast. Drainage rate is looked up in table
-    4 (page 23) of ‘Disciplinare’ together with soil texture.
+    4 (page 23) of *guidelines* together with soil texture.
 
 Environmental and crop-related variables include:
 
@@ -332,13 +349,13 @@ Environmental and crop-related variables include:
     fertilization may be passed as a 0-value to this variable.
 
   - **Organic fertilizer**, this is the type of organic fertilizer as
-    found in table 6 (page 25) of the ‘Disciplinare’: Bovine manure,
+    found in table 6 (page 25) of the *guidelines*: Bovine manure,
     Conditioners, Swine and poultry manure. It contributes to the **F**
     component.
 
   - **Years from previous organic fertilization**, this contributes to
     the **F** component, to compute the quantity of available N left in
-    the soil, table 6 (page 25) of the ‘Disciplinare’. It can either be
+    the soil, table 6 (page 25) of the *guidelines*. It can either be
     1,2,3 years.
 
   - **N from atmosphere or N-fixing bacteria**, , this contributes to

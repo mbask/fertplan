@@ -3,10 +3,26 @@ title: "fertplan introduction"
 output: github_document
 ---
 
+## Description
+
 The goal of the package is to provide the necessary computation algorithm to perform a fertilization plan for the fields of a farm. It heavily follows the agronomic guidelines for integrated agriculture, issued by [Lazio Region](https://www.regione.lazio.it/rl_agricoltura/?vw=contenutidettaglio&id=164 "Web-site of Lazio Region (in italian)"), a public administration in Italy.
 Fertilization plans in the Lazio region territory have to follow these agronomic guidelines with specific attention to [attachment no. 2](http://www.regione.lazio.it/binary/rl_main/tbl_documenti/AGC_DD_G01782_24_02_2020_Allegato1.pdf "PDF file of the Attachment 2 of the guidelines") (from now on *the guidelines*).
 
 The package provides a set of functions to compute the components of the supply/demand for Nitrogen, Phosphorus $P_2O_5$, and Potassium $K_2O$ nutrients to field crops.
+
+This document will walk you through a simulation of a real fertilization plan for nitrogen, phosphorus and potassium. Both `fertplan` and this document depend on package `data.table` but its usage is not in any way mandatory.
+
+
+## Installation
+
+`fertplan` is currently in active development and it not yet on CRAN, it may be installed from this GitHub repository though:
+
+```{r, eval = FALSE}
+# Install devtools package if not yet present in R library
+# install.packages("devtools")
+
+devtools::install_github("mbask/fertplan")
+```
 
 
 ```{r setup, include=FALSE}

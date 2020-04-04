@@ -1,6 +1,8 @@
 fertplan introduction
 ================
 
+## Description
+
 The goal of the package is to provide the necessary computation
 algorithm to perform a fertilization plan for the fields of a farm. It
 heavily follows the agronomic guidelines for integrated agriculture,
@@ -15,6 +17,23 @@ attention to [attachment no.
 The package provides a set of functions to compute the components of the
 supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
 \(K_2O\) nutrients to field crops.
+
+This document will walk you through a simulation of a real fertilization
+plan for nitrogen, phosphorus and potassium. Both `fertplan` and this
+document depend on package `data.table` but its usage is not in any way
+mandatory.
+
+## Installation
+
+`fertplan` is currently in active development and it not yet on CRAN, it
+may be installed from this GitHub repository though:
+
+``` r
+# Install devtools package if not yet present in R library
+# install.packages("devtools")
+
+devtools::install_github("mbask/fertplan")
+```
 
 ## Nitrogen fertilization plan
 

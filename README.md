@@ -20,11 +20,12 @@ supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
 
 The estimation of Nitrogen fertilization concentrations for a yearly
 crop is the most complex among the ones detailed in the *guidelines*.
-The Nitrogen fertilization concentration in kg/ha is estimated as the
-net resultant of a N balance into the availability pool for the crop and
-out of it The N balance involves 8 flow components. flowes that increase
-N availability to the crop are \> 0 (positive sign), flowes that deplete
-soil N pool or N availability for the crop are \< 0 (negative sign).
+Nitrogen fertilization concentration in kg/ha is estimated as the net
+resultant of a N balance between the nitrogen pool available for the
+crops and the nitrogen losses. The N balance involves 8 flow components.
+Flows that increase N availability to the crop are \> 0 (positive sign).
+Flows that deplete soil N pool or N availability for the crop are \< 0
+(negative sign).
 
 The N flow components include:
 
@@ -36,7 +37,7 @@ The N flow components include:
 3.  **C** Nitrogen leached due to precipitation during latest winter
     season
 4.  **D** Nitrogen loss due to denitrification
-5.  **E** Residual Nitrogne from previous crop
+5.  **E** Residual Nitrogen from previous crop
 6.  **F** Residual Nitrogen from previous organic fertilizations
 7.  **G** Nitrogen supply from atmospheric depositions and from N-fixing
     bacteria
@@ -78,8 +79,8 @@ The *id* feature is not relevant to the balance estimation.
 ### Second step: variable configuration
 
 A few environmental and crop-related variables need to be set. Some
-variables need to match those set out in the ‘Disciplinare tables’,
-while a few others have to be derived from external sources.
+variables need to match those set out in the *guidelines* tables, while
+a few others have to be derived from external sources.
 
 Matching-variables are:
 
@@ -295,10 +296,9 @@ Matching-variables are:
 | Orticole con ciclo \> di 1 anno    |
 | Orticole a ciclo breve (\< 3 mesi) |
 
-  - **Previous crop**, this is the crop present previously than the one
-    that will be sown. Previous crop is look up in table 5 (page 24) of
-    the *guidelines*. Previous crop contributes to **E** component.
-    Available matches include:
+  - **Previous crop**, this is the name or type of the previous crop, to
+    be looked up in table 5 (page 24) of the *guidelines*. Previous crop
+    contributes to **E** component. Available matches include:
 
 | x                                                                  |
 | :----------------------------------------------------------------- |
@@ -323,7 +323,7 @@ Matching-variables are:
 | Sovescio di leguminose (in copertura autunno-invernale o estiva)   |
 
   - **Texture**, soil texture, one of Sandy, Loam, Clayey. Soil texture
-    enters in several flowes of the Nitrogen balance.
+    enters in several flows of the Nitrogen balance.
 
   - **Drainage rate**, it contributes to **D** component, can be one of
     no drainage, slow, normal, fast. Drainage rate is looked up in table

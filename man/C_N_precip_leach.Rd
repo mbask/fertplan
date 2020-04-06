@@ -4,10 +4,10 @@
 \alias{C_N_precip_leach}
 \title{Loss of Nitrogen leached by precipitation}
 \usage{
-C_N_precip_leach(available_N, rainfall_oct_jan)
+C_N_precip_leach(available_n, rainfall_oct_jan)
 }
 \arguments{
-\item{available_N}{available Nitrogen for the crop, usually returned by \code{\link{b1_available_n}}}
+\item{available_n}{available Nitrogen for the crop, usually returned by \code{\link{b1_available_n}}}
 
 \item{rainfall_oct_jan}{cumulative precipitation in mm in the 4 months-period October - January}
 }

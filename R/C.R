@@ -4,37 +4,6 @@
 # > c1 ----------------------------------------------------------------------
 # Metodo in base alle precipitazioni
 
-#' Percentage of Nitrogen leached by precipitation
-#'
-#' Estimates the ratio of Nitrogen leached by using cumulative precipitation in the period
-#' October 1st - January 31st as described on pages 24 and 25 of the "Disciplinare".
-#'
-#' @param rainfall_oct_jan cumulative precipitation in mm in the 4 months-period October - January
-#'
-#' @return Nitrogen coefficient leached [0..1]. This coefficient should be applied to the available Nitrogen
-#'
-#' @examples
-#' # Returns 0.00 0.25 1.00
-#' \dontrun{ c1_coeff_leached_n_precip(c(30, 175, 270))  }
-c1_coeff_leached_n_precip <- function(rainfall_oct_jan) {
-  stopifnot(is.numeric(rainfall_oct_jan))
-
-  is_neg_rainfall <- rainfall_oct_jan < 0
-    if (sum(is_neg_rainfall > 0)) {
-    warning("Unrealistic negative rainfall, assuming 0 mm rainfall")
-    rainfall_oct_jan[is_neg_rainfall] <- 0
-  }
-
-  # No leaching if ranfall < 150 mm
-  rainfall_oct_jan[rainfall_oct_jan < 150] <- 150
-  # 100% leaching if ranfall > 250 mm
-  rainfall_oct_jan[rainfall_oct_jan > 250] <- 250
-
-  (rainfall_oct_jan - 150) / 100
-}
-
-
-
 #' Loss of Nitrogen leached by precipitation
 #'
 #' Estimates Nitrogen leached by using cumulative precipitation in the period
@@ -43,7 +12,7 @@ c1_coeff_leached_n_precip <- function(rainfall_oct_jan) {
 #' the other being c1 "Metodo in base alla facilità di drenaggio"
 #' The leaching affects only the available Nitrogen part (not total Nitrogen)
 #'
-#' @param available_N      available Nitrogen for the crop, usually returned by \code{\link{b1_available_n}}
+#' @param available_n      available Nitrogen for the crop, usually returned by \code{\link{b1_available_n}}
 #' @param rainfall_oct_jan cumulative precipitation in mm in the 4 months-period October - January
 #'
 #' @return Nitrogen leaching from soil in the year the precipitation figure is collected, in kg/ha
@@ -52,13 +21,22 @@ c1_coeff_leached_n_precip <- function(rainfall_oct_jan) {
 #' @examples
 #' # Returns 3.3777 i.e. all available Nitrogen was leached
 #' C_N_precip_leach(3.3777, 350)
-C_N_precip_leach <- function(available_N, rainfall_oct_jan) {
-  stopifnot(is.numeric(available_N))
-  stopifnot(length(available_N) == length(rainfall_oct_jan))
+C_N_precip_leach <- function(available_n, rainfall_oct_jan) {
 
-  n_leached_pc <- c1_coeff_leached_n_precip(rainfall_oct_jan)
+  stopifnot(is.numeric(available_n))
+  stopifnot(length(available_n) == length(rainfall_oct_jan))
 
-  available_N * n_leached_pc
+  stopifnot(is.numeric(rainfall_oct_jan))
+
+  is_neg_rainfall <- rainfall_oct_jan < 0
+  if (sum(is_neg_rainfall > 0)) {
+    warning("Unrealistic negative rainfall, assuming 0 mm rainfall")
+    rainfall_oct_jan[is_neg_rainfall] <- 0
+  }
+
+  n_leached_pc <- leached_n_coeff(rainfall_oct_jan)
+
+  available_n * n_leached_pc
 }
 
 

@@ -1,3 +1,22 @@
+#' Internal function to compute coefficient of N leaching
+#'
+#' This is method c1 (Nitrogen loss due to Rainfall leaching effect). This is described on page 22 of the 2020 guidelines.
+#'
+#' @param rainfall Cumulative rainfall between october and january in mm
+#'
+#' @return An empirical estimate of the ration of Nitrogen leached due to rainfall
+leached_n_coeff <- function(rainfall) {
+  # No leaching if ranfall < 150 mm
+  rainfall[rainfall < 150] <- 150
+  # 100% leaching if ranfall > 250 mm
+  rainfall[rainfall > 250] <- 250
+
+  (rainfall - 150) / 100
+}
+
+
+
+
 #' Internal function to compute P and K availability
 #'
 #' No check on function parameters is performed, this is left to

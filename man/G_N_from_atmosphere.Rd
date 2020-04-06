@@ -16,7 +16,8 @@ Estimate of N from atmosphere of from bacteria in kg/ha
 \description{
 Yearly availability is estimated to be 20 kg/ha in levelled crops close
 to urban settlements. This figure has to be appropriately adapted
-to each crop through a [0..1] coefficient.
+to each crop through a [0..1] coefficient. Page 25 of 2020 Guidelines.
+Note that the N estimate is given in negative sign (ie a flow into the soil).
 }
 \examples{
 # Returns -10 kg/ha

@@ -14,7 +14,17 @@ leached_n_coeff <- function(rainfall) {
   (rainfall - 150) / 100
 }
 
-
+#' Internal function to get N from atmospehere or n-fixing bacteria
+#'
+#' Page 25 of 2020 Guidelines. Estimate is given in negative sign (ie a flow into the soil)
+#'
+#' @param coeff a simple ratio [0..1] to linearly correct the
+#' estimate, 1 to estimate 20 kg/ha nitrogen, 0 to estimate 0 kg/ha.
+#'
+#' @return Estimate of N from atmosphere of from bacteria in kg/ha
+natural_n <- function(coeff) {
+  -20 * coeff
+}
 
 
 #' Internal function to compute P and K availability

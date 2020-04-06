@@ -5,7 +5,9 @@
 #'
 #' Yearly availability is estimated to be 20 kg/ha in levelled crops close
 #' to urban settlements. This figure has to be appropriately adapted
-#' to each crop through a [0..1] coefficient.
+#' to each crop through a [0..1] coefficient. Page 25 of 2020 Guidelines.
+#' Note that the N estimate is given in negative sign (ie a flow into the soil).
+#'
 #'
 #' @param coeff a simple ratio [0..1] to linearly correct the
 #' estimate, 1 to estimate 20 kg/ha nitrogen, 0 to estimate 0 kg/ha.
@@ -20,7 +22,7 @@ G_N_from_atmosphere <- function(coeff) {
   stopifnot(coeff >= 0)
   stopifnot(coeff <= 1)
 
-  -20 * coeff
+  natural_n(coeff)
 }
 
 # Potassium (K) --------------------------------------------------------------

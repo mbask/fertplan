@@ -7,13 +7,13 @@
 b2_mineralized_n(crop_type, som_pc, cn_ratio, texture)
 }
 \arguments{
-\item{crop_type}{Crop type for estimation of the time coefficient (Attachment 2 table and page 29 of the 'Disciplinare')}
+\item{crop_type}{Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)}
 
 \item{som_pc}{Soil Organic Matter percentage}
 
 \item{cn_ratio}{Carbon Nitrogen ratio in soil}
 
-\item{texture}{Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')}
+\item{texture}{Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)}
 }
 \value{
 Quantity of Nitrogen in kg/ha

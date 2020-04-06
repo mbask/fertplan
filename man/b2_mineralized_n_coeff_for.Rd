@@ -9,7 +9,7 @@ b2_mineralized_n_coeff_for(cn_ratio, texture)
 \arguments{
 \item{cn_ratio}{Carbon Nitrogen ratio in soil}
 
-\item{texture}{Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')}
+\item{texture}{Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)}
 }
 \value{
 a vector of Nitrogen mineralization coefficients

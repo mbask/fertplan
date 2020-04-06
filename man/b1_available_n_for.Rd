@@ -7,7 +7,7 @@
 b1_available_n_for(texture)
 }
 \arguments{
-\item{texture}{Soil texture from table 1 (one of "Sandy", "Loam", "Clayey")}
+\item{texture}{Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)}
 }
 \value{
 Nitrogen coefficient

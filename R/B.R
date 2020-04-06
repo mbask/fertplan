@@ -8,7 +8,7 @@
 #' The Nitrogen coefficient has to be applied to the total Nitrogen soil content
 #' percentage to get soil available Nitrogen (B1)
 #'
-#' @param texture Soil texture from table 1 (one of "Sandy", "Loam", "Clayey")
+#' @param texture Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #'
 #' @return Nitrogen coefficient
 #'
@@ -66,7 +66,7 @@ b1_available_n <- function(total_n_pc, texture) {
 #' Lookup in table 2 for the coefficient of Nitrogen mineralization in soil
 #'
 #' @param cn_ratio    Carbon Nitrogen ratio in soil
-#' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')
+#' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #'
 #' @return The coefficient of Nitrogen mineralization
 mineralized_N_coeff_from <- function(cn_ratio, texture) {
@@ -83,7 +83,7 @@ mineralized_N_coeff_from <- function(cn_ratio, texture) {
 #' Coefficients of Nitrogen mineralization in soil by CN ratios and soil textures
 #'
 #' @param cn_ratio    Carbon Nitrogen ratio in soil
-#' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')
+#' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #'
 #' @return a vector of Nitrogen mineralization coefficients
 b2_mineralized_n_coeff_for <- function(cn_ratio, texture) {
@@ -102,7 +102,7 @@ b2_mineralized_n_coeff_for <- function(cn_ratio, texture) {
 #'
 #' Used internally by \code{\link{b2_mineralized_n}}
 #'
-#' @param crop_type Crop type for estimation of the time coefficient (Attachment 2 table and page 29 of the 'Disciplinare')
+#' @param crop_type Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)
 #'
 #' @return The time coefficient
 crop_type_lookup <- function(crop_type) {
@@ -113,7 +113,7 @@ crop_type_lookup <- function(crop_type) {
   time_coeff <- tables_l$all_02_dt[["time_coeff"]][row_idx]
 
   if (sum(is.na(time_coeff)) > 0) {
-    warning("No crop type found in 'Allegato 2' table, assuming time coefficient = 1 (multiannual crop)")
+    warning("No crop type found in 15.3 table of the 2020 guidelines, assuming time coefficient = 1 (multiannual crop)")
     time_coeff[is.na(time_coeff)] <- 1
   }
   time_coeff
@@ -125,10 +125,10 @@ crop_type_lookup <- function(crop_type) {
 #'
 #' Note that values of soil organic matter >3% are kept constant at 3%
 #'
-#' @param crop_type    Crop type for estimation of the time coefficient (Attachment 2 table and page 29 of the 'Disciplinare')
+#' @param crop_type    Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)
 #' @param som_pc       Soil Organic Matter percentage
 #' @param cn_ratio     Carbon Nitrogen ratio in soil
-#' @param texture      Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')
+#' @param texture      Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #'
 #' @return Quantity of Nitrogen in kg/ha
 #' @export
@@ -193,7 +193,7 @@ B_N_in_soil <- function(b1, b2) {
 #'
 #' @param crop            One crop or more crops selected from table 10 of the 'Disciplinare' document
 #' @param p_ppm           Current Phospororus concentration in soil (in ppm or mg/kg)
-#' @param soil_texture    Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')
+#' @param soil_texture    Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #' @param soil_depth_cm   Depth of soil tillage in cm (usually 30 or 40 cm)
 #'
 #' @return                Total Phospohorus (P2O5) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)

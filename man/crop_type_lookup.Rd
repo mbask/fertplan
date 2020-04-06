@@ -7,7 +7,7 @@
 crop_type_lookup(crop_type)
 }
 \arguments{
-\item{crop_type}{Crop type for estimation of the time coefficient (Attachment 2 table and page 29 of the 'Disciplinare')}
+\item{crop_type}{Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)}
 }
 \value{
 The time coefficient

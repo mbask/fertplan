@@ -11,7 +11,7 @@ B_P_in_soil(crop, p_ppm, soil_texture, soil_depth_cm)
 
 \item{p_ppm}{Current Phospororus concentration in soil (in ppm or mg/kg)}
 
-\item{soil_texture}{Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')}
+\item{soil_texture}{Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)}
 
 \item{soil_depth_cm}{Depth of soil tillage in cm (usually 30 or 40 cm)}
 }

@@ -43,3 +43,4 @@ data-raw/
 
 # RStudio file
 *.Rproj
+inst/doc

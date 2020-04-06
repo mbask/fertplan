@@ -18,11 +18,6 @@ The package provides a set of functions to compute the components of the
 supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
 \(K_2O\) nutrients to field crops.
 
-This document will walk you through a simulation of a real fertilization
-plan for nitrogen, phosphorus and potassium. Both `fertplan` and this
-document depend on package `data.table` but its usage is not in any way
-mandatory.
-
 ## Installation
 
 `fertplan` is currently in active development and it not yet on CRAN, it
@@ -34,6 +29,16 @@ may be installed from this GitHub repository though:
 
 devtools::install_github("mbask/fertplan")
 ```
+
+## Usage
+
+This document will walk you through a simulation of a real fertilization
+plan for nitrogen nutrient. Both `fertplan` and this document depend on
+package `data.table` but its usage is not in any way mandatory.
+
+This document will walk you through a simulation of a real fertilization
+plan for nitrogen nutrient. Both `fertplan` and this document depend on
+package `data.table` but its usage is not in any way mandatory.
 
 ## Nitrogen fertilization plan
 
@@ -403,12 +408,12 @@ knitr::kable(soil_dt)
 ```
 
 | id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop                  | crop\_type                      | expected\_yield\_kg\_ha | prev\_crop                      | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
-| :- | ----: | --------: | ------: | -------: | :-------------------- | :------------------------------ | ----------------------: | :------------------------------ | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
-| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| :- | ----: | --------: | ------: | -------: | :-------------------- | :------------------------------ | ----------------------: | :------------------------------ | :-----: | :------------- | ---------------------: | ---------------------------: | --------------------: |
+| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
+| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
+| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
+| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
+| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
 
 ### Third step: estimate the components of N balance
 
@@ -447,7 +452,7 @@ soil_dt[
       crop_exp_yield = expected_yield_kg_ha),
     B_N_kg_ha              = fertplan::B_N_in_soil(b1_N_kg_ha, b2_N_kg_ha),
     C_N_kg_ha              = fertplan::C_N_precip_leach(
-      available_N      = b1_N_kg_ha, 
+      available_n      = b1_N_kg_ha, 
       rainfall_oct_jan = oct_jan_2019_pr_mm))][
   , `:=` (
     D_N_kg_ha              = fertplan::D_N_denitrification(
@@ -509,4 +514,8 @@ on average.
 
 That’s it as far as Nitrogen fetilization plan is concerned.
 
-Stay tuned for P and K plans…
+Please check out the package vignettes for:
+
+  - Nitrogen fertilization plan
+  - Phosphorus fertilization plan
+  - Potassium fertilization plan

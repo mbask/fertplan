@@ -16,5 +16,9 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
-Suggests: tinytest
+Suggests: 
+    tinytest,
+    knitr,
+    rmarkdown
 Depends: data.table
+VignetteBuilder: knitr

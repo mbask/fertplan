@@ -1,12 +1,22 @@
 ---
-title: "Nitrogen `fert`ilization `plan`"
+title: "Nitrogen `fert`ilization `plan` for erbaceous crops"
 author: "Marco Bascietto"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Nitrogen plan}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+references:
+- id: guidelines2020
+  title: Parte agronomica, norme generali, Disciplinare di Produzione Integrata della Regione Lazio - SQNPI
+  author:
+  - family: Assessorato Agricoltura, Promozione della Filiera e della Cultura del Cibo, Ambiente e Risorse Naturali
+  URL: 'http://www.regione.lazio.it/rl_agricoltura/?vw=documentazioneDettaglio&id=52065'
+  publisher: Regione Lazio
+  type: report
+  issued:
+    year: 2020
 ---
 
 ```{r n_setup, include = FALSE}
@@ -22,7 +32,7 @@ This document will walk you through a simulation of a real fertilization plan fo
 
 ## Nitrogen fertilization plan
 
-The estimation of nitrogen fertilization concentrations for a yearly crop is the most complex among the ones detailed in the *guidelines*. 
+The estimation of the fertilization plan strictly follow the indications formulated in the regulation drawn up by the Italian Region of Lazio [@guidelines2020], hereafter the *guidelines*. The estimation of nitrogen demand for a yearly crop is the most complex among the ones detailed in the *guidelines*.  
 Nitrogen fertilization concentration in kg/ha is estimated as the net resultant of a N balance between the nitrogen pool available for the crops and the nitrogen losses. The N balance involves 7 main flow components. Flows that increase N availability to the crop are > 0 (positive sign). Flows that deplete soil N pool or N availability for the crop are < 0 (negative sign). 
 
 The N flow components include:
@@ -188,3 +198,5 @@ knitr::kable(fertzl_dt[, c("id", "n_demand_kg_ha")])
 All sampling points end up needing a supply of nitrogen of `r fertzl_dt[, mean(n_demand_kg_ha)]` kg/ha on average.
 
 That's it as far as nitrogen fetilization plan is concerned.
+
+## References

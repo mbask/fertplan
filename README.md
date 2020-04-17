@@ -12,7 +12,8 @@ a public administration in Italy. Fertilization plans in the Lazio
 region territory have to follow these agronomic guidelines with specific
 attention to [attachment no.
 2](http://www.regione.lazio.it/binary/rl_main/tbl_documenti/AGC_DD_G01782_24_02_2020_Allegato1.pdf "PDF file of the Attachment 2 of the guidelines")
-(from now on *the guidelines*).
+(Assessorato Agricoltura, Promozione della Filiera e della Cultura del
+Cibo, Ambiente e Risorse Naturali 2020).
 
 The package provides a set of functions to compute the components of the
 supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
@@ -36,35 +37,48 @@ This document will walk you through a simulation of a real fertilization
 plan for nitrogen nutrient. Both `fertplan` and this document depend on
 package `data.table` but its usage is not in any way mandatory.
 
+Please check out the package vignettes for:
+
+  - Nitrogen fertilization plan
+  - Phosphorus fertilization plan
+  - Potassium fertilization plan
+
 This document will walk you through a simulation of a real fertilization
 plan for nitrogen nutrient. Both `fertplan` and this document depend on
 package `data.table` but its usage is not in any way mandatory.
 
 ## Nitrogen fertilization plan
 
-The estimation of Nitrogen fertilization concentrations for a yearly
-crop is the most complex among the ones detailed in the *guidelines*.
+The estimation of the fertilization plan strictly follow the indications
+formulated in the regulation drawn up by the Italian Region of Lazio
+(Assessorato Agricoltura, Promozione della Filiera e della Cultura del
+Cibo, Ambiente e Risorse Naturali 2020), hereafter the *guidelines*. The
+estimation of nitrogen demand for a yearly crop is the most complex
+among the ones detailed in the *guidelines*.  
 Nitrogen fertilization concentration in kg/ha is estimated as the net
 resultant of a N balance between the nitrogen pool available for the
-crops and the nitrogen losses. The N balance involves 8 flow components.
-Flows that increase N availability to the crop are \> 0 (positive sign).
-Flows that deplete soil N pool or N availability for the crop are \< 0
-(negative sign).
+crops and the nitrogen losses. The N balance involves 7 main flow
+components. Flows that increase N availability to the crop are \> 0
+(positive sign). Flows that deplete soil N pool or N availability for
+the crop are \< 0 (negative sign).
 
 The N flow components include:
 
-1.  **A** Crop demand for Nitrogen on the basis of its expected yield
-2.  **B** Nitrogen concentration currently in the soil due to its
-    fertility. This component sums two Nitrogen pools: **b1** available
-    Nitrogen to the crop, and **b2** Nitrogen supply from mineralization
+  - **A** Crop demand for nitrogen on the basis of its expected yield
+  - **B** Nitrogen concentration currently in the soil due to its
+    fertility. This component sums two nitrogen pools: **b1** available
+    nitrogen to the crop, and **b2** nitrogen supply from mineralization
     of organic matter
-3.  **C** Nitrogen leached due to precipitation during latest winter
+  - **C** Nitrogen leached due to precipitation during latest winter
     season
-4.  **D** Nitrogen loss due to denitrification
-5.  **E** Residual Nitrogen from previous crop
-6.  **F** Residual Nitrogen from previous organic fertilizations
-7.  **G** Nitrogen supply from atmospheric depositions and from N-fixing
+  - **D** Nitrogen loss due to denitrification
+  - **E** Residual nitrogen from previous crop
+  - **F** Residual nitrogen from previous organic fertilizations
+  - **G** Nitrogen supply from atmospheric depositions and from N-fixing
     bacteria
+
+The final nitrogen balance is computed as the sum of its 7 components:
+\[N = \sum_{i=1}^{7}f_i\]
 
 ### First step: load soil analyses
 
@@ -90,11 +104,11 @@ soil_dt <-  data.table::data.table(
 | 17 | 0.205 | 10.048780 |    3.56 |       36 |
 
 The table shows the soil chemical and physical status before the planned
-crop sowing. The soil analyses elements that will be fed the Nitrogen
+crop sowing. The soil analyses elements that will be fed the nitrogen
 balance estimation are:
 
-  - *N\_pc*, Total Nitrogen content in %
-  - *CNR*, Carbon / Nitrogen ratio
+  - *N\_pc*, Total nitrogen content in %
+  - *CNR*, Carbon / nitrogen ratio
   - *SOM\_pc*, Soil Organic Matter in %
   - *Clay\_pc*, Clay content in %
 
@@ -109,7 +123,7 @@ a few others have to be derived from external sources.
 Matching-variables are:
 
   - **Crop**, this is the name of the crop to be sown and will be used
-    to lookup the its Nitrogen demand in table 15.2 (page 63) of the
+    to lookup the its nitrogen demand in table 15.2 (page 63) of the
     *guidelines* to contribute to **A** component. The name must match
     one of the following crop names available. Partial matching is
     allowed, provided that the partial string is unique among crop
@@ -296,7 +310,7 @@ Matching-variables are:
   - **Crop type**, this is the type of crop to be sown to be looked up
     in table 15.3 (page 67) of the *guidelines*. It is used to estimate
     the time coefficient, as a ratio of an year, during which the
-    mineralization of Nitrogen will take place and, thus, will be
+    mineralization of nitrogen will take place and, thus, will be
     available to the crop itself. Crop type contributes to b2
     sub-component of **B** component. Available crop types are:
 
@@ -347,7 +361,7 @@ Matching-variables are:
 | Sovescio di leguminose (in copertura autunno-invernale o estiva)   |
 
   - **Texture**, soil texture, one of Sandy, Loam, Clayey. Soil texture
-    enters in several flows of the Nitrogen balance.
+    enters in several flows of the nitrogen balance.
 
   - **Drainage rate**, it contributes to **D** component, can be one of
     no drainage, slow, normal, fast. Drainage rate is looked up in table
@@ -364,10 +378,10 @@ Environmental and crop-related variables include:
 
   - **Rainfall October - January**, this is the cumulative rainfall in
     mm during 4 autumn and winter months, from October to January. It
-    contributes to the **C** component where Nitrogen leaching is
+    contributes to the **C** component where nitrogen leaching is
     estimated as a quantity proportional to rainfall.
 
-  - **Previous organic fertilization**, this is the supply of Nitrogen
+  - **Previous organic fertilization**, this is the supply of nitrogen
     in kg/ha from the organic fertilization performed during previous
     crop(s). It contributes to the **F** component. No organic
     fertilization may be passed as a 0-value to this variable.
@@ -408,12 +422,12 @@ knitr::kable(soil_dt)
 ```
 
 | id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop                  | crop\_type                      | expected\_yield\_kg\_ha | prev\_crop                      | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
-| :- | ----: | --------: | ------: | -------: | :-------------------- | :------------------------------ | ----------------------: | :------------------------------ | :-----: | :------------- | ---------------------: | ---------------------------: | --------------------: |
-| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
-| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
-| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
-| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
-| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% |  Loam   | slow           |                    350 |                            0 |                     1 |
+| :- | ----: | --------: | ------: | -------: | :-------------------- | :------------------------------ | ----------------------: | :------------------------------ | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
+| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
 
 ### Third step: estimate the components of N balance
 
@@ -509,13 +523,23 @@ knitr::kable(fertzl_dt[, c("id", "n_demand_kg_ha")])
 | 12 |           11.3067 |
 | 17 |            4.9055 |
 
-All sampling points end up needing a supply of Nitrogen of 7.59286 kg/ha
+All sampling points end up needing a supply of nitrogen of 7.59286 kg/ha
 on average.
 
-That’s it as far as Nitrogen fetilization plan is concerned.
+That’s it as far as nitrogen fetilization plan is concerned.
 
-Please check out the package vignettes for:
+## References
 
-  - Nitrogen fertilization plan
-  - Phosphorus fertilization plan
-  - Potassium fertilization plan
+<div id="refs" class="references hanging-indent">
+
+<div id="ref-guidelines2020">
+
+Assessorato Agricoltura, Promozione della Filiera e della Cultura del
+Cibo, Ambiente e Risorse Naturali. 2020. “Parte Agronomica, Norme
+Generali, Disciplinare Di Produzione Integrata Della Regione Lazio -
+SQNPI.” Regione Lazio.
+<http://www.regione.lazio.it/rl_agricoltura/?vw=documentazioneDettaglio&id=52065>.
+
+</div>
+
+</div>

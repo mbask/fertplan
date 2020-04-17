@@ -25,8 +25,8 @@ expect_equal(A_crop_demand(0.028, 1330), 37.24)
 expect_equal(A_crop_demand(c(0.028, 0.1), c(1330, 2000)), c(37.24, 200.0))
 
 # Expect errors
-expect_error(A_crop_demand(1.1, 33), "crop_abs >= 0 & crop_abs <= 1")
-expect_error(A_crop_demand("0.2", 33), "is.numeric\\(crop_abs\\)")
-expect_error(A_crop_demand(0.2, "33"), "is.numeric\\(crop_exp_yield\\)")
-expect_error(A_crop_demand(c(0.2, 0.3), 33))
-expect_error(A_crop_demand(0.3, c(33, 334)))
+expect_error(A_crop_demand(1.1, 33), "all rates in vector should be \\[0,1\\].")
+expect_error(A_crop_demand("0.2", 33), "vector must be of numeric type.")
+expect_error(A_crop_demand(0.2, "33"), "vector must be of numeric type.")
+# expect_error(A_crop_demand(c(0.2, 0.3), 33), "absorption rate shorter or longer than expected crop yield.")
+# expect_error(A_crop_demand(0.3, c(33, 334)), "absorption rate shorter or longer than expected crop yield.")

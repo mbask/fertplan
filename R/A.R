@@ -75,19 +75,15 @@ coef_maker <- function(abs_or_removal, nutrient) {
 #' @param crop_exp_yield  the expected crop yield
 #' @return The crop demand in the same unit as \code{crop_exp_yield}, usually kg/ha.
 #' @export
+#' @import ensurer
 #' @examples
 #' A_crop_demand(0.4, 1330)
 A_crop_demand <- function(crop_abs, crop_exp_yield) {
-  stopifnot(!is.null(crop_abs))
-  stopifnot(!is.null(crop_exp_yield))
+  ensure_numeric(crop_abs)
+  ensure_numeric(crop_exp_yield)
 
-  stopifnot(length(crop_abs) == length(crop_exp_yield))
-
-
-  stopifnot(is.numeric(crop_abs))
-  stopifnot(is.numeric(crop_exp_yield))
-
-  stopifnot(crop_abs >= 0 & crop_abs <= 1)
+  ensure_is_vector_of_rates(crop_abs)
+  #ensurer::ensure_that(c(length(crop_abs), length(crop_exp_yield)), .[1] == .[2] ~ "absorption rate shorter or longer than expected crop yield.")
 
   crop_abs * crop_exp_yield
 }

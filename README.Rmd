@@ -1,12 +1,22 @@
 ---
 title: "fertplan introduction"
 output: github_document
+references:
+- id: guidelines2020
+  title: Parte agronomica, norme generali, Disciplinare di Produzione Integrata della Regione Lazio - SQNPI
+  author:
+  - family: Assessorato Agricoltura, Promozione della Filiera e della Cultura del Cibo, Ambiente e Risorse Naturali
+  URL: 'http://www.regione.lazio.it/rl_agricoltura/?vw=documentazioneDettaglio&id=52065'
+  publisher: Regione Lazio
+  type: report
+  issued:
+    year: 2020
 ---
 
 ## Description
 
 The goal of the package is to provide the necessary computation algorithm to perform a fertilization plan for the fields of a farm. It heavily follows the agronomic guidelines for integrated agriculture, issued by [Lazio Region](https://www.regione.lazio.it/rl_agricoltura/?vw=contenutidettaglio&id=164 "Web-site of Lazio Region (in italian)"), a public administration in Italy.
-Fertilization plans in the Lazio region territory have to follow these agronomic guidelines with specific attention to [attachment no. 2](http://www.regione.lazio.it/binary/rl_main/tbl_documenti/AGC_DD_G01782_24_02_2020_Allegato1.pdf "PDF file of the Attachment 2 of the guidelines") (from now on *the guidelines*).
+Fertilization plans in the Lazio region territory have to follow these agronomic guidelines with specific attention to [attachment no. 2](http://www.regione.lazio.it/binary/rl_main/tbl_documenti/AGC_DD_G01782_24_02_2020_Allegato1.pdf "PDF file of the Attachment 2 of the guidelines") [@guidelines2020].
 
 The package provides a set of functions to compute the components of the supply/demand for Nitrogen, Phosphorus $P_2O_5$, and Potassium $K_2O$ nutrients to field crops.
 
@@ -35,14 +45,16 @@ library(fertplan)
 
 This document will walk you through a simulation of a real fertilization plan for nitrogen nutrient. Both `fertplan` and this document depend on package `data.table` but its usage is not in any way mandatory.
 
+Please check out the package vignettes for:
+
+  * Nitrogen fertilization plan
+  * Phosphorus fertilization plan
+  * Potassium fertilization plan
+
+
 ```{r, results='asis', echo = FALSE}
 res <- knitr::knit_child('vignettes/n_fertplan.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
 
 
-Please check out the package vignettes for:
-
-  * Nitrogen fertilization plan
-  * Phosphorus fertilization plan
-  * Potassium fertilization plan

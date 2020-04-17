@@ -186,7 +186,7 @@ knitr::kable(fertzl_dt)
 ```
 
 
-### Fourth step: estimate the N balance
+### Fourth step: estimate N demand
 
 We are finally arrived to the last step of assembling all components of the N balance. Let's  perform the actual addition of the `r paste0(fertzl_cols, collapse = ", ")` components:
 

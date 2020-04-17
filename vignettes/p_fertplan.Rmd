@@ -142,7 +142,7 @@ knitr::kable(fertzl_dt)
 ```
 
 
-### Fourth step: estimate the P balance
+### Fourth step: estimate P demand
 
 We are finally arrived to the last step of assembling all components of the P balance. Let's compute the balance following the previous equation:
 
@@ -153,7 +153,7 @@ knitr::kable(fertzl_dt[, c("id", "p_demand_kg_ha")])
 
 All sampling points end up needing a supply of Phosphorus of `r fertzl_dt[, mean(p_demand_kg_ha)]` kg/ha on average.
 
-That's it as far as Phosphorus fetilization plan is concerned.
+That's it as far as phosphorus fetilization plan is concerned.
 
 ## References
 

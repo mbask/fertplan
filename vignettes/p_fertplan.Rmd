@@ -39,8 +39,8 @@ Phosphorus fertilization concentration in kg/ha is estimated as the net resultan
 The N flow components include:
 
   * **$f_A$** Crop demand for phosphorus on the basis of its expected yield
-  * **$f_B$** Phosphorus concentration currently in the soil due to its fertility. Three multiplicative sub-components contribute to this flow: soil depth, apparent soil density, and offset from average "normal" soil P concentration.
-  * **$f_C$** Phosphorus immobilized
+  * **$f_B$** Phosphorus concentration currently in the soil due to its fertility. Three multiplicative sub-components contribute to this flow: soil depth, apparent soil density, and offset from average "normal" soil P concentration.  `fertplan` estimates "normal" soil phosphorus concentration from Table 10 of the *guidelines* (page 32) by considering the average value of the P ranges for each crop class and soil texture.
+  * **$f_C$** Phosphorus immobilized by limestone (Calcium).
 
 The final phosphorus balance is computed as:
 $$P = f_A + f_B \cdot f_C$$

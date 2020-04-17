@@ -64,21 +64,23 @@ the crop are \< 0 (negative sign).
 
 The N flow components include:
 
-  - **A** Crop demand for nitrogen on the basis of its expected yield
-  - **B** Nitrogen concentration currently in the soil due to its
-    fertility. This component sums two nitrogen pools: **b1** available
-    nitrogen to the crop, and **b2** nitrogen supply from mineralization
-    of organic matter
-  - **C** Nitrogen leached due to precipitation during latest winter
-    season
-  - **D** Nitrogen loss due to denitrification
-  - **E** Residual nitrogen from previous crop
-  - **F** Residual nitrogen from previous organic fertilizations
-  - **G** Nitrogen supply from atmospheric depositions and from N-fixing
-    bacteria
+  - **\(f_{N,a}\)** Crop demand for nitrogen on the basis of its
+    expected yield
+  - **\(f_{N,b}\)** Nitrogen concentration currently in the soil due to
+    its fertility. This component sums two nitrogen pools: **b1**
+    available nitrogen to the crop, and **b2** nitrogen supply from
+    mineralization of organic matter
+  - **\(f_{N,c}\)** Nitrogen leached due to precipitation during latest
+    winter season
+  - **\(f_{N,d}\)** Nitrogen loss due to denitrification
+  - **\(f_{N,e}\)** Residual nitrogen from previous crop
+  - **\(f_{N,f}\)** Residual nitrogen from previous organic
+    fertilizations
+  - **\(f_{N,g}\)** Nitrogen supply from atmospheric depositions and
+    from N-fixing bacteria
 
 The final nitrogen balance is computed as the sum of its 7 components:
-\[N = \sum_{i=1}^{7}f_i\]
+\[B_N = \sum_{i=1}^{7}f_{N,i}\]
 
 ### First step: load soil analyses
 
@@ -124,10 +126,10 @@ Matching-variables are:
 
   - **Crop**, this is the name of the crop to be sown and will be used
     to lookup the its nitrogen demand in table 15.2 (page 63) of the
-    *guidelines* to contribute to **A** component. The name must match
-    one of the following crop names available. Partial matching is
-    allowed, provided that the partial string is unique among crop
-    names. The allowed crop names is:
+    *guidelines* to contribute to **\(f_{N,a}\)** component. The name
+    must match one of the following crop names available. Partial
+    matching is allowed, provided that the partial string is unique
+    among crop names. The allowed crop names is:
 
 | x                                                                   |
 | :------------------------------------------------------------------ |
@@ -312,7 +314,8 @@ Matching-variables are:
     the time coefficient, as a ratio of an year, during which the
     mineralization of nitrogen will take place and, thus, will be
     available to the crop itself. Crop type contributes to b2
-    sub-component of **B** component. Available crop types are:
+    sub-component of **\(f_{N,b}\)** component. Available crop types
+    are:
 
 | x                                  |
 | :--------------------------------- |
@@ -336,7 +339,7 @@ Matching-variables are:
 
   - **Previous crop**, this is the name or type of the previous crop, to
     be looked up in table 5 (page 24) of the *guidelines*. Previous crop
-    contributes to **E** component. Available matches include:
+    contributes to **\(f_{N,e}\)** component. Available matches include:
 
 | x                                                                  |
 | :----------------------------------------------------------------- |
@@ -363,14 +366,14 @@ Matching-variables are:
   - **Texture**, soil texture, one of Sandy, Loam, Clayey. Soil texture
     enters in several flows of the nitrogen balance.
 
-  - **Drainage rate**, it contributes to **D** component, can be one of
-    no drainage, slow, normal, fast. Drainage rate is looked up in table
-    4 (page 23) of *guidelines* together with soil texture.
+  - **Drainage rate**, it contributes to **\(f_{N,d}\)** component, can
+    be one of no drainage, slow, normal, fast. Drainage rate is looked
+    up in table 4 (page 23) of *guidelines* together with soil texture.
 
 Environmental and crop-related variables include:
 
-  - **Expected yield**, it contributes to **A** component, unit of
-    measure kg/ha. It can be estimated from statistical
+  - **Expected yield**, it contributes to **\(f_{N,a}\)** component,
+    unit of measure kg/ha. It can be estimated from statistical
     [estimates](http://dati.istat.it "ISTAT web site") of crop areas and
     yields at province, regional, or national level. As an example,
     wheat expected yield is 2,900 kg/ha in the province of Rome, based
@@ -383,23 +386,23 @@ Environmental and crop-related variables include:
 
   - **Previous organic fertilization**, this is the supply of nitrogen
     in kg/ha from the organic fertilization performed during previous
-    crop(s). It contributes to the **F** component. No organic
+    crop(s). It contributes to the **\(f_{N,f}\)** component. No organic
     fertilization may be passed as a 0-value to this variable.
 
   - **Organic fertilizer**, this is the type of organic fertilizer as
     found in table 6 (page 25) of the *guidelines*: Bovine manure,
-    Conditioners, Swine and poultry manure. It contributes to the **F**
-    component.
+    Conditioners, Swine and poultry manure. It contributes to the
+    **\(f_{N,f}\)** component.
 
   - **Years from previous organic fertilization**, this contributes to
-    the **F** component, to compute the quantity of available N left in
-    the soil, table 6 (page 25) of the *guidelines*. It can either be
-    1,2,3 years.
+    the **\(f_{N,f}\)** component, to compute the quantity of available
+    N left in the soil, table 6 (page 25) of the *guidelines*. It can
+    either be 1,2,3 years.
 
   - **N from atmosphere or N-fixing bacteria**, , this contributes to
-    the **G** component and takes the form of a coefficient in the range
-    from 0 to 1 to be applied to the value of 20 kg/ha estimated for a
-    yearly crop close to urban settlements.
+    the **\(f_{N,g}\)** component and takes the form of a coefficient in
+    the range from 0 to 1 to be applied to the value of 20 kg/ha
+    estimated for a yearly crop close to urban settlements.
 
 Let’s now set the variables values and bind them to the soil analysis
 table. Let’s suppose the values are constant among all soil samples, as
@@ -432,7 +435,7 @@ knitr::kable(soil_dt)
 ### Third step: estimate the components of N balance
 
 Let’s first estimate **b1** and **b2** sub-components that will enter
-either the **B**, **C**, and **D** components:
+either the **\(f_{N,{b|c|d}}\)** components:
 
 ``` r
 soil_dt[
@@ -456,7 +459,7 @@ knitr::kable(soil_dt[, c("id", "b1_N_kg_ha", "b2_N_kg_ha")])
 | 12 |         3.562 |        32.400 |
 | 17 |         5.330 |        43.200 |
 
-Now let’s proceed on estimating the **A-G** components:
+Now let’s proceed on estimating all components:
 
 ``` r
 soil_dt[
@@ -478,10 +481,10 @@ soil_dt[
     G_N_kg_ha              = fertplan::G_N_from_atmosphere(coeff = n_supply_atm_coeff))]
 ```
 
-All components were estimated, note that **B** is computed as
+All components were estimated, note that **\(f_{N,b}\)** is computed as
 `(b1+b2)*-1`. Remember that positive values are demand pools of N in
-soil or N flows leaving the field (such as **C** component); negative
-values are current N pools in the soils that are available for
+soil or N flows leaving the field (such as **\(f_{N,c}\)** component);
+negative values are current N pools in the soils that are available for
 assimilation to the crop or that will be available during the time-frame
 of crop growth.
 
@@ -503,7 +506,7 @@ knitr::kable(fertzl_dt)
 | 12 |        66.12 |     \-35.962 |        3.562 |      12.5867 |         \-15 |            0 |         \-20 |
 | 17 |        66.12 |     \-48.530 |        5.330 |      16.9855 |         \-15 |            0 |         \-20 |
 
-### Fourth step: estimate the N balance
+### Fourth step: estimate N demand
 
 We are finally arrived to the last step of assembling all components of
 the N balance. Let’s perform the actual addition of the A\_N\_kg\_ha,

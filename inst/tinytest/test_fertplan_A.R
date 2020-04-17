@@ -13,8 +13,8 @@ expect_equal(rem_P_coef_of("Ribes"), 0.1)
 expect_equal(abs_P_coef_of(c("Ribes", "Girasole")), c(0.4, 1.9))
 
 # Expect a warning when a lookup fails
-expect_warning(abs_N_coef_of("Rosa purpurea del Cairo"), "Crop not found in Allegato 1")
-expect_warning(rem_N_coef_of(c("Ribes", "Rosa purpurea del Cairo")), "Crop not found in Allegato 1")
+expect_warning(abs_N_coef_of("Rosa purpurea del Cairo"), "There are crops not found in guidelines table")
+expect_warning(rem_N_coef_of(c("Ribes", "Rosa purpurea del Cairo")), "There are crops not found in guidelines table")
 
 # Expect NA for those crop failed lookups
 expect_true(is.na(abs_N_coef_of("Rosa purpurea del Cairo")))

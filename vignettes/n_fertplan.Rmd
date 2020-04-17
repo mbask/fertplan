@@ -23,19 +23,20 @@ This document will walk you through a simulation of a real fertilization plan fo
 ## Nitrogen fertilization plan
 
 The estimation of nitrogen fertilization concentrations for a yearly crop is the most complex among the ones detailed in the *guidelines*. 
-Nitrogen fertilization concentration in kg/ha is estimated as the net resultant of a N balance between the nitrogen pool available for the crops and the nitrogen losses. The N balance involves 8 flow components. Flows that increase N availability to the crop are > 0 (positive sign). Flows that deplete soil N pool or N availability for the crop are < 0 (negative sign). 
+Nitrogen fertilization concentration in kg/ha is estimated as the net resultant of a N balance between the nitrogen pool available for the crops and the nitrogen losses. The N balance involves 7 main flow components. Flows that increase N availability to the crop are > 0 (positive sign). Flows that deplete soil N pool or N availability for the crop are < 0 (negative sign). 
 
 The N flow components include:
 
-  1. **A** Crop demand for nitrogen on the basis of its expected yield
-  2. **B** Nitrogen concentration currently in the soil due to its fertility. This component sums two nitrogen pools: **b1** available nitrogen to the crop, and **b2** nitrogen supply from mineralization of organic matter
-  3. **C** Nitrogen leached due to precipitation during latest winter season
-  4. **D** Nitrogen loss due to denitrification
-  5. **E** Residual nitrogen from previous crop
-  6. **F** Residual nitrogen from previous organic fertilizations
-  7. **G** Nitrogen supply from atmospheric depositions and from N-fixing bacteria
+  * **A** Crop demand for nitrogen on the basis of its expected yield
+  * **B** Nitrogen concentration currently in the soil due to its fertility. This component sums two nitrogen pools: **b1** available nitrogen to the crop, and **b2** nitrogen supply from mineralization of organic matter
+  * **C** Nitrogen leached due to precipitation during latest winter season
+  * **D** Nitrogen loss due to denitrification
+  * **E** Residual nitrogen from previous crop
+  * **F** Residual nitrogen from previous organic fertilizations
+  * **G** Nitrogen supply from atmospheric depositions and from N-fixing bacteria
 
-
+The final nitrogen balance is computed as the sum of its 7 components:
+$$N = \sum_{i=1}^{7}f_i$$
 
 ### First step: load soil analyses
 

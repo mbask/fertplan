@@ -22,17 +22,17 @@ This document will walk you through a simulation of a real fertilization plan fo
 
 ## Nitrogen fertilization plan
 
-The estimation of Nitrogen fertilization concentrations for a yearly crop is the most complex among the ones detailed in the *guidelines*. 
+The estimation of nitrogen fertilization concentrations for a yearly crop is the most complex among the ones detailed in the *guidelines*. 
 Nitrogen fertilization concentration in kg/ha is estimated as the net resultant of a N balance between the nitrogen pool available for the crops and the nitrogen losses. The N balance involves 8 flow components. Flows that increase N availability to the crop are > 0 (positive sign). Flows that deplete soil N pool or N availability for the crop are < 0 (negative sign). 
 
 The N flow components include:
 
-  1. **A** Crop demand for Nitrogen on the basis of its expected yield
-  2. **B** Nitrogen concentration currently in the soil due to its fertility. This component sums two Nitrogen pools: **b1** available Nitrogen to the crop, and **b2** Nitrogen supply from mineralization of organic matter
+  1. **A** Crop demand for nitrogen on the basis of its expected yield
+  2. **B** Nitrogen concentration currently in the soil due to its fertility. This component sums two nitrogen pools: **b1** available nitrogen to the crop, and **b2** nitrogen supply from mineralization of organic matter
   3. **C** Nitrogen leached due to precipitation during latest winter season
   4. **D** Nitrogen loss due to denitrification
-  5. **E** Residual Nitrogen from previous crop
-  6. **F** Residual Nitrogen from previous organic fertilizations
+  5. **E** Residual nitrogen from previous crop
+  6. **F** Residual nitrogen from previous organic fertilizations
   7. **G** Nitrogen supply from atmospheric depositions and from N-fixing bacteria
 
 
@@ -51,10 +51,10 @@ soil_dt <-  data.table::data.table(
   knitr::kable(soil_dt)
 ```
 
-The table shows the soil chemical and physical status before the planned crop sowing. The soil analyses elements that will be fed the Nitrogen balance estimation are:
+The table shows the soil chemical and physical status before the planned crop sowing. The soil analyses elements that will be fed the nitrogen balance estimation are:
 
-  * *N_pc*, Total Nitrogen content in %
-  * *CNR*, Carbon / Nitrogen ratio
+  * *N_pc*, Total nitrogen content in %
+  * *CNR*, Carbon / nitrogen ratio
   * *SOM_pc*, Soil Organic Matter in %
   * *Clay_pc*, Clay content in %
 
@@ -68,12 +68,12 @@ Some variables need to match those set out in the *guidelines* tables, while a f
 
 Matching-variables are:
 
-  * **Crop**, this is the name of the crop to be sown and will be used to lookup the its Nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **A** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
+  * **Crop**, this is the name of the crop to be sown and will be used to lookup the its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **A** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
   ```{r, echo = FALSE}
   knitr::kable(unique(fertplan:::tables_l$all_01_dt[, crop]))
   ```
   
-  * **Crop type**, this is the type of crop to be sown to be looked up in table 15.3 (page 67) of the *guidelines*. It is used to estimate the time coefficient, as a ratio of an year, during which the mineralization of Nitrogen will take place and, thus, will be available to the crop itself. Crop type contributes to b2 sub-component of **B** component. Available crop types are:
+  * **Crop type**, this is the type of crop to be sown to be looked up in table 15.3 (page 67) of the *guidelines*. It is used to estimate the time coefficient, as a ratio of an year, during which the mineralization of nitrogen will take place and, thus, will be available to the crop itself. Crop type contributes to b2 sub-component of **B** component. Available crop types are:
   ```{r, echo = FALSE}
   knitr::kable(fertplan:::tables_l$all_02_dt[, crop_type])
   ```
@@ -83,7 +83,7 @@ Matching-variables are:
   knitr::kable(gsub("%", "\\\\%", fertplan:::tables_l$tab_05_dt[, crop]), escape = FALSE)
   ```
  
- * **Texture**, soil texture, one of `r levels(fertplan:::tables_l$tab_01_wdt[, soil_texture])`. Soil texture enters in several flows of the Nitrogen balance.
+ * **Texture**, soil texture, one of `r levels(fertplan:::tables_l$tab_01_wdt[, soil_texture])`. Soil texture enters in several flows of the nitrogen balance.
 
   * **Drainage rate**, it contributes to **D** component, can be one of `r levels(fertplan:::tables_l$tab_03_dt[, drainage])`. Drainage rate is looked up in table 4 (page 23) of *guidelines* together with soil texture.
 
@@ -92,9 +92,9 @@ Environmental and crop-related variables include:
 
   * **Expected yield**, it contributes to **A** component, unit of measure kg/ha. It can be estimated from statistical [estimates](http://dati.istat.it "ISTAT web site") of crop areas and yields at province, regional, or national level. As an example, wheat expected yield is 2,900 kg/ha in the province of Rome, based on 2019 Istat estimates.
   
-  * **Rainfall October - January**, this is the cumulative rainfall in mm during 4 autumn and winter months, from October to January. It contributes to the **C** component where Nitrogen leaching is estimated as a quantity proportional to rainfall.
+  * **Rainfall October - January**, this is the cumulative rainfall in mm during 4 autumn and winter months, from October to January. It contributes to the **C** component where nitrogen leaching is estimated as a quantity proportional to rainfall.
   
-  * **Previous organic fertilization**, this is the supply of Nitrogen in kg/ha from the organic fertilization performed during previous crop(s). It contributes to the **F** component. No organic fertilization may be passed as a 0-value to this variable.
+  * **Previous organic fertilization**, this is the supply of nitrogen in kg/ha from the organic fertilization performed during previous crop(s). It contributes to the **F** component. No organic fertilization may be passed as a 0-value to this variable.
   
   * **Organic fertilizer**, this is the type of organic fertilizer as found in table 6 (page 25) of the *guidelines*: `r levels(fertplan:::tables_l$tab_06_dt[, organic_fertilizer])`. It contributes to the **F** component.
   
@@ -184,6 +184,6 @@ fertzl_dt[, n_demand_kg_ha := rowSums(.SD), .SDcols = fertzl_cols]
 knitr::kable(fertzl_dt[, c("id", "n_demand_kg_ha")])
 ```
 
-All sampling points end up needing a supply of Nitrogen of `r fertzl_dt[, mean(n_demand_kg_ha)]` kg/ha on average.
+All sampling points end up needing a supply of nitrogen of `r fertzl_dt[, mean(n_demand_kg_ha)]` kg/ha on average.
 
-That's it as far as Nitrogen fetilization plan is concerned.
+That's it as far as nitrogen fetilization plan is concerned.

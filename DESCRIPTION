@@ -22,5 +22,7 @@ Suggests:
     tinytest,
     knitr,
     rmarkdown
-Depends: data.table
+Depends: 
+    data.table,
+    ensurer
 VignetteBuilder: knitr

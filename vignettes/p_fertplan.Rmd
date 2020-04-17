@@ -40,7 +40,7 @@ The N flow components include:
 
   * **$f_A$** Crop demand for phosphorus on the basis of its expected yield
   * **$f_B$** Phosphorus concentration currently in the soil due to its fertility. Three multiplicative sub-components contribute to this flow: soil depth, apparent soil density, and offset from average "normal" soil P concentration.  `fertplan` estimates "normal" soil phosphorus concentration from Table 10 of the *guidelines* (page 32) by considering the average value of the P ranges for each crop class and soil texture.
-  * **$f_C$** Phosphorus immobilized by limestone (Calcium).
+  * **$f_C$** Phosphorus immobilized by limestone (Calcium). Limestone has a potential to immobilize phosphorus in soil and let it become unavailable for crop take up.
 
 The final phosphorus balance is computed as:
 $$P = f_A + f_B \cdot f_C$$
@@ -61,7 +61,7 @@ knitr::kable(soil_dt)
 
 The table shows the soil chemical and physical status before the planned crop sowing. The soil analyses elements that will be fed the phosphorus balance estimation are:
 
-  * *P_ppm*, Total phosphorus content ppm (eg. mg/kg)
+  * *P_ppm*, Total phosphorus content in ppm (eg. mg/kg)
   * *Limestone_pc*, Limestone content in %
 
 The *id* feature is not relevant to the balance estimation.
@@ -94,7 +94,6 @@ Environmental and crop-related variables include:
   * **Soil depth**, depth of soil tillage practise, in $cm$. This is usually 30 or 40 cm, for shallow tillage (the former) or deep tillage (the latter). A soil depth coefficient measured as depth / 10 enters the **$f_B$** flow component as a multiplicative coefficient (eg 3 for shallow tillage or 4 for deep tillage).
 
 
-  * **Limestone content**, Limestone has a potential to immobilize phosphorus in soil and let it become unavailable for crop take up. Limeston (in %) enters the **$f_C$** flow component.
   
 Let's now set the variables values and bind them to the soil analysis table. Let's suppose the values are constant among all soil samples, as it may be the case when all sampling points come from a uniform field that will be sown with the same crop:
 

@@ -38,12 +38,12 @@ Phosphorus fertilization concentration in kg/ha is estimated as the net resultan
 
 The N flow components include:
 
-  * **$f_A$** Crop demand for phosphorus on the basis of its expected yield
-  * **$f_B$** Phosphorus concentration currently in the soil due to its fertility. Three multiplicative sub-components contribute to this flow: soil depth, apparent soil density, and offset from average "normal" soil P concentration.  `fertplan` estimates "normal" soil phosphorus concentration from Table 10 of the *guidelines* (page 32) by considering the average value of the P ranges for each crop class and soil texture.
-  * **$f_C$** Phosphorus immobilized by limestone (Calcium). Limestone has a potential to immobilize phosphorus in soil and let it become unavailable for crop take up.
+  * **$f_{P,a}$** Crop demand for phosphorus on the basis of its expected yield
+  * **$f_{P,b}$** Phosphorus concentration currently in the soil due to its fertility. Three multiplicative sub-components contribute to this flow: soil depth, apparent soil density, and offset from average "normal" soil P concentration.  `fertplan` estimates "normal" soil phosphorus concentration from Table 10 of the *guidelines* (page 32) by considering the average value of the P ranges for each crop class and soil texture.
+  * **$f_{P,c}$** Phosphorus immobilized by limestone (Calcium). Limestone has a potential to immobilize phosphorus in soil and let it become unavailable for crop take up.
 
 The final phosphorus balance is computed as:
-$$P = f_A + f_B \cdot f_C$$
+$$B_P = f_{P,a} + f_{P,b} \cdot f_{P,c}$$
 
 
 ### First step: load soil analyses
@@ -74,14 +74,14 @@ Some variables need to match those set out in the *guidelines* tables, while a f
 
 Matching-variables are:
 
-  * **Crop**, this is the name of the crop to be sown and will be used to lookup the its Phosphorus demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_A$** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
+  * **Crop**, this is the name of the crop to be sown and will be used to lookup the its Phosphorus demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{P,a}$** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
   ```{r, echo = FALSE}
 knitr::kable(unique(fertplan:::tables_l$all_01_dt[, crop]))
 ```
 
-  * **Texture**, soil texture, one of `r levels(fertplan:::tables_l$tab_01_wdt[, soil_texture])`. Soil texture enters in a **$f_B$** and **$f_C$** flows of the Phosphorus balance.
+  * **Texture**, soil texture, one of `r levels(fertplan:::tables_l$tab_01_wdt[, soil_texture])`. Soil texture enters in a **$f_{P,b}$** and **$f_{P,c}$** flows of the Phosphorus balance.
 
-  * **Crop class**, this is the class of crop to be sown to be looked up in table 10 (page 32) of the *guidelines*. It is used to estimate the "normal" phosphorus supply in soil. Crop class contributes to the **$f_B$** component. Available crop classes are:
+  * **Crop class**, this is the class of crop to be sown to be looked up in table 10 (page 32) of the *guidelines*. It is used to estimate the "normal" phosphorus supply in soil. Crop class contributes to the **$f_{P,b}$** component. Available crop classes are:
   ```{r, echo = FALSE}
 knitr::kable(unique(fertplan:::tables_l$tab_10_dt[, crop], by = "crop"))
 ```
@@ -89,9 +89,9 @@ knitr::kable(unique(fertplan:::tables_l$tab_10_dt[, crop], by = "crop"))
 
 Environmental and crop-related variables include:
 
-  * **Expected yield**, it contributes to **$f_A$** component, unit of measure kg/ha. It can be estimated from statistical [estimates](http://dati.istat.it "ISTAT web site") of crop areas and yields at province, regional, or national level. As an example, wheat expected yield is 2,900 kg/ha in the province of Rome, based on 2019 Istat estimates.
+  * **Expected yield**, it contributes to **$f_{P,a}$** component, unit of measure kg/ha. It can be estimated from statistical [estimates](http://dati.istat.it "ISTAT web site") of crop areas and yields at province, regional, or national level. As an example, wheat expected yield is 2,900 kg/ha in the province of Rome, based on 2019 Istat estimates.
 
-  * **Soil depth**, depth of soil tillage practise, in $cm$. This is usually 30 or 40 cm, for shallow tillage (the former) or deep tillage (the latter). A soil depth coefficient measured as depth / 10 enters the **$f_B$** flow component as a multiplicative coefficient (eg 3 for shallow tillage or 4 for deep tillage).
+  * **Soil depth**, depth of soil tillage practise, in $cm$. This is usually 30 or 40 cm, for shallow tillage (the former) or deep tillage (the latter). A soil depth coefficient measured as depth / 10 enters the **$f_{P,b}$** flow component as a multiplicative coefficient (eg 3 for shallow tillage or 4 for deep tillage).
 
 
   

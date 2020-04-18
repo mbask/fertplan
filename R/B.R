@@ -14,11 +14,7 @@
 #'
 #' @examples
 #' \dontrun{ b1_available_n_for("Sandy") # Returns 28.4 }
-b1_available_n_for <- function(texture) {
-  stopifnot(!is.null(texture))
-
-  soil_textures = levels(tables_l$tab_01_wdt$soil_texture)
-  stopifnot(texture %in% soil_textures)
+b1_available_n_for <- function(texture) `: numeric` ({
 
   row_idx <- pmatch(
     x             = texture,
@@ -26,7 +22,7 @@ b1_available_n_for <- function(texture) {
     duplicates.ok = TRUE)
 
   tables_l$tab_01_wdt[["available_N_coeff"]][row_idx]
-}
+})
 
 
 
@@ -43,16 +39,13 @@ b1_available_n_for <- function(texture) {
 #' @examples
 #' b1_available_n(0.139, "Clayey")                    # Returns 3.3777 kg/ha
 #' b1_available_n(c(0.139, 0.5), c("Clayey", "Loam")) # Returns  3.3777 13.0000
-b1_available_n <- function(total_n_pc, texture) {
-  stopifnot(!is.null(total_n_pc))
-  stopifnot(is.numeric(total_n_pc))
-  stopifnot(total_n_pc <= 100)
-  stopifnot(total_n_pc > 0)
-  stopifnot(length(total_n_pc) == length(texture))
+b1_available_n <- function(total_n_pc, texture) `: numeric` ({
+  ensure_texture(texture)
+  ensure(total_n_pc, +numeric, +vector_of_pc)
 
   available_n_coeff <- b1_available_n_for(texture)
   total_n_pc * available_n_coeff
-}
+})
 
 
 
@@ -69,16 +62,19 @@ b1_available_n <- function(total_n_pc, texture) {
 #' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #'
 #' @return The coefficient of Nitrogen mineralization
-mineralized_N_coeff_from <- function(cn_ratio, texture) {
+mineralized_N_coeff_from <- function(cn_ratio, texture) `: numeric` ({
   # Avoid no visible binding for global variable NOTE
   soil_texture = lower_CNr = upper_CNr = NULL
 
-  tables_l$tab_02_wdt[soil_texture == texture & cn_ratio >= lower_CNr & cn_ratio < upper_CNr, "mineralized_N_coeff"]
+  unlist(
+    tables_l$tab_02_wdt[soil_texture == texture & cn_ratio >= lower_CNr & cn_ratio < upper_CNr, "mineralized_N_coeff"])
   # subset(
   #   tables_l$tab_02_wdt,
   #   soil_texture == texture & cn_ratio >= lower_CNr & cn_ratio < upper_CNr,
   #   "mineralized_N_coeff")
-}
+})
+
+
 
 #' Coefficients of Nitrogen mineralization in soil by CN ratios and soil textures
 #'
@@ -86,7 +82,7 @@ mineralized_N_coeff_from <- function(cn_ratio, texture) {
 #' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
 #'
 #' @return a vector of Nitrogen mineralization coefficients
-b2_mineralized_n_coeff_for <- function(cn_ratio, texture) {
+b2_mineralized_n_coeff_for <- function(cn_ratio, texture) `: numeric` ({
 
   mineralized_N_coeff_dt <- mapply(
     FUN      = mineralized_N_coeff_from,
@@ -95,7 +91,7 @@ b2_mineralized_n_coeff_for <- function(cn_ratio, texture) {
     SIMPLIFY = FALSE)
 
   unlist(mineralized_N_coeff_dt)
-}
+})
 
 
 #' Time coefficient for organic matter mineralization
@@ -105,7 +101,7 @@ b2_mineralized_n_coeff_for <- function(cn_ratio, texture) {
 #' @param crop_type Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)
 #'
 #' @return The time coefficient
-crop_type_lookup <- function(crop_type) {
+crop_type_lookup <- function(crop_type) `: numeric` ({
   row_idx    <- pmatch(
     x             = crop_type,
     table         = tables_l$all_02_dt[["crop_type"]],
@@ -117,7 +113,7 @@ crop_type_lookup <- function(crop_type) {
     time_coeff[is.na(time_coeff)] <- 1
   }
   time_coeff
-}
+})
 
 
 
@@ -136,7 +132,7 @@ crop_type_lookup <- function(crop_type) {
 #' @examples
 #' # Returns 20.7 kg/ha
 #' b2_mineralized_n("Girasole", 2.3, 9.57, "Clayey")
-b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) {
+b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) `: numeric` ({
   stopifnot(!is.null(crop_type))
   stopifnot(!is.null(som_pc))
   stopifnot(!is.null(texture))
@@ -156,7 +152,7 @@ b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) {
   n_coeff    <- b2_mineralized_n_coeff_for(cn_ratio, texture)
 
   unname(time_coeff * som_pc * n_coeff)
-}
+})
 
 
 
@@ -173,7 +169,7 @@ b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) {
 #'         Note that N supply is multipled by -1 before being returned because B has to
 #'         be subtracted to the total N fertilization!
 #' @export
-B_N_in_soil <- function(b1, b2) {
+B_N_in_soil <- function(b1, b2) `: numeric` ({
   stopifnot(!is.null(b1))
   stopifnot(!is.null(b2))
 
@@ -181,7 +177,7 @@ B_N_in_soil <- function(b1, b2) {
   stopifnot(is.numeric(b2))
 
   -(b1 + b2)
-}
+})
 
 
 

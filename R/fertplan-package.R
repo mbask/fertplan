@@ -11,7 +11,6 @@
 #' Cibo, Ambiente e Risorse Naturali, 2020. Parte agronomica, norme generali,
 #' Disciplinare di Produzione Integrata della Regione Lazio - SQNPI.
 #' Regione Lazio, Roma, Italy.
-<<<<<<<<< Temporary merge branch 1
 #' \url{http://www.regione.lazio.it/rl_agricoltura/?vw=documentazioneDettaglio&id=52065}
 #'
 #' @docType package

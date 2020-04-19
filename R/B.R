@@ -40,8 +40,8 @@ b1_available_n_for <- function(texture) `: numeric` ({
 #' b1_available_n(0.139, "Clayey")                    # Returns 3.3777 kg/ha
 #' b1_available_n(c(0.139, 0.5), c("Clayey", "Loam")) # Returns  3.3777 13.0000
 b1_available_n <- function(total_n_pc, texture) `: numeric` ({
-  ensure_texture(texture)
-  ensure(total_n_pc, +numeric, +vector_of_pc)
+  is_soil_texture(texture)
+  ensure(total_n_pc, +is_numeric, +is_vector_pc)
 
   available_n_coeff <- b1_available_n_for(texture)
   total_n_pc * available_n_coeff
@@ -133,19 +133,11 @@ crop_type_lookup <- function(crop_type) `: numeric` ({
 #' # Returns 20.7 kg/ha
 #' b2_mineralized_n("Girasole", 2.3, 9.57, "Clayey")
 b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) `: numeric` ({
-  stopifnot(!is.null(crop_type))
-  stopifnot(!is.null(som_pc))
-  stopifnot(!is.null(texture))
-  stopifnot(!is.null(cn_ratio))
 
-  stopifnot(length(som_pc) == length(cn_ratio))
-  stopifnot(length(cn_ratio) == length(texture))
-
-  stopifnot(som_pc <= 100)
-  stopifnot(som_pc > 0)
-
-  soil_textures = levels(tables_l$tab_02_wdt$soil_texture)
-  stopifnot(texture %in% soil_textures)
+  ensurer::ensure(som_pc, +is_numeric, +is_vector_pc)
+  is_soil_texture(texture)
+  is_character(crop_type)
+  is_same_length(c(length(som_pc), length(cn_ratio), length(texture)))
 
   som_pc[som_pc > 3] <- 3
   time_coeff <- crop_type_lookup(crop_type)
@@ -170,11 +162,8 @@ b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) `: numeric` (
 #'         be subtracted to the total N fertilization!
 #' @export
 B_N_in_soil <- function(b1, b2) `: numeric` ({
-  stopifnot(!is.null(b1))
-  stopifnot(!is.null(b2))
-
-  stopifnot(is.numeric(b1))
-  stopifnot(is.numeric(b2))
+  is_numeric(b1)
+  is_numeric(b2)
 
   -(b1 + b2)
 })

@@ -15,9 +15,9 @@ expect_warning(b2_mineralized_n(c("Girasole", "Girasolee"), c(2.3, 2.3), c(9.57,
 expect_equal(b2_mineralized_n(c("Girasole", "Girasolee"), c(2.3, 2.3), c(9.57, 9.57), c("Clayey", "Clayey")), c(20.7, 27.6))
 
 expect_equal(B_N_in_soil(3.3777, 20.7), -24.0777)
-expect_error(B_N_in_soil("2", 20.7), "is.numeric\\(b1\\)")
-expect_error(B_N_in_soil(2, "20.7"), "is.numeric\\(b2\\)")
-expect_error(B_N_in_soil(NA, 20.7), "is.numeric\\(b1\\)")
+expect_error(B_N_in_soil("2", 20.7), "vector must be of numeric type")
+expect_error(B_N_in_soil(2, "20.7"), "vector must be of numeric type")
+expect_error(B_N_in_soil(NA, 20.7), "vector must be of numeric type")
 
 expect_equal(B_P_in_soil("Girasole", 30, "Loam", 30), -33.15)
 expect_equal(B_P_in_soil(c("Girasole", "Barbabietola"), c(30, 30), c("Loam", "Loam"), 30), c(-33.15, 17.55))

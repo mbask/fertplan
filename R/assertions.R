@@ -1,10 +1,10 @@
 
 # Type-safe assertions ----------------------------------------------------
 
-ensure_character <-
+is_character <-
   ensurer::ensures_that(is.character(.) ~ "vector must be of character type.")
 
-numeric <-
+is_numeric <-
   ensurer::ensures_that(is.numeric(.) ~ "vector must be of numeric type.")
 
 `: numeric` <-
@@ -26,20 +26,25 @@ assert_params_l <- list(
 
 # > [0,1] rate ------------------------------------------------------------
 
-vector_of_rates <-
+is_vector_rates <-
   ensurer::ensures_that(all(. >= 0 & . <= 1) ~ "all rates in vector should be [0,1].")
 
 
 
 # > [0,100] percentage -----------------------------------------------------
 
-vector_of_pc <-
+is_vector_pc <-
   ensurer::ensures_that(all(. >= 0 & . <= 100) ~ "all percentages in vector should be [0,100].")
 
 
 
 # > Soil texture ----------------------------------------------------------
 
-ensure_texture <-
+is_soil_texture <-
   ensurer::ensures_that(all(. %in% assert_params_l$soil_textures) ~ "undefined soil texture.")
 
+
+# Vectors of same length --------------------------------------------------
+
+is_same_length <-
+  ensurer::ensures_that(rle(.)$lengths[1] == length(.) ~ "mismatch between length of vectors.")

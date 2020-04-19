@@ -97,3 +97,26 @@ get_matching_values <- function(x_v, lookup_v, match_v) {
     duplicates.ok = TRUE)
   match_v[row_idx]
 }
+
+
+
+#' Time coefficient for organic matter mineralization
+#'
+#' Used internally by \code{\link{b2_mineralized_n}}
+#'
+#' @param crop_type Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)
+#'
+#' @return The time coefficient
+crop_type_lookup <- function(crop_type) {
+  row_idx    <- pmatch(
+    x             = crop_type,
+    table         = tables_l$all_02_dt[["crop_type"]],
+    duplicates.ok = TRUE)
+  time_coeff <- tables_l$all_02_dt[["time_coeff"]][row_idx]
+
+  if (any(is.na(time_coeff))) {
+    warning("No crop type found in 15.3 table of the 2020 guidelines, assuming time coefficient = 1 (multiannual crop)")
+    time_coeff[is.na(time_coeff)] <- 1
+  }
+  time_coeff
+}

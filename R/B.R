@@ -206,25 +206,17 @@ B_N_in_soil <- function(b1, b2) `: numeric` ({
 #'   30)
 B_P_in_soil <- function(crop, p_ppm, soil_texture, soil_depth_cm) {
 
-  stopifnot(is.character(crop))
-  crops = levels(tables_l$tab_10_dt$crop)
-  stopifnot(crop %in% crops)
+  ensurer::ensure(crop, +is_character, +is_crop)
+  ensurer::ensure(soil_texture, +is_character, +is_soil_texture)
 
-  stopifnot(is.character(soil_texture))
-  soil_textures = levels(tables_l$tab_10_dt$soil_texture)
-  stopifnot(soil_texture %in% soil_textures)
-
-  stopifnot(is.numeric(soil_depth_cm))
-  stopifnot(sum(soil_depth_cm <= 0) == 0)
-  if (sum(soil_depth_cm > 40) > 0) {
+  ensurer::ensure(p_ppm, +is_numeric, +is_positive)
+  ensurer::ensure(soil_depth_cm, +is_numeric, +is_positive)
+  if (any(soil_depth_cm > 40)) {
     warning("Is soil depth > 40cm correct? Still, continuing...")
   }
-  if (sum(soil_depth_cm < 30) > 0) {
+  if (any(soil_depth_cm < 30)) {
     warning("Is soil depth < 30cm correct? Still, continuing...")
   }
-
-  stopifnot(is.numeric(p_ppm))
-  stopifnot(sum(p_ppm <= 0) == 0)
 
   # get matching P "normal" quantities by soil texture and crop
   matched_dt <- lookup_var_by_crop_texture(tables_l$tab_10_dt, crop, soil_texture)

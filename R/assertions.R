@@ -18,7 +18,8 @@ is_numeric <-
 # Assertion parameters ----------------------------------------------------
 
 assert_params_l <- list(
-  soil_textures = levels(tables_l$tab_01_wdt$soil_texture))
+  soil_textures = levels(tables_l$tab_01_wdt$soil_texture),
+  crops         = levels(tables_l$tab_10_dt$crop))
 
 
 
@@ -42,6 +43,21 @@ is_vector_pc <-
 
 is_soil_texture <-
   ensurer::ensures_that(all(. %in% assert_params_l$soil_textures) ~ "undefined soil texture.")
+
+
+
+# > Crops -----------------------------------------------------------------
+
+is_crop <-
+  ensurer::ensures_that(all(. %in% assert_params_l$crops) ~ "undefined crop.")
+
+
+
+# Positive numeric --------------------------------------------------------
+
+is_positive <-
+  ensurer::ensures_that(all(. > 0) ~ "all values in vector should be > 0.")
+
 
 
 # Vectors of same length --------------------------------------------------

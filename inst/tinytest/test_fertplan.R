@@ -1,32 +1,4 @@
 
-# C tests -----------------------------------------------------------------
-
-expect_equal(C_N_drain_leach("slow", "Clayey"), 50)
-expect_equal(C_N_drain_leach(c("fast", "slow"), c("Clayey", "Sandy")), c(30, 50))
-expect_equal(C_N_drain_leach(c("slow", "fast", "slow"), c("Sandy", "Clayey", "Clayey")), c(50, 30, 50))
-expect_error(C_N_drain_leach(c("fast", "slow"), c("Clayey", "Sandi")))
-
-expect_equal(C_N_precip_leach(3.3777, 350), 3.3777)
-expect_equal(C_N_precip_leach(c(3.3777, 50), c(350, 200)), c(3.3777, 25))
-expect_error(C_N_precip_leach(c(3.3777, 50), c(350)), "length\\(available_n\\) == length\\(rainfall_oct_jan\\) is not TRUE")
-expect_error(C_N_precip_leach("3.3777", 350), "is.numeric\\(available_n\\) is not TRUE")
-expect_warning(C_N_precip_leach(10, -10), "Unrealistic negative rainfall, assuming 0 mm rainfall")
-expect_equal(C_N_precip_leach(3.3777, -350), 0)
-expect_warning(C_N_precip_leach(c(10, 20), c(50, -10)), "Unrealistic negative rainfall, assuming 0 mm rainfall")
-
-expect_equal(C_P_immob_by_Ca(92.3, "Clayey"), 3.246)
-expect_equal(C_P_immob_by_Ca(c(56, 92.3, 93), "Clayey"), c(2.520, 3.246, 3.260))
-expect_equal(C_P_immob_by_Ca(c(56, 92.3, 93), c("Clayey", "Sandy", "Sandy")), c(2.520, 3.046, 3.060))
-# soil_texture is recycled with warning
-expect_equal(C_P_immob_by_Ca(c(56, 92.3, 93), c("Clayey", "Sandy")), c(2.520, 3.046, 3.260))
-expect_warning(C_P_immob_by_Ca(c(56, 92.3, 93), c("Clayey", "Sandy")), "longer object length is not a multiple of shorter object length")
-# Ca_pc should be a percentage
-expect_error(C_P_immob_by_Ca(150, "Sandy"), "sum\\(Ca_pc > 100\\) == 0 is not TRUE")
-# soil_texture not found
-expect_error(C_P_immob_by_Ca(50, "Sandi"), "soil_texture %in% soil_textures is not TRUE")
-
-
-
 # D tests -----------------------------------------------------------------
 
 expect_equal(D_N_denitrification(-30.98, "slow", "Clayey"), 13.941)

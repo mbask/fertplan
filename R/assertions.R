@@ -19,7 +19,8 @@ is_numeric <-
 
 assert_params_l <- list(
   soil_textures = levels(tables_l$tab_01_wdt$soil_texture),
-  crops         = levels(tables_l$tab_10_dt$crop))
+  crops         = levels(tables_l$tab_10_dt$crop),
+  drainage_rates= levels(tables_l$tab_03_dt$drainage))
 
 
 
@@ -50,6 +51,13 @@ is_soil_texture <-
 
 is_crop <-
   ensurer::ensures_that(all(. %in% assert_params_l$crops) ~ "undefined crop.")
+
+
+
+# > Drainage rates -----------------------------------------------------------
+
+is_drainage_rate <-
+  ensurer::ensures_that(all(. %in% assert_params_l$drainage_rates) ~ "undefined crop.")
 
 
 

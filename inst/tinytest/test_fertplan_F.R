@@ -3,9 +3,9 @@
 expect_equal(F_N_prev_fertilization(30, "Bovine manure", 2), -4.5)
 expect_equal(F_N_prev_fertilization(c(30, 30), c("Swine and poultry manure", "Bovine manure"), c(3, 3)), c(-1.5, -3.0))
 
-expect_error(F_N_prev_fertilization(c(30, 45), "Bovine manure", 2), "length\\(n_supply\\) == length\\(organic_fertilizer\\) is not TRUE")
-expect_error(F_N_prev_fertilization(30, c("Bovine manure", "Bovine manure"), 2), "length\\(n_supply\\) == length\\(organic_fertilizer\\) is not TRUE")
-expect_error(F_N_prev_fertilization(30, "Bovine manure", c(2, 1)), "length\\(organic_fertilizer\\) == length\\(years_ago\\) is not TRUE")
+expect_error(F_N_prev_fertilization(c(30, 45), "Bovine manure", 2), "mismatch between length of vectors")
+expect_error(F_N_prev_fertilization(30, c("Bovine manure", "Bovine manure"), 2), "mismatch between length of vectors")
+expect_error(F_N_prev_fertilization(30, "Bovine manure", c(2, 1)), "mismatch between length of vectors")
 
 expect_equal(F_N_prev_fertilization(0), 0)
 

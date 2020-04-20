@@ -20,7 +20,8 @@ is_numeric <-
 assert_params_l <- list(
   soil_textures = levels(tables_l$tab_01_wdt$soil_texture),
   crops         = levels(tables_l$tab_10_dt$crop),
-  drainage_rates= levels(tables_l$tab_03_dt$drainage))
+  drainage_rates= levels(tables_l$tab_03_dt$drainage),
+  fertilizers   = levels(tables_l$tab_06_dt$organic_fertilizer))
 
 
 
@@ -44,6 +45,13 @@ is_vector_pc <-
 
 is_soil_texture <-
   ensurer::ensures_that(all(. %in% assert_params_l$soil_textures) ~ "undefined soil texture.")
+
+
+
+# > Fertilizers ----------------------------------------------------------
+
+is_fertilizer <-
+  ensurer::ensures_that(all(. %in% assert_params_l$fertilizers) ~ "undefined organic fertilizer.")
 
 
 

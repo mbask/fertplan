@@ -11,42 +11,38 @@
 #' @return Estimate of supply of Nitrogen currently still in soil
 #' @importFrom data.table `:=`
 #' @export
-F_N_prev_fertilization <- function(n_supply, organic_fertilizer, years_ago) {
+F_N_prev_fertilization <- function(n_supply, organic_fertilizer, years_ago) `: numeric` ({
 
-  stopifnot(is.numeric(n_supply))
-
+  is_numeric(n_supply)
   no_n_fertln     <- n_supply <= 0
-  no_n_fertln_num <- sum(no_n_fertln)
-
   # Do not do estimate N supply if
   # no n_supply is passed to the function
-  if (no_n_fertln_num < length(n_supply)) {
+  if (all(no_n_fertln)) {
+    # Return 0 n_supply as passed to the function
+    n_supply
+  } else {
+    is_numeric(years_ago)
+    ensurer::ensure(organic_fertilizer, +is_character, +is_fertilizer)
+    is_same_length(c(length(n_supply), length(organic_fertilizer), length(years_ago)))
 
-    no_n_fertln     <- n_supply < 0
-    no_n_fertln_num <- sum(no_n_fertln)
-    if (no_n_fertln_num > 0) {
+    no_n_fertln <- n_supply < 0
+    if (any(no_n_fertln)) {
       warning("Nitrogen supply < 0, assuming 0...")
       n_supply[no_n_fertln] <- 0
     }
 
-    stopifnot(is.numeric(years_ago))
-    if (sum(years_ago < 1) > 0) {
+    unrealistic_yrs_frq <- years_ago < 1
+    max_frq             <- max(tables_l$tab_06_dt$frequency)
+    longer_yrs_frq      <- years_ago > max_frq
+
+    if (any(unrealistic_yrs_frq)) {
       warning("Frequency of fertilization < 1 years, assuming 1...")
-      years_ago[years_ago < 1] <- 1
+      years_ago[unrealistic_yrs_frq] <- 1
     }
-
-    max_frq <- max(tables_l$tab_06_dt$frequency)
-    if (sum(years_ago > max_frq) > 0) {
+    if (any(longer_yrs_frq)) {
       warning(paste0("Frequency of fertilization > ", max_frq, " years, assuming ", max_frq, "..."))
-      years_ago[years_ago > max_frq] <- max_frq
+      years_ago[longer_yrs_frq] <- max_frq
     }
-
-    stopifnot(is.character(organic_fertilizer))
-    fertilizer_levels <- levels(tables_l$tab_06_dt$organic_fertilizer)
-    stopifnot(sum(organic_fertilizer %in% fertilizer_levels) > 0)
-
-    stopifnot(length(n_supply)           == length(organic_fertilizer))
-    stopifnot(length(organic_fertilizer) == length(years_ago))
 
     coeff_pc <- NULL
 
@@ -54,11 +50,10 @@ F_N_prev_fertilization <- function(n_supply, organic_fertilizer, years_ago) {
     matched_dt[, `:=`(supply_kg_ha = -n_supply * coeff_pc / 100)]
 
     matched_dt$supply_kg_ha
-  } else {
-    # Return 0 n supply as passed to the function
-    n_supply
   }
-}
+})
+
+
 
 # K -----------------------------------------------------------------------
 
@@ -76,22 +71,17 @@ F_N_prev_fertilization <- function(n_supply, organic_fertilizer, years_ago) {
 #' @examples
 #' # Returns -976.47
 #' F_K_in_soil(449, "Clayey", 30)
-F_K_in_soil <- function(k_ppm, soil_texture, soil_depth_cm) {
-  stopifnot(is.character(soil_texture))
-  soil_textures = levels(tables_l$tab_10_dt$soil_texture)
-  stopifnot(soil_texture %in% soil_textures)
-
-  stopifnot(is.numeric(soil_depth_cm))
-  stopifnot(sum(soil_depth_cm <= 0) == 0)
-  if (sum(soil_depth_cm > 40) > 0) {
+F_K_in_soil <- function(k_ppm, soil_texture, soil_depth_cm) `: numeric` ({
+  ensurer::ensure(soil_texture, +is_character, +is_soil_texture)
+  ensurer::ensure(soil_depth_cm, +is_numeric, +is_positive)
+  if (any(soil_depth_cm > 40)) {
     warning("Is soil depth > 40cm correct? Still, continuing...")
   }
-  if (sum(soil_depth_cm < 30) > 0) {
+  if (any(soil_depth_cm < 30)) {
     warning("Is soil depth < 30cm correct? Still, continuing...")
   }
 
-  stopifnot(is.numeric(k_ppm))
-  stopifnot(sum(k_ppm <= 0) == 0)
+  ensurer::ensure(k_ppm, +is_numeric, +is_positive)
 
   apparent_density_v <- get_matching_values(
     soil_texture,
@@ -108,4 +98,4 @@ F_K_in_soil <- function(k_ppm, soil_texture, soil_depth_cm) {
     soil_depth_cm = soil_depth_cm,
     Da            = apparent_density_v,
     Q             = q)
-}
+})

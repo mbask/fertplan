@@ -6,9 +6,9 @@
 #'
 #' @return An empirical estimate of the ration of Nitrogen leached due to rainfall
 leached_n_coeff <- function(rainfall) {
-  # No leaching if ranfall < 150 mm
+  # No leaching if rainfall < 150 mm
   rainfall[rainfall < 150] <- 150
-  # 100% leaching if ranfall > 250 mm
+  # 100% leaching if rainfall > 250 mm
   rainfall[rainfall > 250] <- 250
 
   (rainfall - 150) / 100

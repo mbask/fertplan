@@ -24,5 +24,6 @@ Suggests:
     rmarkdown
 Depends: 
     data.table,
-    ensurer
+    ensurer,
+    R (>= 3.5.0)
 VignetteBuilder: knitr

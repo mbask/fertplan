@@ -18,16 +18,6 @@ is_numeric <-
 
 
 
-# Assertion parameters ----------------------------------------------------
-
-assert_params_l <- list(
-  soil_textures = levels(tables_l$tab_01_wdt$soil_texture),
-  crops         = levels(tables_l$tab_10_dt$crop),
-  drainage_rates= levels(tables_l$tab_03_dt$drainage),
-  fertilizers   = levels(tables_l$tab_06_dt$organic_fertilizer))
-
-
-
 # Package-wide assertions -------------------------------------------------
 
 # > [0,1] rate ------------------------------------------------------------

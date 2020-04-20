@@ -15,17 +15,12 @@
 #' @export
 #' @examples
 #' \dontrun{ D_N_denitrification(30.98, "slow", "Clayey")  # Returns 13.941 }
-D_N_denitrification <- function(B, drainage_rate, soil_texture) {
+D_N_denitrification <- function(B, drainage_rate, soil_texture) `: numeric` ({
 
-  stopifnot(is.numeric(B))
-  stopifnot(is.character(drainage_rate))
-
-  stopifnot(is.character(soil_texture))
-  soil_textures = levels(tables_l$tab_04_dt$soil_texture)
-  stopifnot(soil_texture %in% soil_textures)
-
-  stopifnot(length(drainage_rate) == length(soil_texture))
-  stopifnot(length(drainage_rate) == length(B))
+  is_numeric(B)
+  ensurer::ensure(drainage_rate, +is_character, +is_drainage_rate)
+  ensurer::ensure(soil_texture,  +is_character, +is_soil_texture)
+  is_same_length(c(length(drainage_rate), length(soil_texture), length(B)))
 
   match_dt <- lookup_var_by_drainage_texture(
     tables_l[["tab_04_dt"]],
@@ -38,4 +33,4 @@ D_N_denitrification <- function(B, drainage_rate, soil_texture) {
 
   # note that B has sign inverted
   -B * match_dt[["n_denitrificated_coeff"]]
-}
+})

@@ -14,16 +14,16 @@
 #'
 #' @return Estimate of N from atmosphere of from bacteria in kg/ha
 #' @export
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns -10 kg/ha
 #' G_N_from_atmosphere(0.5)
-G_N_from_atmosphere <- function(coeff) {
-  stopifnot(is.numeric(coeff))
-  stopifnot(coeff >= 0)
-  stopifnot(coeff <= 1)
-
+G_N_from_atmosphere <- function(coeff) `: numeric` ({
+  ensurer::ensure(coeff, +is_numeric, +is_vector_rates)
   natural_n(coeff)
-}
+})
+
+
 
 # Potassium (K) --------------------------------------------------------------
 # Immobilizzazione
@@ -37,14 +37,11 @@ G_N_from_atmosphere <- function(coeff) {
 #' @return Potassium (K2O) to be supplied (positive sign) to soil in kg/ha. This is a
 #' correction factor that takes into account the unavailable K quantity due to clay content
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns 1.72 kg/ha
 #' G_K_immob_by_clay(40)
-G_K_immob_by_clay <- function(clay_pc) {
-  stopifnot(is.numeric(clay_pc))
-  stopifnot(sum(clay_pc > 100) == 0)
-  stopifnot(sum(clay_pc <   0) == 0)
-
+G_K_immob_by_clay <- function(clay_pc) `: numeric` ({
+  ensurer::ensure(clay_pc, +is_numeric, +is_vector_pc)
   k_immobilization(clay_pc)
-}
+})

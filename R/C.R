@@ -21,15 +21,14 @@
 #' @examples
 #' # Returns 3.3777 i.e. all available Nitrogen was leached
 #' C_N_precip_leach(3.3777, 350)
-C_N_precip_leach <- function(available_n, rainfall_oct_jan) {
+C_N_precip_leach <- function(available_n, rainfall_oct_jan) `: numeric` ({
 
-  stopifnot(is.numeric(available_n))
-  stopifnot(length(available_n) == length(rainfall_oct_jan))
-
-  stopifnot(is.numeric(rainfall_oct_jan))
+  is_numeric(available_n)
+  is_same_length(c(length(available_n), length(rainfall_oct_jan)))
+  is_numeric(rainfall_oct_jan)
 
   is_neg_rainfall <- rainfall_oct_jan < 0
-  if (sum(is_neg_rainfall > 0)) {
+  if (any(is_neg_rainfall)) {
     warning("Unrealistic negative rainfall, assuming 0 mm rainfall")
     rainfall_oct_jan[is_neg_rainfall] <- 0
   }
@@ -37,7 +36,7 @@ C_N_precip_leach <- function(available_n, rainfall_oct_jan) {
   n_leached_pc <- leached_n_coeff(rainfall_oct_jan)
 
   available_n * n_leached_pc
-}
+})
 
 
 
@@ -55,19 +54,15 @@ C_N_precip_leach <- function(available_n, rainfall_oct_jan) {
 #'
 #' @return Nitrogen leaching from soil in kg/ha/y
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns 30 50
 #' C_N_drain_leach(c("fast", "slow"), c("Clayey", "Sandy"))
-C_N_drain_leach <- function(drainage_rate, soil_texture) {
+C_N_drain_leach <- function(drainage_rate, soil_texture) `: numeric` ({
 
-  stopifnot(is.character(drainage_rate))
-
-  stopifnot(is.character(soil_texture))
-  soil_textures = levels(tables_l$tab_03_dt$soil_texture)
-  stopifnot(soil_texture %in% soil_textures)
-
-  stopifnot(length(drainage_rate) == length(soil_texture))
+  ensurer::ensure(drainage_rate, +is_character, +is_drainage_rate)
+  ensurer::ensure(soil_texture, +is_character, +is_soil_texture)
+  is_same_length(c(length(drainage_rate), length(soil_texture)))
 
   match_dt <- lookup_var_by_drainage_texture(
     tables_l[["tab_03_dt"]],
@@ -75,7 +70,7 @@ C_N_drain_leach <- function(drainage_rate, soil_texture) {
     soil_texture)
 
   match_dt$n_leached_kg_ha_y
-}
+})
 
 
 
@@ -92,18 +87,14 @@ C_N_drain_leach <- function(drainage_rate, soil_texture) {
 #' @return Phosphorus (P2O5) to be supplied (positive sign) to soil in kg/ha. This is a
 #' correction factor that takes into account the unavailable P quantity due to limestone content
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns 3.246
 #' C_P_immob_by_Ca(92.3, "Clayey")
-C_P_immob_by_Ca <- function(Ca_pc, soil_texture) {
-  stopifnot(is.numeric(Ca_pc))
-  stopifnot(sum(Ca_pc > 100) == 0)
-  stopifnot(sum(Ca_pc <   0) == 0)
-
-  stopifnot(is.character(soil_texture))
-  soil_textures = levels(tables_l$C_P_a_coeff_dt$soil_texture)
-  stopifnot(soil_texture %in% soil_textures)
+C_P_immob_by_Ca <- function(Ca_pc, soil_texture) `: numeric` ({
+  ensurer::ensure(Ca_pc, +is_numeric, +is_vector_pc)
+  ensurer::ensure(soil_texture, +is_character, +is_soil_texture)
+  is_same_length(c(length(Ca_pc), length(soil_texture)))
 
   row_idx <- pmatch(
     x             = soil_texture,
@@ -112,4 +103,4 @@ C_P_immob_by_Ca <- function(Ca_pc, soil_texture) {
 
   a_coeff <- tables_l$C_P_a_coeff_dt[["a_coeff"]][row_idx]
   p_immobilization(a_coeff, Ca_pc)
-}
+})

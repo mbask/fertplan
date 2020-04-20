@@ -11,17 +11,18 @@ load("R/sysdata.rda")
 #' @param abs_or_removal Either "ass." for absorption or "ass." for removal
 #' @param nutrient       Either "N", "P2OS", or "K2O"
 #' @return               function
+#' @importFrom ensurer ensure_that
 coef_maker <- function(abs_or_removal, nutrient) {
-
-  # Avoid no visible binding for global variable NOTE
-  element = coeff = NULL
 
   correct_ranges_l <- list(
     abs_or_removal     = levels(tables_l$all_01_dt$coeff),
     available_elements = levels(tables_l$all_01_dt$element))
 
-  stopifnot(abs_or_removal %in% correct_ranges_l$abs_or_removal)
-  stopifnot(nutrient       %in% correct_ranges_l$available_elements)
+  ensurer::ensure_that(abs_or_removal, . %in% correct_ranges_l$abs_or_removal ~ "incorrect coefficient.")
+  ensurer::ensure_that(nutrient, . %in% correct_ranges_l$available_elements ~ "incorrect nutrient.")
+
+  # Avoid no visible binding for global variable NOTE
+  element = coeff = NULL
 
   crop_col_name <- "crop"
   coef_col_name <- "coeff_pc"
@@ -47,19 +48,19 @@ coef_maker <- function(abs_or_removal, nutrient) {
   # 11:                                         Fico frutti, legno e foglie     1.14
   # 12:                                            Girasole (pianta intera)     4.31
 
-  function(crop) {
-    stopifnot(!is.null(crop))
+  function(crop) `: numeric` ({
+    is_character(crop)
 
     row_idx <- pmatch(
       x             = crop,
       table         = element_coeff_dt[[crop_col_name]],
       duplicates.ok = TRUE)
 
-    if (sum(is.na(row_idx)) > 0) {
-      warning("Crop not found in Allegato 1")
+    if (any(is.na(row_idx))) {
+      warning("There are crops not found in guidelines table.")
     }
     element_coeff_dt[[coef_col_name]][row_idx]
-  }
+  })
 }
 
 
@@ -75,22 +76,16 @@ coef_maker <- function(abs_or_removal, nutrient) {
 #' @param crop_exp_yield  the expected crop yield
 #' @return The crop demand in the same unit as \code{crop_exp_yield}, usually kg/ha.
 #' @export
+#' @importFrom ensurer ensure
 #' @examples
 #' A_crop_demand(0.4, 1330)
-A_crop_demand <- function(crop_abs, crop_exp_yield) {
-  stopifnot(!is.null(crop_abs))
-  stopifnot(!is.null(crop_exp_yield))
-
-  stopifnot(length(crop_abs) == length(crop_exp_yield))
-
-
-  stopifnot(is.numeric(crop_abs))
-  stopifnot(is.numeric(crop_exp_yield))
-
-  stopifnot(crop_abs >= 0 & crop_abs <= 1)
+A_crop_demand <- function(crop_abs, crop_exp_yield) `: numeric` ({
+  ensurer::ensure(crop_abs, +is_numeric, +is_vector_rates)
+  is_numeric(crop_exp_yield)
+  # is_same_length(c(length(crop_abs), length(crop_exp_yield)))
 
   crop_abs * crop_exp_yield
-}
+})
 
 
 

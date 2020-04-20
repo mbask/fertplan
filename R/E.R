@@ -22,8 +22,8 @@
 #' E_N_from_prev_crop("Girasole")
 #' # Returns 0 10 kg/ha
 #' E_N_from_prev_crop(c("Girasole", "Mais: stocchi asp"))
-E_N_from_prev_crop <- function(crop) {
-  stopifnot(is.character(crop))
+E_N_from_prev_crop <- function(crop) `: numeric` ({
+  is_character(crop)
 
   row_idx <- pmatch(
     x             = crop,
@@ -35,4 +35,4 @@ E_N_from_prev_crop <- function(crop) {
     warning("E component: one or more crops did not uniquely match table 05 crops, returning NA...")
   }
   -n_qty
-}
+})

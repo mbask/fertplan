@@ -11,6 +11,7 @@ load("R/sysdata.rda")
 #' @param abs_or_removal Either "ass." for absorption or "ass." for removal
 #' @param nutrient       Either "N", "P2OS", or "K2O"
 #' @return               function
+#' @importFrom ensurer ensure_that
 coef_maker <- function(abs_or_removal, nutrient) {
 
   correct_ranges_l <- list(
@@ -75,13 +76,13 @@ coef_maker <- function(abs_or_removal, nutrient) {
 #' @param crop_exp_yield  the expected crop yield
 #' @return The crop demand in the same unit as \code{crop_exp_yield}, usually kg/ha.
 #' @export
-#' @import ensurer
+#' @importFrom ensurer ensure
 #' @examples
 #' A_crop_demand(0.4, 1330)
 A_crop_demand <- function(crop_abs, crop_exp_yield) `: numeric` ({
-  ensure(crop_abs, +is_numeric, +is_vector_rates)
+  ensurer::ensure(crop_abs, +is_numeric, +is_vector_rates)
   is_numeric(crop_exp_yield)
-  #ensurer::ensure_that(c(length(crop_abs), length(crop_exp_yield)), .[1] == .[2] ~ "absorption rate shorter or longer than expected crop yield.")
+  # is_same_length(c(length(crop_abs), length(crop_exp_yield)))
 
   crop_abs * crop_exp_yield
 })

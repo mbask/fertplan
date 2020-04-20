@@ -1,3 +1,6 @@
+#' @importFrom ensurer ensure
+#' @importFrom ensurer ensures_that
+
 
 # Type-safe assertions ----------------------------------------------------
 

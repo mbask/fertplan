@@ -35,7 +35,7 @@ b1_available_n_for <- function(texture) `: numeric` ({
 #'
 #' @return The available N in soil in kg/ha
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' b1_available_n(0.139, "Clayey")                    # Returns 3.3777 kg/ha
 #' b1_available_n(c(0.139, 0.5), c("Clayey", "Loam")) # Returns  3.3777 13.0000
@@ -128,7 +128,7 @@ crop_type_lookup <- function(crop_type) `: numeric` ({
 #'
 #' @return Quantity of Nitrogen in kg/ha
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns 20.7 kg/ha
 #' b2_mineralized_n("Girasole", 2.3, 9.57, "Clayey")
@@ -183,8 +183,9 @@ B_N_in_soil <- function(b1, b2) `: numeric` ({
 #'
 #' @return                Total Phospohorus (P2O5) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)
 #'                        due to its fertility
-#' @export
+#' @importFrom ensurer ensure
 #' @importFrom data.table `:=`
+#' @export
 #' @examples
 #' # Returns 44.85 kg/ha to be supplied by fertilization
 #' B_P_in_soil(

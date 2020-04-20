@@ -11,7 +11,7 @@
 #' @param soil_texture   Soil texture (either "Sandy", "Loam", or "Clayey")
 #'
 #' @return Nitrogen denitrification coefficient
-#'
+#' @importFrom ensurer ensure
 #' @export
 #' @examples
 #' \dontrun{ D_N_denitrification(30.98, "slow", "Clayey")  # Returns 13.941 }

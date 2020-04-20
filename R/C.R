@@ -54,7 +54,7 @@ C_N_precip_leach <- function(available_n, rainfall_oct_jan) `: numeric` ({
 #'
 #' @return Nitrogen leaching from soil in kg/ha/y
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns 30 50
 #' C_N_drain_leach(c("fast", "slow"), c("Clayey", "Sandy"))
@@ -87,7 +87,7 @@ C_N_drain_leach <- function(drainage_rate, soil_texture) `: numeric` ({
 #' @return Phosphorus (P2O5) to be supplied (positive sign) to soil in kg/ha. This is a
 #' correction factor that takes into account the unavailable P quantity due to limestone content
 #' @export
-#'
+#' @importFrom ensurer ensure
 #' @examples
 #' # Returns 3.246
 #' C_P_immob_by_Ca(92.3, "Clayey")

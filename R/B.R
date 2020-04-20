@@ -68,10 +68,6 @@ mineralized_N_coeff_from <- function(cn_ratio, texture) `: numeric` ({
 
   unlist(
     tables_l$tab_02_wdt[soil_texture == texture & cn_ratio >= lower_CNr & cn_ratio < upper_CNr, "mineralized_N_coeff"])
-  # subset(
-  #   tables_l$tab_02_wdt,
-  #   soil_texture == texture & cn_ratio >= lower_CNr & cn_ratio < upper_CNr,
-  #   "mineralized_N_coeff")
 })
 
 
@@ -198,15 +194,6 @@ B_P_in_soil <- function(crop, p_ppm, soil_texture, soil_depth_cm) {
 
   # get matching P "normal" quantities by soil texture and crop
   matched_dt <- lookup_var_by_crop_texture(tables_l$tab_10_dt, crop, soil_texture)
-
-  # get matching apparent density by soil texture
-  # appar_dns_dt <- data.table::data.table(
-  #   soil_texture = soil_texture)
-  # data.table::setindexv(appar_dns_dt, "soil_texture")
-  # matched_s_txtrs_dt <- tables_l$B_P_appar_dns_dt[appar_dns_dt, on = "soil_texture"]
-  # if (nrow(matched_dt) != nrow(matched_s_txtrs_dt)) {
-  #   stop("Mismatch between matched tables in B_P_in_soil function, stopping.")
-  # }
 
   # Match apparent density table to P quantity table
   p_dns_dt <- tables_l$B_PK_appar_dns_dt[matched_dt, on = "soil_texture"]

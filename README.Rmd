@@ -23,7 +23,7 @@ The package provides a set of functions to compute the components of the supply/
 
 ## Installation
 
-`fertplan` is currently in active development and it not yet on CRAN, it may be installed from this GitHub repository though:
+`fertplan` is currently in active development and not yet on CRAN, it may be installed from this GitHub repository though:
 
 ```{r, eval = FALSE}
 # Install devtools package if not yet present in R library

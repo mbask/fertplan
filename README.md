@@ -21,7 +21,7 @@ supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
 
 ## Installation
 
-`fertplan` is currently in active development and it not yet on CRAN, it
+`fertplan` is currently in active development and not yet on CRAN, it
 may be installed from this GitHub repository though:
 
 ``` r
@@ -125,7 +125,7 @@ a few others have to be derived from external sources.
 Matching-variables are:
 
   - **Crop**, this is the name of the crop to be sown and will be used
-    to lookup the its nitrogen demand in table 15.2 (page 63) of the
+    to lookup its nitrogen demand in table 15.2 (page 63) of the
     *guidelines* to contribute to **\(f_{N,a}\)** component. The name
     must match one of the following crop names available. Partial
     matching is allowed, provided that the partial string is unique

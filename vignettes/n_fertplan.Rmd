@@ -79,7 +79,7 @@ Some variables need to match those set out in the *guidelines* tables, while a f
 
 Matching-variables are:
 
-  * **Crop**, this is the name of the crop to be sown and will be used to lookup the its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
+  * **Crop**, this is the name of the crop to be sown and will be used to lookup its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
   ```{r, echo = FALSE}
   knitr::kable(unique(fertplan:::tables_l$all_01_dt[, crop]))
   ```

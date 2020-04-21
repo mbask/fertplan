@@ -3,15 +3,15 @@ load("R/sysdata.rda")
 # A -----------------------------------------------------------------------
 # Fabbisogni colturali (kg/ha)
 
-#' Look for a crop fertilization absorption or removal of a specific fertilizer
-#'
-#' The function does not perform any actual lookup but merely returns a function
-#' that performs the search on a subset of the Allegato 1 table.
-#'
-#' @param abs_or_removal Either "ass." for absorption or "ass." for removal
-#' @param nutrient       Either "N", "P2OS", or "K2O"
-#' @return               function
-#' @importFrom ensurer ensure_that
+# Look for a crop fertilization absorption or removal of a specific fertilizer
+#
+# The function does not perform any actual lookup but merely returns a function
+# that performs the search on a subset of the Allegato 1 table.
+#
+# @param abs_or_removal Either "ass." for absorption or "ass." for removal
+# @param nutrient       Either "N", "P2OS", or "K2O"
+# @return               function
+# @importFrom ensurer ensure_that
 coef_maker <- function(abs_or_removal, nutrient) {
 
   correct_ranges_l <- list(

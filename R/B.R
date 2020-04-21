@@ -3,17 +3,17 @@
 
 # > b1 ----------------------------------------------------------------------
 
-#' Coefficient of supply of Nitrogen for a soil texture in table 1
-#'
-#' The Nitrogen coefficient has to be applied to the total Nitrogen soil content
-#' percentage to get soil available Nitrogen (B1)
-#'
-#' @param texture Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
-#'
-#' @return Nitrogen coefficient
-#'
-#' @examples
-#' \dontrun{ b1_available_n_for("Sandy") # Returns 28.4 }
+# Coefficient of supply of Nitrogen for a soil texture in table 1
+#
+# The Nitrogen coefficient has to be applied to the total Nitrogen soil content
+# percentage to get soil available Nitrogen (B1)
+#
+# @param texture Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
+#
+# @return Nitrogen coefficient
+#
+# @examples
+# \dontrun{ b1_available_n_for("Sandy") # Returns 28.4 }
 b1_available_n_for <- function(texture) `: numeric` ({
 
   row_idx <- pmatch(
@@ -54,14 +54,14 @@ b1_available_n <- function(total_n_pc, texture) `: numeric` ({
 
 
 
-#' Supply of Nitrogen mineralization in soil (coefficient)
-#'
-#' Lookup in table 2 for the coefficient of Nitrogen mineralization in soil
-#'
-#' @param cn_ratio    Carbon Nitrogen ratio in soil
-#' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
-#'
-#' @return The coefficient of Nitrogen mineralization
+# Supply of Nitrogen mineralization in soil (coefficient)
+#
+# Lookup in table 2 for the coefficient of Nitrogen mineralization in soil
+#
+# @param cn_ratio    Carbon Nitrogen ratio in soil
+# @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
+#
+# @return The coefficient of Nitrogen mineralization
 mineralized_N_coeff_from <- function(cn_ratio, texture) `: numeric` ({
   # Avoid no visible binding for global variable NOTE
   soil_texture = lower_CNr = upper_CNr = NULL
@@ -72,12 +72,12 @@ mineralized_N_coeff_from <- function(cn_ratio, texture) `: numeric` ({
 
 
 
-#' Coefficients of Nitrogen mineralization in soil by CN ratios and soil textures
-#'
-#' @param cn_ratio    Carbon Nitrogen ratio in soil
-#' @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
-#'
-#' @return a vector of Nitrogen mineralization coefficients
+# Coefficients of Nitrogen mineralization in soil by CN ratios and soil textures
+#
+# @param cn_ratio    Carbon Nitrogen ratio in soil
+# @param texture     Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
+#
+# @return a vector of Nitrogen mineralization coefficients
 b2_mineralized_n_coeff_for <- function(cn_ratio, texture) `: numeric` ({
 
   mineralized_N_coeff_dt <- mapply(

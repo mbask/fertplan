@@ -16,4 +16,7 @@
 #' @docType package
 #' @name fertplan
 #' @author Marco Bascietto <marco.bascietto@@crea.gov.it>
+#' @importFrom ensurer ensure_that
+#' @importFrom ensurer ensures_that
+#' @importFrom data.table data.table
 NULL

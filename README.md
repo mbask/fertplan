@@ -1,4 +1,4 @@
-fertplan introduction
+Introduction to `fertplan` R package
 ================
 
 ## Description

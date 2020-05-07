@@ -33,11 +33,7 @@ devtools::install_github("mbask/fertplan")
 
 ## Usage
 
-This document will walk you through a simulation of a real fertilization
-plan for nitrogen nutrient. Both `fertplan` and this document depend on
-package `data.table` but its usage is not in any way mandatory.
-
-Please check out the package vignettes for:
+Please check out available package vignettes for:
 
   - Nitrogen fertilization plan
   - Phosphorus fertilization plan

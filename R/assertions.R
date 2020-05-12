@@ -16,6 +16,14 @@ is_numeric <-
 
 # Package-wide assertions -------------------------------------------------
 
+
+# Available languages -----------------------------------------------------
+
+is_in_avail_langs <-
+  ensurer::ensures_that(. %in% c("it", "en") ~"unsupported language.")
+
+
+
 # > [0,1] rate ------------------------------------------------------------
 
 is_vector_rates <-
@@ -33,28 +41,28 @@ is_vector_pc <-
 # > Soil texture ----------------------------------------------------------
 
 is_soil_texture <-
-  ensurer::ensures_that(all(. %in% assert_params_l$soil_textures) ~ "undefined soil texture.")
+  ensurer::ensures_that(all(. %in% levels(tables_l$tab_01_wdt$soil_texture)) ~ "undefined soil texture.")
 
 
 
 # > Fertilizers ----------------------------------------------------------
 
 is_fertilizer <-
-  ensurer::ensures_that(all(. %in% assert_params_l$fertilizers) ~ "undefined organic fertilizer.")
+  ensurer::ensures_that(all(. %in% levels(tables_l$tab_06_dt$organic_fertilizer)) ~ "undefined organic fertilizer.")
 
 
 
 # > Crops -----------------------------------------------------------------
 
 is_crop <-
-  ensurer::ensures_that(all(. %in% assert_params_l$crops) ~ "undefined crop.")
+  ensurer::ensures_that(all(. %in% levels(tables_l$tab_10_dt$crop)) ~ "undefined crop.")
 
 
 
 # > Drainage rates -----------------------------------------------------------
 
 is_drainage_rate <-
-  ensurer::ensures_that(all(. %in% assert_params_l$drainage_rates) ~ "undefined crop.")
+  ensurer::ensures_that(all(. %in% levels(tables_l$tab_03_dt$drainage)) ~ "undefined crop.")
 
 
 

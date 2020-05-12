@@ -23,26 +23,26 @@ coef_maker <- function(abs_or_removal, nutrient) {
   ensurer::ensure_that(nutrient, . %in% correct_ranges_l$available_elements ~ "incorrect nutrient.")
 
   # Avoid no visible binding for global variable NOTE
-  element = coeff = NULL
+  element = coeff <- NULL
 
   crop_col_name <- "crop"
   crop_part_col_name <- "part"
   coef_col_name <- "coeff_pc"
   cols_name     <- c(crop_col_name, crop_part_col_name, coef_col_name)
 
-  element_coeff_dt <- subset(
-    tables_l$all_01_dt,
-    element == nutrient & coeff == abs_or_removal,
-    cols_name)
-
-  data.table::setkeyv(
-    element_coeff_dt,
-    c(crop_col_name, crop_part_col_name))
-
 
   function(crops, parts) `: numeric` ({
     is_character(crops)
     is_character(parts)
+
+    element_coeff_dt <- subset(
+      tables_l$all_01_dt,
+      element == nutrient & coeff == abs_or_removal,
+      cols_name)
+
+    data.table::setkeyv(
+      element_coeff_dt,
+      c(crop_col_name, crop_part_col_name))
 
     coeff_dt <- lookup_var_by_crop_part(element_coeff_dt, crops, parts)
 

@@ -25,13 +25,16 @@
 E_N_from_prev_crop <- function(crop) `: numeric` ({
   is_character(crop)
 
-  row_idx <- pmatch(
-    x             = crop,
-    table         = tables_l$tab_05_dt[["crop"]],
-    duplicates.ok = TRUE)
+  n_qty_dt <- lookup_var_by_crop_05(tables_l$tab_05_dt, crop)
 
-  n_qty <- tables_l$tab_05_dt[["n_from_residues_kg_ha"]][row_idx]
-  if (sum(is.na(n_qty)) > 0) {
+  # row_idx <- pmatch(
+  #   x             = crop,
+  #   table         = tables_l$tab_05_dt[["crop"]],
+  #   duplicates.ok = TRUE)
+
+  n_qty <- n_qty_dt[["n_from_residues_kg_ha"]]
+
+  if (any(is.na(n_qty))) {
     warning("E component: one or more crops did not uniquely match table 05 crops, returning NA...")
   }
   -n_qty

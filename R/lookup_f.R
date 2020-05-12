@@ -1,3 +1,25 @@
+#' Get available variable values localized in current language
+#'
+#' @param variable character vector pointing at the variable to look up. One of "crop", "group_crop", "drainage"
+#'
+#' @return a character vector of available variable values or a list of variable values (when `variable` is "group_crop")
+#' @export
+#'
+#' @examples
+#' head(get_available("crop"))
+get_available <- function(variable) {
+  is_character(variable)
+
+  if (variable == "crop") return(levels(tables_l$all_01_dt[[variable]]))
+  if (variable == "group_crop") {
+    return(lapply(
+      split(tables_l$all_01_dt, tables_l$all_01_dt$crop_group),
+      function(sg_dt) { unique(sg_dt$crop) }))
+  }
+  if (variable == "drainage") return(levels(tables_l$tab_03_dt[[variable]]))
+}
+
+
 # Matches drainage rate and texture features to dt
 #
 # @param dt             A table from the "Disciplinare" featuring drainage and soil_texture columns
@@ -82,6 +104,25 @@ lookup_var_by_crop_texture <- function(dt, crop, soil_texture) {
   lookup_dt <- data.table::data.table(
     crop         = crop,
     soil_texture = soil_texture)
+  data.table::setindexv(lookup_dt, index_cols)
+
+  dt[lookup_dt, on = index_cols]
+}
+
+
+
+# Matches ccrop feature to dt
+#
+# @param dt             A table from the "Guidelines" featuring crop column
+# @param crop           Crop character vector describing the crop
+#
+# @return               A \code{data.table} matching \code{dt} by \code{crop}
+# @importFrom data.table data.table
+lookup_var_by_crop_05 <- function(dt, crop) {
+
+  index_cols <- c("crop")
+
+  lookup_dt <- data.table::data.table(crop = crop)
   data.table::setindexv(lookup_dt, index_cols)
 
   dt[lookup_dt, on = index_cols]

@@ -118,6 +118,12 @@ A few environmental and crop-related variables need to be set. Some
 variables need to match those set out in the *guidelines* tables, while
 a few others have to be derived from external sources.
 
+Let’s first translate the *guidelines* tables into english:
+
+``` r
+fertplan::i18n_switch("en")
+```
+
 Matching-variables are:
 
   - **Crop**, this is the name of the crop to be sown and will be used
@@ -129,142 +135,142 @@ Matching-variables are:
     “part” (eg fruits, whole plant, and so on). The allowed crop names
     are:
 
-| x                                               |
-| :---------------------------------------------- |
-| Actinidia                                       |
-| Aglio                                           |
-| Albicocco                                       |
-| Arancio                                         |
-| Asparago verde                                  |
-| Avena                                           |
-| baby leaf generica                              |
-| Barbabietola da zucchero                        |
-| Basilico                                        |
-| Bietola da coste                                |
-| Bietola da foglie                               |
-| Broccoletto di rapa (cime di rapa)              |
-| Broccolo                                        |
-| Canapa da fibra                                 |
-| Cappuccio                                       |
-| Carciofo                                        |
-| Cardo                                           |
-| Carota                                          |
-| Castagno                                        |
-| Cavolfiore                                      |
-| Cavolo abissino                                 |
-| Cavolo Rapa                                     |
-| Cece                                            |
-| Cetriolo                                        |
-| Cicoria                                         |
-| Ciliegio                                        |
-| Cipolla                                         |
-| Clementine                                      |
-| Cocomero                                        |
-| Colza                                           |
-| Colza pianta intera                             |
-| Endivie (indivie riccia e scarola)              |
-| Erba mazzolina                                  |
-| Erba medica                                     |
-| Erbai Aut. Prim. Estivi o Prato avv. Graminacee |
-| Erbai Aut. Prim. Misti o Prato avv. Polifita    |
-| Fagiolino da industria                          |
-| Fagiolo in baccelli da sgranare                 |
-| Fagiolo secco                                   |
-| Farro                                           |
-| Farro (pianta intera)                           |
-| Fava                                            |
-| Favino                                          |
-| Festuca arundinacea                             |
-| Fico                                            |
-| Finocchio                                       |
-| Fragola                                         |
-| Girasole                                        |
-| Grano duro                                      |
-| Grano tenero                                    |
-| Grano tenero biscottiero                        |
-| Grano tenero FF/FPS                             |
-| Kaki                                            |
-| Lampone                                         |
-| Lattuga                                         |
-| Lattuga coltura protetta                        |
-| Lenticchia (granella)                           |
-| Limone                                          |
-| Lino fibra                                      |
-| Lino granella                                   |
-| Loglio da insilare                              |
-| Loiessa                                         |
-| Lupino                                          |
-| Mais da granella                                |
-| Mais dolce                                      |
-| Mais trinciato                                  |
-| Mandarino                                       |
-| Mandorlo                                        |
-| Melanzana                                       |
-| Melo                                            |
-| Melone                                          |
-| Mirtillo                                        |
-| Nespolo                                         |
-| Nettarine                                       |
-| Nocciolo                                        |
-| Noce da frutto                                  |
-| Olivo olive, legno e foglie                     |
-| Olivo solo olive                                |
-| Orzo                                            |
-| Panico                                          |
-| Patata                                          |
-| Peperone                                        |
-| Peperone in pieno campo                         |
-| Pero                                            |
-| Pesco                                           |
-| Pioppo                                          |
-| Pioppo da energia                               |
-| Pisello mercato fresco                          |
-| Pisello proteico                                |
-| Pisello proteico + paglia                       |
-| Pomodoro da industria                           |
-| Pomodoro da mensa a pieno campo                 |
-| Pomodoro da mensa in serra                      |
-| Porro                                           |
-| Prati di trifoglio                              |
-| Prati pascoli in collina                        |
-| Prati polifiti \>50% leguminose                 |
-| Prati polifiti artificiali\_collina             |
-| Prati stabili in pianura                        |
-| Prezzemolo                                      |
-| Radicchio                                       |
-| Rafano (da sovescio)                            |
-| Rapa                                            |
-| Ravanello                                       |
-| Ribes                                           |
-| Riso                                            |
-| Rovo inerme                                     |
-| Rucola,1° taglio                                |
-| Rucola,2° taglio                                |
-| Scalogno                                        |
-| Sedano                                          |
-| Segale                                          |
-| Soia                                            |
-| Sorgo da foraggio                               |
-| Sorgo da granella                               |
-| Spinacio                                        |
-| Spinacio da industria                           |
-| Spinacio da mercato fresco                      |
-| Susino                                          |
-| Tabacco Bright                                  |
-| Tabacco Bright pianta intera                    |
-| Tabacco Burley                                  |
-| Tabacco Burley pianta intera                    |
-| Triticale                                       |
-| Uva da tavola                                   |
-| Uva spina                                       |
-| Valerianella                                    |
-| Verza                                           |
-| Verza da industria                              |
-| Vite per uva da vino (collina e montagna)       |
-| Vite per uva da vino (pianura)                  |
-| Zucca                                           |
-| Zucchino da industria                           |
-| Zucchino da mercato fresco                      |
+| x           |
+| :---------- |
+| 1           |
+| 2           |
+| 3           |
+| 4           |
+| 5           |
+| 6           |
+| 7           |
+| 8           |
+| 9           |
+| 10          |
+| 11          |
+| 12          |
+| 13          |
+| 14          |
+| 15          |
+| 16          |
+| 17          |
+| 18          |
+| 19          |
+| 20          |
+| 21          |
+| 22          |
+| 23          |
+| 24          |
+| 25          |
+| 26          |
+| 27          |
+| 28          |
+| 29          |
+| 30          |
+| 31          |
+| 32          |
+| 33          |
+| 34          |
+| 35          |
+| 36          |
+| 37          |
+| 38          |
+| 39          |
+| 40          |
+| 41          |
+| 42          |
+| 43          |
+| 44          |
+| 45          |
+| 46          |
+| 47          |
+| Sunflower   |
+| Durum wheat |
+| Soft wheat  |
+| 48          |
+| 49          |
+| 50          |
+| 51          |
+| 52          |
+| 53          |
+| 54          |
+| 55          |
+| 56          |
+| 57          |
+| 58          |
+| 59          |
+| 60          |
+| 61          |
+| 62          |
+| 63          |
+| 64          |
+| 65          |
+| 66          |
+| 67          |
+| 68          |
+| 69          |
+| 70          |
+| 71          |
+| 72          |
+| 73          |
+| 74          |
+| 75          |
+| 76          |
+| 77          |
+| 78          |
+| 79          |
+| 80          |
+| 81          |
+| 82          |
+| 83          |
+| 84          |
+| 85          |
+| 86          |
+| 87          |
+| 88          |
+| 89          |
+| 90          |
+| 91          |
+| 92          |
+| 93          |
+| 94          |
+| 95          |
+| 96          |
+| 97          |
+| 98          |
+| 99          |
+| 100         |
+| 101         |
+| 102         |
+| 103         |
+| 104         |
+| 105         |
+| 106         |
+| 107         |
+| 108         |
+| 109         |
+| 110         |
+| 111         |
+| 112         |
+| 113         |
+| 114         |
+| 115         |
+| 116         |
+| 117         |
+| 118         |
+| 119         |
+| 120         |
+| 121         |
+| 122         |
+| 123         |
+| 124         |
+| 125         |
+| 126         |
+| 127         |
+| 128         |
+| 129         |
+| 130         |
+| 131         |
 
 **TODO: Better documentation for the crop part, and its relationship to
 coefficient (ass. abs.)**
@@ -274,21 +280,19 @@ coefficient (ass. abs.)**
     by crops may greatly differ upon the crop part considered. As an
     example N coefficients for “sunflower” crop are:
 
-| crop\_group | crop     | part   | coeff | element | coeff\_pc |
-| :---------- | :------- | :----- | :---- | :------ | --------: |
-| erbacee     | Girasole | Frutti | asp.  | N       |      2.80 |
-| erbacee     | Girasole | Pianta | ass.  | N       |      4.31 |
+| crop\_group | crop | part | coeff | element | coeff\_pc |
+| :---------- | :--- | :--- | :---- | :------ | --------: |
 
 As a reference crop parts include:
 
-| x       |
-| :------ |
-| Frutti  |
-| Pianta  |
-|         |
-| Turioni |
-| Radici  |
-| Foglie  |
+| x           |
+| :---------- |
+| Fruits      |
+| Whole plant |
+|             |
+| Spears      |
+| Roots       |
+| Leaves      |
 
   - **Crop type**, this is the type of crop to be sown to be looked up
     in table 15.3 (page 67) of the *guidelines*. It is used to estimate
@@ -298,57 +302,57 @@ As a reference crop parts include:
     sub-component of **\(f_{N,b}\)** component. Available crop types
     are:
 
-| x                                  |
-| :--------------------------------- |
-| Arboree in produzione              |
-| Colture a ciclo autunno vernino    |
-| Barbabietola                       |
-| Canapa                             |
-| Girasole                           |
-| Lino                               |
-| Lupino                             |
-| Mais                               |
-| Riso (granella)                    |
-| Soia                               |
-| Sorgo                              |
-| Tabacco                            |
-| Erba mazzolina                     |
-| Prati                              |
-| Orticole                           |
-| Orticole con ciclo \> di 1 anno    |
-| Orticole a ciclo breve (\< 3 mesi) |
+| x                   |
+| :------------------ |
+| 1                   |
+| Fall / winter crops |
+| 2                   |
+| 3                   |
+| Sunflower           |
+| 7                   |
+| 8                   |
+| 9                   |
+| 14                  |
+| 15                  |
+| 16                  |
+| 17                  |
+| 5                   |
+| 13                  |
+| 10                  |
+| 12                  |
+| 11                  |
 
   - **Previous crop**, this is the name or type of the previous crop, to
     be looked up in table 5 (page 24) of the *guidelines*. Previous crop
     contributes to **\(f_{N,e}\)** component. Available matches include:
 
-| x                                                                  |
-| :----------------------------------------------------------------- |
-| Barbabietola                                                       |
-| Cereali autunno-vernini: paglia asportata                          |
-| Cereali autunno-vernini: paglia interrata                          |
-| Colza                                                              |
-| Girasole                                                           |
-| Leguminose da granella (pisello, fagiolo, lenticchia, ecc          |
-| Mais: stocchi asportati                                            |
-| Mais: stocchi interrati                                            |
-| Orticole minori a foglia                                           |
-| Patata                                                             |
-| Pomodoro, altre orticole (es.: cucurbitacee, crucifere e liliacee) |
-| Prati: Medica in buone condizioni                                  |
-| Prati: di breve durata o trifoglio                                 |
-| Prati: polifita con + del 15% di leguminose o medicaio diradato    |
-| Prati: polifita con leguminose dal 5 al 15%                        |
-| Prati: polifita con meno del 5% di leguminose                      |
-| Soia                                                               |
-| Sorgo                                                              |
-| Sovescio di leguminose (in copertura autunno-invernale o estiva)   |
+| x                       |
+| :---------------------- |
+| 1                       |
+| 2                       |
+| 3                       |
+| 4                       |
+| Sunflower               |
+| 6                       |
+| 7                       |
+| 8                       |
+| 9                       |
+| 10                      |
+| 15                      |
+| 11                      |
+| 12                      |
+| 13                      |
+| 14                      |
+| Grassland, legumes \<5% |
+| 16                      |
+| 17                      |
+| 18                      |
 
-  - **Texture**, soil texture, one of Sandy, Loam, Clayey. Soil texture
+  - **Texture**, soil texture, one of Clayey, Loam, Sandy. Soil texture
     enters in several flows of the nitrogen balance.
 
   - **Drainage rate**, it contributes to **\(f_{N,d}\)** component, can
-    be one of no drainage, slow, normal, fast. Drainage rate is looked
+    be one of No drainage, Slow, Normal, Fast. Drainage rate is looked
     up in table 4 (page 23) of *guidelines* together with soil texture.
 
 Environmental and crop-related variables include:
@@ -371,8 +375,8 @@ Environmental and crop-related variables include:
     fertilization may be passed as a 0-value to this variable.
 
   - **Organic fertilizer**, this is the type of organic fertilizer as
-    found in table 6 (page 25) of the *guidelines*: Bovine manure,
-    Conditioners, Swine and poultry manure. It contributes to the
+    found in table 6 (page 25) of the *guidelines*: Conditioners, Bovine
+    manure, Swine and poultry manure. It contributes to the
     **\(f_{N,f}\)** component.
 
   - **Years from previous organic fertilization**, this contributes to
@@ -393,26 +397,26 @@ that will be sown with the same crop:
 ``` r
 soil_dt[
   , `:=` (
-    crop                 = "Grano duro",
-    part                 = "Frutti",
-    crop_type            = "Colture a ciclo autunno vernino",
+    crop                 = "Durum wheat",
+    part                 = "Fruits",
+    crop_type            = "Fall / winter crops",
     expected_yield_kg_ha = 2900,
-    prev_crop            = "Prati: polifita con meno del 5%", 
+    prev_crop            = "Grassland, legumes <5%", 
     texture              = "Loam", 
-    drainage_rate        = "slow",
+    drainage_rate        = "Slow",
     oct_jan_2019_pr_mm   = 350,
     n_supply_prev_frt_kg_ha = 0,
     n_supply_atm_coeff   = 1)]
 knitr::kable(soil_dt)
 ```
 
-| id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop       | part   | crop\_type                      | expected\_yield\_kg\_ha | prev\_crop                      | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
-| :- | ----: | --------: | ------: | -------: | :--------- | :----- | :------------------------------ | ----------------------: | :------------------------------ | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
-| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop        | part   | crop\_type          | expected\_yield\_kg\_ha | prev\_crop              | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
+| :- | ----: | --------: | ------: | -------: | :---------- | :----- | :------------------ | ----------------------: | :---------------------- | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
+| 11 | 0.164 |  9.756098 |    2.76 |       37 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
+| 20 | 0.146 |  9.657534 |    2.43 |       37 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
+| 13 | 0.173 |  9.826590 |    2.93 |       38 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
+| 12 | 0.137 |  9.562044 |    2.25 |       40 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
+| 17 | 0.205 | 10.048780 |    3.56 |       36 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
 
 ### Third step: estimate the components of N balance
 

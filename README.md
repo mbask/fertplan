@@ -124,186 +124,171 @@ Matching-variables are:
     to lookup its nitrogen demand in table 15.2 (page 63) of the
     *guidelines* to contribute to **\(f_{N,a}\)** component. The name
     must match one of the following crop names available. Partial
-    matching is allowed, provided that the partial string is unique
-    among crop names. The allowed crop names is:
+    matching is not allowed. Note that this implemetation of the table
+    has separated the crop column into two features, “actual crop” and
+    “part” (eg fruits, whole plant, and so on). The allowed crop names
+    are:
 
-| x                                                                   |
-| :------------------------------------------------------------------ |
-| Actinidia frutti, legno e foglie                                    |
-| Actinidia solo frutti                                               |
-| Aglio                                                               |
-| Albicocco frutti, legno e foglie                                    |
-| Albicocco solo frutti                                               |
-| Arancio frutti, legno e foglie                                      |
-| Arancio solo frutti                                                 |
-| Asparago verde (pianta intera)                                      |
-| Asparago verde (turioni)                                            |
-| Avena                                                               |
-| Avena pianta intera                                                 |
-| Barbabietola da zucchero (pianta intera)                            |
-| Barbabietola da zucchero (radici)                                   |
-| Basilico                                                            |
-| Bietola da coste                                                    |
-| Bietola da foglie                                                   |
-| Broccoletto di rapa (cime di rapa)                                  |
-| Broccolo                                                            |
-| Canapa da fibra                                                     |
-| Cappuccio                                                           |
-| Carciofo                                                            |
-| Cardo                                                               |
-| Carota                                                              |
-| Castagno solo frutti                                                |
-| Cavolfiore                                                          |
-| Cavolo Rapa                                                         |
-| Cavolo abissino                                                     |
-| Cece                                                                |
-| Cetriolo                                                            |
-| Cicoria                                                             |
-| Ciliegio frutti, legno e foglie                                     |
-| Ciliegio solo frutti                                                |
-| Cipolla                                                             |
-| Clementine frutti, legno e foglie                                   |
-| Clementine solo frutti                                              |
-| Cocomero                                                            |
-| Colza                                                               |
-| Colza pianta intera                                                 |
-| Endivie (indivie riccia e scarola)                                  |
-| Erba mazzolina                                                      |
-| Erba medica                                                         |
-| Erbai aut. Prim. Estivi o Prato avv. Graminacee                     |
-| Erbai aut. Prim. Misti o Prato avv. Polifita                        |
-| Fagiolino da industria                                              |
-| Fagiolo in baccelli da sgranare                                     |
-| Fagiolo secco                                                       |
-| Farro                                                               |
-| Farro (pianta intera)                                               |
-| Fava                                                                |
-| Favino                                                              |
-| Festuca arundinacea                                                 |
-| Fico frutti, legno e foglie                                         |
-| Fico solo frutti                                                    |
-| Finocchio                                                           |
-| Fragola                                                             |
-| Girasole (acheni)                                                   |
-| Girasole (pianta intera)                                            |
-| Grano duro (granella)                                               |
-| Grano duro (pianta intera)                                          |
-| Grano tenero (granella)                                             |
-| Grano tenero (pianta intera)                                        |
-| Grano tenero FF/FPS (granella)                                      |
-| Grano tenero FF/FPS (pianta intera)                                 |
-| Grano tenero biscottiero (granella)                                 |
-| Grano tenero biscottiero pianta intera                              |
-| Kaki frutti, legno e foglie                                         |
-| Kaki solo frutti                                                    |
-| Lampone                                                             |
-| Lampone biomassa epigea                                             |
-| Lattuga                                                             |
-| Lattuga coltura protetta                                            |
-| Lenticchia (granella)                                               |
-| Limone frutti, legno e foglie                                       |
-| Limone solo frutti                                                  |
-| Lino fibra                                                          |
-| Lino granella                                                       |
-| Loglio da insilare                                                  |
-| Loiessa                                                             |
-| Lupino                                                              |
-| Mais da granella (granella)                                         |
-| Mais da granella (pianta intera)                                    |
-| Mais dolce (pianta intera)                                          |
-| Mais dolce (spighe)                                                 |
-| Mais trinciato                                                      |
-| Mandarino frutti, legno e foglie                                    |
-| Mandarino solo frutti                                               |
-| Mandorlo frutti, legno e foglie                                     |
-| Mandorlo solo frutti                                                |
-| Melanzana                                                           |
-| Melo frutti, legno e foglie                                         |
-| Melo solo frutti                                                    |
-| Melone                                                              |
-| Mirtillo                                                            |
-| Mirtillo biomassa epigea                                            |
-| Nespolo frutti, legno e foglie                                      |
-| Nespolo solo frutti                                                 |
-| Nettarine frutti, legno e foglie                                    |
-| Nettarine solo frutti                                               |
-| Nocciolo frutti, legno e foglie                                     |
-| Nocciolo solo frutti                                                |
-| Noce da frutto frutti, legno e foglie                               |
-| Noce da frutto solo frutti                                          |
-| Olivo olive, legno e foglie                                         |
-| Olivo solo olive                                                    |
-| Orzo (granella)                                                     |
-| Orzo (pianta intera)                                                |
-| Panico                                                              |
-| Patata                                                              |
-| Peperone                                                            |
-| Peperone in pieno campo                                             |
-| Pero frutti, legno e foglie                                         |
-| Pero solo frutti                                                    |
-| Pesco frutti, legno e foglie                                        |
-| Pesco solo frutti                                                   |
-| Pioppo                                                              |
-| Pioppo da energia                                                   |
-| Pisello mercato fresco                                              |
-| Pisello proteico                                                    |
-| Pisello proteico + paglia                                           |
-| Pomodoro da industria                                               |
-| Pomodoro da mensa a pieno campo                                     |
-| Pomodoro da mensa in serra                                          |
-| Porro                                                               |
-| Prati di trifoglio                                                  |
-| Prati pascoli in collina                                            |
-| Prati polifiti \>50% leguminose                                     |
-| Prati polifiti artificiali\_collina                                 |
-| Prati stabili in pianura                                            |
-| Prezzemolo                                                          |
-| Radicchio                                                           |
-| Rafano (da sovescio)                                                |
-| Rapa                                                                |
-| Ravanello                                                           |
-| Ribes                                                               |
-| Ribes biomassa epigea                                               |
-| Riso (granella)                                                     |
-| Riso (granella+paglia)                                              |
-| Rovo inerme                                                         |
-| Rovo inerme biomassa epigea                                         |
-| Rucola,1° taglio                                                    |
-| Rucola,2° taglio                                                    |
-| Scalogno                                                            |
-| Sedano                                                              |
-| Segale                                                              |
-| Segale pianta intera                                                |
-| Soia (granella)                                                     |
-| Soia (pianta intera)                                                |
-| Sorgo da foraggio                                                   |
-| Sorgo da granella (pianta intera)                                   |
-| Sorgo da granella (solo granella)                                   |
-| Spinacio                                                            |
-| Spinacio da industria                                               |
-| Spinacio da mercato fresco                                          |
-| Susino frutti, legno e foglie                                       |
-| Susino solo frutti                                                  |
-| Tabacco Bright                                                      |
-| Tabacco Bright pianta intera                                        |
-| Tabacco Burley                                                      |
-| Tabacco Burley pianta intera                                        |
-| Triticale                                                           |
-| Triticale pianta intera                                             |
-| Uva da tavola grappoli, tralci e foglie                             |
-| Uva da tavola solo grappoli                                         |
-| Valerianella                                                        |
-| Verza                                                               |
-| Verza da industria                                                  |
-| Vite per uva da vino (collina e montagna) grappoli, tralci e foglie |
-| Vite per uva da vino (collina e montagna) solo grappoli             |
-| Vite per uva da vino (pianura) grappoli, legno e foglie             |
-| Vite per uva da vino (pianura) solo grappoli                        |
-| Zucca                                                               |
-| Zucchino da industria                                               |
-| Zucchino da mercato fresco                                          |
-| baby leaf generica                                                  |
-| uva spina biomassa epigea                                           |
+| x                                               |
+| :---------------------------------------------- |
+| Actinidia                                       |
+| Aglio                                           |
+| Albicocco                                       |
+| Arancio                                         |
+| Asparago verde                                  |
+| Avena                                           |
+| baby leaf generica                              |
+| Barbabietola da zucchero                        |
+| Basilico                                        |
+| Bietola da coste                                |
+| Bietola da foglie                               |
+| Broccoletto di rapa (cime di rapa)              |
+| Broccolo                                        |
+| Canapa da fibra                                 |
+| Cappuccio                                       |
+| Carciofo                                        |
+| Cardo                                           |
+| Carota                                          |
+| Castagno                                        |
+| Cavolfiore                                      |
+| Cavolo abissino                                 |
+| Cavolo Rapa                                     |
+| Cece                                            |
+| Cetriolo                                        |
+| Cicoria                                         |
+| Ciliegio                                        |
+| Cipolla                                         |
+| Clementine                                      |
+| Cocomero                                        |
+| Colza                                           |
+| Colza pianta intera                             |
+| Endivie (indivie riccia e scarola)              |
+| Erba mazzolina                                  |
+| Erba medica                                     |
+| Erbai Aut. Prim. Estivi o Prato avv. Graminacee |
+| Erbai Aut. Prim. Misti o Prato avv. Polifita    |
+| Fagiolino da industria                          |
+| Fagiolo in baccelli da sgranare                 |
+| Fagiolo secco                                   |
+| Farro                                           |
+| Farro (pianta intera)                           |
+| Fava                                            |
+| Favino                                          |
+| Festuca arundinacea                             |
+| Fico                                            |
+| Finocchio                                       |
+| Fragola                                         |
+| Girasole                                        |
+| Grano duro                                      |
+| Grano tenero                                    |
+| Grano tenero biscottiero                        |
+| Grano tenero FF/FPS                             |
+| Kaki                                            |
+| Lampone                                         |
+| Lattuga                                         |
+| Lattuga coltura protetta                        |
+| Lenticchia (granella)                           |
+| Limone                                          |
+| Lino fibra                                      |
+| Lino granella                                   |
+| Loglio da insilare                              |
+| Loiessa                                         |
+| Lupino                                          |
+| Mais da granella                                |
+| Mais dolce                                      |
+| Mais trinciato                                  |
+| Mandarino                                       |
+| Mandorlo                                        |
+| Melanzana                                       |
+| Melo                                            |
+| Melone                                          |
+| Mirtillo                                        |
+| Nespolo                                         |
+| Nettarine                                       |
+| Nocciolo                                        |
+| Noce da frutto                                  |
+| Olivo olive, legno e foglie                     |
+| Olivo solo olive                                |
+| Orzo                                            |
+| Panico                                          |
+| Patata                                          |
+| Peperone                                        |
+| Peperone in pieno campo                         |
+| Pero                                            |
+| Pesco                                           |
+| Pioppo                                          |
+| Pioppo da energia                               |
+| Pisello mercato fresco                          |
+| Pisello proteico                                |
+| Pisello proteico + paglia                       |
+| Pomodoro da industria                           |
+| Pomodoro da mensa a pieno campo                 |
+| Pomodoro da mensa in serra                      |
+| Porro                                           |
+| Prati di trifoglio                              |
+| Prati pascoli in collina                        |
+| Prati polifiti \>50% leguminose                 |
+| Prati polifiti artificiali\_collina             |
+| Prati stabili in pianura                        |
+| Prezzemolo                                      |
+| Radicchio                                       |
+| Rafano (da sovescio)                            |
+| Rapa                                            |
+| Ravanello                                       |
+| Ribes                                           |
+| Riso                                            |
+| Rovo inerme                                     |
+| Rucola,1° taglio                                |
+| Rucola,2° taglio                                |
+| Scalogno                                        |
+| Sedano                                          |
+| Segale                                          |
+| Soia                                            |
+| Sorgo da foraggio                               |
+| Sorgo da granella                               |
+| Spinacio                                        |
+| Spinacio da industria                           |
+| Spinacio da mercato fresco                      |
+| Susino                                          |
+| Tabacco Bright                                  |
+| Tabacco Bright pianta intera                    |
+| Tabacco Burley                                  |
+| Tabacco Burley pianta intera                    |
+| Triticale                                       |
+| Uva da tavola                                   |
+| Uva spina                                       |
+| Valerianella                                    |
+| Verza                                           |
+| Verza da industria                              |
+| Vite per uva da vino (collina e montagna)       |
+| Vite per uva da vino (pianura)                  |
+| Zucca                                           |
+| Zucchino da industria                           |
+| Zucchino da mercato fresco                      |
+
+**TODO: Better documentation for the crop part, and its relationship to
+coefficient (ass. abs.)**
+
+  - **Crop part**, this is the part of the crop to be sown that will
+    contribute to **\(f_{N,a}\)** component. Note that nitrogen demand
+    by crops may greatly differ upon the crop part considered. As an
+    example N coefficients for “sunflower” crop are:
+
+| crop\_group | crop     | part   | coeff | element | coeff\_pc |
+| :---------- | :------- | :----- | :---- | :------ | --------: |
+| erbacee     | Girasole | Frutti | asp.  | N       |      2.80 |
+| erbacee     | Girasole | Pianta | ass.  | N       |      4.31 |
+
+As a reference crop parts include:
+
+| x       |
+| :------ |
+| Frutti  |
+| Pianta  |
+|         |
+| Turioni |
+| Radici  |
+| Foglie  |
 
   - **Crop type**, this is the type of crop to be sown to be looked up
     in table 15.3 (page 67) of the *guidelines*. It is used to estimate
@@ -408,7 +393,8 @@ that will be sown with the same crop:
 ``` r
 soil_dt[
   , `:=` (
-    crop                 = "Grano duro (granella)",
+    crop                 = "Grano duro",
+    part                 = "Frutti",
     crop_type            = "Colture a ciclo autunno vernino",
     expected_yield_kg_ha = 2900,
     prev_crop            = "Prati: polifita con meno del 5%", 
@@ -420,13 +406,13 @@ soil_dt[
 knitr::kable(soil_dt)
 ```
 
-| id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop                  | crop\_type                      | expected\_yield\_kg\_ha | prev\_crop                      | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
-| :- | ----: | --------: | ------: | -------: | :-------------------- | :------------------------------ | ----------------------: | :------------------------------ | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
-| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
-| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro (granella) | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop       | part   | crop\_type                      | expected\_yield\_kg\_ha | prev\_crop                      | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
+| :- | ----: | --------: | ------: | -------: | :--------- | :----- | :------------------------------ | ----------------------: | :------------------------------ | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
+| 11 | 0.164 |  9.756098 |    2.76 |       37 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 20 | 0.146 |  9.657534 |    2.43 |       37 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 13 | 0.173 |  9.826590 |    2.93 |       38 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 12 | 0.137 |  9.562044 |    2.25 |       40 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
+| 17 | 0.205 | 10.048780 |    3.56 |       36 | Grano duro | Frutti | Colture a ciclo autunno vernino |                    2900 | Prati: polifita con meno del 5% | Loam    | slow           |                    350 |                            0 |                     1 |
 
 ### Third step: estimate the components of N balance
 
@@ -461,7 +447,7 @@ Now let’s proceed on estimating all components:
 soil_dt[
   , `:=` (
     A_N_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_N_coef_of(crop) / 100,
+      crop_abs       = fertplan::rem_N_coef_of(crop, part) / 100,
       crop_exp_yield = expected_yield_kg_ha),
     B_N_kg_ha              = fertplan::B_N_in_soil(b1_N_kg_ha, b2_N_kg_ha),
     C_N_kg_ha              = fertplan::C_N_precip_leach(

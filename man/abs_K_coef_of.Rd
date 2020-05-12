@@ -4,24 +4,23 @@
 \alias{abs_K_coef_of}
 \title{A function to get the Potassium absorption coefficient}
 \usage{
-abs_K_coef_of(crop)
+abs_K_coef_of(crops, parts)
 }
 \arguments{
-\item{crop}{the crop to be looked up}
+\item{crops}{a character vector of crop names to be looked up}
+
+\item{parts}{a character vector of crop part names to be looked up. \code{R} recycling rules apply if number of parts is lower than number of crops}
 }
 \value{
-a real number representing a percentage absorption of Potassium (K2O) for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
+a real number representing a percentage absorption of Potassium for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 }
 \description{
-function abs_K_coef_of
-}
-\details{
-This closure function will use the subset Allegato 1 table
-to perform a partial matching of its "crop" argument
+This closure function will use the absorption and removal table
+to extract the K coefficient for \code{crops} and \code{parts} arguments
 }
 \examples{
 # Returns 1
-abs_K_coef_of("Ribes")
+abs_K_coef_of("Ribes", "Pianta")
 # Returns 0.0100 0.0851
-abs_K_coef_of(c("Ribes", "Girasole")) / 100
+abs_K_coef_of(c("Ribes", "Girasole"), "Pianta") / 100
 }

@@ -30,6 +30,21 @@ lookup_var_by_drainage_texture <- function(dt, drainage_rate, texture) {
 
 
 
+
+lookup_var_by_crop_part <- function(dt, crop, part) {
+
+  index_cols <- c("crop", "part")
+
+  lookup_dt <- data.table::data.table(
+    crop = crop,
+    part = part)
+  data.table::setindexv(lookup_dt, index_cols)
+
+  dt[lookup_dt, on = index_cols]
+}
+
+
+
 # Matches fertilizer and frequency features to dt
 #
 # @param dt             A table from the "Disciplinare" featuring organic_fertilizer and frequency columns

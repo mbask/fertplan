@@ -80,6 +80,18 @@ Matching-variables are:
 knitr::kable(unique(fertplan:::tables_l$all_01_dt[, crop]))
 ```
 
+  **TODO: Better documentation for the crop part, and its relationship to coefficient (ass. abs.)**
+  
+  * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{N,a}$** component. Note that nitrogen demand by crops may greatly differ upon the crop part considered. As an example N coefficients for "sunflower" crop are:
+  ```{r, echo = FALSE}
+  knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Girasole" & element == "N",])
+  ```
+  
+  As a reference crop parts include:
+  ```{r, echo = FALSE}
+  knitr::kable(unique(fertplan:::tables_l$all_01_dt[, part]))
+  ```
+  
   * **Texture**, soil texture, one of `r levels(fertplan:::tables_l$tab_01_wdt[, soil_texture])`. Soil texture enters in a **$f_{K,f}$** flow of the balance.
 
 
@@ -95,7 +107,8 @@ Let's now set the variables values and bind them to the soil analysis table. Let
   ```{r}
 soil_dt[
   , `:=` (
-    crop                 = "Grano duro (granella)",
+    crop                 = "Grano duro",
+    part                 = "Frutti",
     expected_yield_kg_ha = 2900,
     texture              = "Loam",
     soil_depth_cm        = 30)]
@@ -112,7 +125,7 @@ Let's estimate the **$f_{K,A|B|C}$** components:
 soil_dt[
   , `:=` (
     E_K_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_K_coef_of(crop) / 100,
+      crop_abs       = fertplan::rem_K_coef_of(crop, part) / 100,
       crop_exp_yield = expected_yield_kg_ha),
     F_K_kg_ha              = fertplan::F_K_in_soil(
       k_ppm         = K_ppm, 

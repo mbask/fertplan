@@ -3,6 +3,7 @@ load("R/sysdata.rda")
 # A -----------------------------------------------------------------------
 # Fabbisogni colturali (kg/ha)
 
+
 # Look for a crop fertilization absorption or removal of a specific fertilizer
 #
 # The function does not perform any actual lookup but merely returns a function
@@ -25,41 +26,31 @@ coef_maker <- function(abs_or_removal, nutrient) {
   element = coeff = NULL
 
   crop_col_name <- "crop"
+  crop_part_col_name <- "part"
   coef_col_name <- "coeff_pc"
-  cols_name     <- c(crop_col_name, coef_col_name)
+  cols_name     <- c(crop_col_name, crop_part_col_name, coef_col_name)
 
   element_coeff_dt <- subset(
     tables_l$all_01_dt,
     element == nutrient & coeff == abs_or_removal,
     cols_name)
 
-  # Typical table in element_coeff_dt
-  #                                                                    crop coeff_pc
-  # 1:                                     Actinidia frutti, legno e foglie     0.59
-  # 2:                                     Albicocco frutti, legno e foglie     0.55
-  # 3:                                       Arancio frutti, legno e foglie     0.28
-  # 4:                                       Asparago verde (pianta intera)     2.56
-  # 5:                                                  Avena pianta intera     2.12
-  # 6:                                      Ciliegio frutti, legno e foglie     0.67
-  # 7:                                    Clementine frutti, legno e foglie     0.28
-  # 8:                                                  Colza pianta intera     6.21
-  # 9:                                                Farro (pianta intera)     2.70
-  # 10:                                                              Favino     4.30
-  # 11:                                         Fico frutti, legno e foglie     1.14
-  # 12:                                            Girasole (pianta intera)     4.31
+  data.table::setkeyv(
+    element_coeff_dt,
+    c(crop_col_name, crop_part_col_name))
 
-  function(crop) `: numeric` ({
-    is_character(crop)
 
-    row_idx <- pmatch(
-      x             = crop,
-      table         = element_coeff_dt[[crop_col_name]],
-      duplicates.ok = TRUE)
+  function(crops, parts) `: numeric` ({
+    is_character(crops)
+    is_character(parts)
 
-    if (any(is.na(row_idx))) {
-      warning("There are crops not found in guidelines table.")
+    coeff_dt <- lookup_var_by_crop_part(element_coeff_dt, crops, parts)
+
+    unmatched_crops_n <- is.na(coeff_dt[[coef_col_name]])
+    if (any(unmatched_crops_n)) {
+      warning(paste0(sum(unmatched_crops_n), " crops or parts were not matched in the appropriate guidelines table."))
     }
-    element_coeff_dt[[coef_col_name]][row_idx]
+    coeff_dt[[coef_col_name]]
   })
 }
 
@@ -91,41 +82,39 @@ A_crop_demand <- function(crop_abs, crop_exp_yield) `: numeric` ({
 
 # > N ---------------------------------------------------------------------
 
-
-
 #' A function to get the Nitrogen absorption coefficient
 #'
-#' function abs_N_coef_of
+#' This closure function will use the absorption and removal table
+#' to extract the N coefficient for `crops` and `parts` arguments
 #'
-#' This closure function will use the subset Allegato 1 table
-#' to perform a partial matching of its "crop" argument
-#'
-#' @param crop the crop to be looked up
+#' @param crops a character vector of crop names to be looked up
+#' @param parts a character vector of crop part names to be looked up. `R` recycling rules apply if number of parts is lower than number of crops
 #'
 #' @return a real number representing a percentage absorption of Nitrogen for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 #'
 #' @export
+#' @md
 #' @examples
-#' abs_N_coef_of("Ribes")                      # Returns 0.4
-#' abs_N_coef_of(c("Ribes", "Girasole")) / 100 # Returns 0.0040 0.0431
+#' abs_N_coef_of("Ribes", "Pianta")                      # Returns 0.4
+#' abs_N_coef_of(c("Ribes", "Girasole"), "Pianta") / 100 # Returns 0.0040 0.0431
 abs_N_coef_of <- coef_maker("ass.", "N")
 
 
 #' A function to get the Nitrogen removal coefficient
 #'
-#' function rem_N_coef_of
+#' This closure function will use the absorption and removal table
+#' to extract the N coefficient for `crops` and `parts` arguments
 #'
-#' This closure function will use the subset Allegato 1 table
-#' to perform a partial matching of its "crop" argument
-#'
-#' @param crop the crop to be looked up
+#' @param crops a character vector of crop names to be looked up
+#' @param parts a character vector of crop part names to be looked up. `R` recycling rules apply if number of parts is lower than number of crops
 #'
 #' @return a real number representing a percentage removal of Nitrogen for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 #'
 #' @export
+#' @md
 #' @examples
-#' rem_N_coef_of("Ribes")                      # Returns 0.14
-#' rem_N_coef_of(c("Ribes", "Girasole")) / 100 # Returns 0.0014 0.0280
+#' rem_N_coef_of("Ribes", "Frutti")                      # Returns 0.14
+#' rem_N_coef_of(c("Ribes", "Girasole"), "Frutti") / 100 # Returns 0.0014 0.0280
 rem_N_coef_of <- coef_maker("asp.", "N")
 
 
@@ -135,41 +124,41 @@ rem_N_coef_of <- coef_maker("asp.", "N")
 
 #' A function to get the Potassium absorption coefficient
 #'
-#' function abs_K_coef_of
+#' This closure function will use the absorption and removal table
+#' to extract the K coefficient for `crops` and `parts` arguments
 #'
-#' This closure function will use the subset Allegato 1 table
-#' to perform a partial matching of its "crop" argument
+#' @param crops a character vector of crop names to be looked up
+#' @param parts a character vector of crop part names to be looked up. `R` recycling rules apply if number of parts is lower than number of crops
 #'
-#' @param crop the crop to be looked up
-#'
-#' @return a real number representing a percentage absorption of Potassium (K2O) for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
+#' @return a real number representing a percentage absorption of Potassium for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 #'
 #' @export
+#' @md
 #' @examples
 #' # Returns 1
-#' abs_K_coef_of("Ribes")
+#' abs_K_coef_of("Ribes", "Pianta")
 #' # Returns 0.0100 0.0851
-#' abs_K_coef_of(c("Ribes", "Girasole")) / 100
+#' abs_K_coef_of(c("Ribes", "Girasole"), "Pianta") / 100
 abs_K_coef_of <- coef_maker("ass.", "K2O")
 
 
 #' A function to get the Potassium removal coefficient
 #'
-#' function rem_K_coef_of
+#' This closure function will use the absorption and removal table
+#' to extract the N coefficient for `crops` and `parts` arguments
 #'
-#' This closure function will use the subset Allegato 1 table
-#' to perform a partial matching of its "crop" argument
+#' @param crops a character vector of crop names to be looked up
+#' @param parts a character vector of crop part names to be looked up. `R` recycling rules apply if number of parts is lower than number of crops
 #'
-#' @param crop the crop to be looked up
-#'
-#' @return a real number representing a percentage removal of Potassium (K2O) for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
+#' @return a real number representing a percentage removal of Potassium for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 #'
 #' @export
+#' @md
 #' @examples
 #' # Returns 0.44
-#' rem_K_coef_of("Ribes")
+#' rem_K_coef_of("Ribes", "Frutti")
 #' # Returns 0.0044 0.0115
-#' rem_K_coef_of(c("Ribes", "Girasole")) / 100
+#' rem_K_coef_of(c("Ribes", "Girasole"), "Frutti") / 100
 rem_K_coef_of <- coef_maker("asp.", "K2O")
 
 
@@ -179,43 +168,44 @@ rem_K_coef_of <- coef_maker("asp.", "K2O")
 
 #' A function to get the Phosphorus absorption coefficient
 #'
-#' function abs_P_coef_of
+#' This closure function will use the absorption and removal table
+#' to extract the N coefficient for `crops` and `parts` arguments
 #'
-#' This closure function will use the subset Allegato 1 table
-#' to perform a partial matching of its "crop" argument
+#' @param crops a character vector of crop names to be looked up
+#' @param parts a character vector of crop part names to be looked up. `R` recycling rules apply if number of parts is lower than number of crops
 #'
-#' @param crop the crop to be looked up
-#'
-#' @return a real number representing a percentage absorption of Phosphorus (P2O5) for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
+#' @return a real number representing a percentage absorption of Phosphorus for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 #'
 #' @export
+#' @md
+#' @examples
+#' # Returns 0.44
+#' rem_K_coef_of("Ribes", "Frutti")
+#' # Returns 0.0044 0.0115
+#' rem_K_coef_of(c("Ribes", "Girasole"), "Frutti") / 100
 #' @examples
 #' # Returns 0.4
-#' abs_P_coef_of("Ribes")
+#' abs_P_coef_of("Ribes", "Pianta")
 #' # Returns 0.0040 0.0019
-#' abs_P_coef_of(c("Ribes", "Girasole")) / 100
+#' abs_P_coef_of(c("Ribes", "Girasole"), "Pianta") / 100
 abs_P_coef_of <- coef_maker("ass.", "P2O5")
 
 
 #' A function to get the Phosphorus removal coefficient
 #'
-#' function rem_P_coef_of
+#' This closure function will use the absorption and removal table
+#' to extract the N coefficient for `crops` and `parts` arguments
 #'
-#' This closure function will use the subset Allegato 1 table
-#' to perform a partial matching of its "crop" argument
+#' @param crops a character vector of crop names to be looked up
+#' @param parts a character vector of crop part names to be looked up. `R` recycling rules apply if number of parts is lower than number of crops
 #'
-#' @param crop the crop to be looked up
-#'
-#' @return a real number representing a percentage removal of Phosphorus (P2O5) for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
+#' @return a real number representing a percentage removal of Phosphorus for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 #'
 #' @export
+#' @md
 #' @examples
 #' # Returns 0.1
-#' rem_P_coef_of("Ribes")
+#' rem_P_coef_of("Ribes", "Frutti")
 #' # Returns 0.0010 0.0124
-#' rem_P_coef_of(c("Ribes", "Girasole")) / 100
+#' rem_P_coef_of(c("Ribes", "Girasole"), "Frutti") / 100
 rem_P_coef_of <- coef_maker("asp.", "P2O5")
-
-
-
-

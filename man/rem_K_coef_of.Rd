@@ -4,24 +4,23 @@
 \alias{rem_K_coef_of}
 \title{A function to get the Potassium removal coefficient}
 \usage{
-rem_K_coef_of(crop)
+rem_K_coef_of(crops, parts)
 }
 \arguments{
-\item{crop}{the crop to be looked up}
+\item{crops}{a character vector of crop names to be looked up}
+
+\item{parts}{a character vector of crop part names to be looked up. \code{R} recycling rules apply if number of parts is lower than number of crops}
 }
 \value{
-a real number representing a percentage removal of Potassium (K2O) for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
+a real number representing a percentage removal of Potassium for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 }
 \description{
-function rem_K_coef_of
-}
-\details{
-This closure function will use the subset Allegato 1 table
-to perform a partial matching of its "crop" argument
+This closure function will use the absorption and removal table
+to extract the N coefficient for \code{crops} and \code{parts} arguments
 }
 \examples{
 # Returns 0.44
-rem_K_coef_of("Ribes")
+rem_K_coef_of("Ribes", "Frutti")
 # Returns 0.0044 0.0115
-rem_K_coef_of(c("Ribes", "Girasole")) / 100
+rem_K_coef_of(c("Ribes", "Girasole"), "Frutti") / 100
 }

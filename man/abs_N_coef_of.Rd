@@ -4,22 +4,21 @@
 \alias{abs_N_coef_of}
 \title{A function to get the Nitrogen absorption coefficient}
 \usage{
-abs_N_coef_of(crop)
+abs_N_coef_of(crops, parts)
 }
 \arguments{
-\item{crop}{the crop to be looked up}
+\item{crops}{a character vector of crop names to be looked up}
+
+\item{parts}{a character vector of crop part names to be looked up. \code{R} recycling rules apply if number of parts is lower than number of crops}
 }
 \value{
 a real number representing a percentage absorption of Nitrogen for the specific crop or \code{NA_real_} when no match is found or more than one match exists for the given \code{crop}, element and coefficient.
 }
 \description{
-function abs_N_coef_of
-}
-\details{
-This closure function will use the subset Allegato 1 table
-to perform a partial matching of its "crop" argument
+This closure function will use the absorption and removal table
+to extract the N coefficient for \code{crops} and \code{parts} arguments
 }
 \examples{
-abs_N_coef_of("Ribes")                      # Returns 0.4
-abs_N_coef_of(c("Ribes", "Girasole")) / 100 # Returns 0.0040 0.0431
+abs_N_coef_of("Ribes", "Pianta")                      # Returns 0.4
+abs_N_coef_of(c("Ribes", "Girasole"), "Pianta") / 100 # Returns 0.0040 0.0431
 }

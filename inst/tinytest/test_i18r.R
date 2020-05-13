@@ -1,0 +1,7 @@
+expect_error(fertplan::i18n_switch("lang_ek"), "unsupported language")
+expect_true(is.list(fertplan::i18n_switch("lang_en")))
+expect_identical(get_available("soil texture"), c("Clayey", "Loam", "Sandy"))
+expect_equal(rem_p_coef_of("Durum wheat", "Fruits"), 0.83)
+expect_silent(fertplan::i18n_switch("lang_it"))
+expect_identical(get_available("soil texture"), c("Argilloso", "Franco", "Sabbioso"))
+expect_equal(rem_p_coef_of("Grano duro", "Frutti"), 0.83)

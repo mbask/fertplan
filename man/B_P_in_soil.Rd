@@ -11,34 +11,44 @@ B_P_in_soil(crop, p_ppm, soil_texture, soil_depth_cm)
 
 \item{p_ppm}{Current Phospororus concentration in soil (in ppm or mg/kg)}
 
-\item{soil_texture}{Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)}
+\item{soil_texture}{Soil texture (one of \code{Argilloso}, \code{Franco}, \code{Sabbioso})}
 
 \item{soil_depth_cm}{Depth of soil tillage in cm (usually 30 or 40 cm)}
 }
 \value{
 Total Phospohorus (P2O5) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)
-                       due to its fertility
+due to its fertility
 }
 \description{
-This is component B of the Phosphorus fertilization plan equation
+This is component B of the Phosphorus fertilization plan balance.
+}
+\note{
+Supply of P is computed by multiplying three components.
+One of the components is P "normal" concentration (mg/kg) in soil that
+is looked up in table 10 of the guidelines (page 32 as of edition 2020).
+Though the tabled concentrations
+are given as ranges per soil texture and crop \code{fertplan} implementation yields
+the central average value for each range, as an example the tabled normal P
+concentration range for Sunflower in loam soil is [18,25] whereas
+a value of 21.5 mg/kg is taken by \code{fertplan} for further elaboration.
 }
 \examples{
 # Returns 44.85 kg/ha to be supplied by fertilization
 B_P_in_soil(
   crop  = "Girasole",
   p_ppm = 10,
-  soil_texture = "Loam",
+  soil_texture = "Franco",
   soil_depth   = 30)
 # Returns -33.15 kg/ha soil Phosphorus in excess
 B_P_in_soil(
   crop  = "Girasole",
   p_ppm = 30,
-  soil_texture = "Loam",
+  soil_texture = "Franco",
   soil_depth   = 30)
 # Keeping soil depth constant:
 B_P_in_soil(
   c("Girasole", "Barbabietola"),
   c(20, 30),
-  c("Loam", "Loam"),
+  rep("Franco", 2),
   30)
 }

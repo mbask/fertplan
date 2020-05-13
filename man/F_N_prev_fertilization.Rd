@@ -7,14 +7,14 @@
 F_N_prev_fertilization(n_supply, organic_fertilizer, years_ago)
 }
 \arguments{
-\item{n_supply}{Supply of Nitrogen in kg/ha from the organic fertilization performed}
+\item{n_supply}{Supply of nitrogen in kg/ha from the organic fertilization performed}
 
-\item{organic_fertilizer}{Type of organic fertilizer as found in table 06 ("Bovine manure", "Poultry manure", "Conditioners")}
+\item{organic_fertilizer}{Type of organic fertilizer as found in table 06 (one of \code{Ammendanti}, \verb{Liquame bovino}, \verb{Liquame suino e pollina})}
 
-\item{years_ago}{Numeric, the number of years passed from last perfored fertilization}
+\item{years_ago}{Numeric, the number of years passed from last performed fertilization}
 }
 \value{
-Estimate of supply of Nitrogen currently still in soil
+Estimate of supply of nitrogen currently still in soil
 }
 \description{
 Supply of Nitrogen from previous organic fertilizatons

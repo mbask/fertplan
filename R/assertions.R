@@ -20,7 +20,7 @@ is_numeric <-
 # Available languages -----------------------------------------------------
 
 is_in_avail_langs <-
-  ensurer::ensures_that(. %in% c("it", "en") ~"unsupported language.")
+  ensurer::ensures_that(. %in% i18n_l$avail_langs_v ~"unsupported language.")
 
 
 

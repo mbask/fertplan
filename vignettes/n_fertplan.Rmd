@@ -80,7 +80,7 @@ Some variables need to match those set out in the *guidelines* tables, while a f
 Let's first translate the *guidelines* tables into english:
 
 ```{r}
-fertplan::i18n_switch("en")
+fertplan::i18n_switch("lang_en")
 ```
 
 Matching-variables are:
@@ -176,7 +176,7 @@ Now let's proceed on estimating all components:
 soil_dt[
   , `:=` (
     A_N_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_N_coef_of(crop, part) / 100,
+      crop_abs       = fertplan::rem_n_coef_of(crop, part) / 100,
       crop_exp_yield = expected_yield_kg_ha),
     B_N_kg_ha              = fertplan::B_N_in_soil(b1_N_kg_ha, b2_N_kg_ha),
     C_N_kg_ha              = fertplan::C_N_precip_leach(

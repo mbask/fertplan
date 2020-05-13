@@ -2,16 +2,23 @@
 % Please edit documentation in R/lookup_f.R
 \name{get_available}
 \alias{get_available}
-\title{Get available crops localized in current language}
+\title{Get available variable values localized in current language}
 \usage{
-get_available(variable)
+get_available(variable = NULL)
+}
+\arguments{
+\item{variable}{character vector pointing at the tabled variable to look up.
+One of \code{crop}, \verb{crop by group}, \code{drainage}, \verb{soil texture}, \verb{organic fertilizer}, \verb{previous crops} or \code{NULL} (default).}
 }
 \value{
-a character vector of available crops
+a character vector of available tabled variable values, a list of
+variable values (when \code{variable} is "group_crop"), or a character vector
+of available variables to be looked up (when \code{variable} is \code{NULL}),
+or \code{NULL} when no matching variables were passed.
 }
 \description{
-Get available crops localized in current language
+Get available variable values localized in current language
 }
 \examples{
-get_available("crop")
+head(get_available("crop"))
 }

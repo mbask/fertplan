@@ -72,6 +72,12 @@ The *id* feature is not relevant to the balance estimation.
 A few environmental and crop-related variables need to be set. 
 Some variables need to match those set out in the *guidelines* tables, while a few others have to be derived from external sources. 
 
+Let's first translate the *guidelines* tables into english:
+
+```{r}
+fertplan::i18n_switch("lang_en")
+```
+
 Matching-variables are:
 
   * **Crop**, this is the name of the crop to be sown and will be used to lookup the its Phosphorus demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{P,a}$** component. The name must match one of the following crop names available. Partial matching is allowed, provided that the partial string is unique among crop names. The allowed crop names is:
@@ -112,9 +118,9 @@ Let's now set the variables values and bind them to the soil analysis table. Let
   ```{r}
 soil_dt[
   , `:=` (
-    crop                 = "Grano duro",
-    part                 = "Frutti",
-    crop_B_P             = "Frumento duro",
+    crop                 = "Durum wheat",
+    part                 = "Fruits",
+    crop_B_P             = "Durum wheat",
     expected_yield_kg_ha = 2900,
     texture              = "Loam",
     soil_depth_cm        = 30)]
@@ -130,7 +136,7 @@ Let's estimate the **$f_{A|B|C}$** components:
 soil_dt[
   , `:=` (
     A_P_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_P_coef_of(crop, part) / 100,
+      crop_abs       = fertplan::rem_p_coef_of(crop, part) / 100,
       crop_exp_yield = expected_yield_kg_ha),
     B_P_kg_ha              = fertplan::B_P_in_soil(
       crop           = crop_B_P, 

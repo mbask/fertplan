@@ -20,5 +20,5 @@ Supply of Phosphorus (P2O5) in kg per hactare to counteract immobilization due t
 }
 \examples{
 # Returns 3.246
-C_P_immob_by_Ca(92.3, "Clayey")
+C_P_immob_by_Ca(92.3, "Argilloso")
 }

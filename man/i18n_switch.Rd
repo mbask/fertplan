@@ -2,19 +2,30 @@
 % Please edit documentation in R/i18n_switch.R
 \name{i18n_switch}
 \alias{i18n_switch}
-\title{Switch language}
+\title{Switch language for variable values}
 \usage{
 i18n_switch(lang)
 }
 \arguments{
-\item{lang}{Character vector, one of "it", "en"}
+\item{lang}{Character vector, one of lang_it
+lang_en.}
+}
+\value{
+silently a list
 }
 \description{
 The default guidelines are in italian language. Switching to english or other available languages aids in
 selecting the appropriate variables values.
 }
+\details{
+Currently 2 languages are supported: lang_it
+lang_en.
+Further languages may be added in the future. Contributing translators are welcome, just add your
+translation to the file \code{i18n.csv} in the folder \code{data-raw/i18n} and provide it as
+a Pull Request on \href{https://github.com/fertplan/pulls}{GitHub}
+}
 \examples{
-get_available("crop")[1:10]
-i18n_switch("en")
-get_available("crop")[1:10]
+head(get_available("crop"))
+i18n_switch("lang_en")
+head(get_available("crop"))
 }

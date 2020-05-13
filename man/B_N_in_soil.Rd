@@ -7,15 +7,15 @@
 B_N_in_soil(b1, b2)
 }
 \arguments{
-\item{b1}{Available Nitrogen in soil, typically from function \code{b1_available_n}}
+\item{b1}{Available nitrogen in soil, typically from function \code{\link[=b1_available_n]{b1_available_n()}}}
 
-\item{b2}{Mineralized Nitrogen from SOM, typically from function \code{b2_mineralized_n}}
+\item{b2}{Mineralized nitrogen from SOM, typically from function \code{\link[=b2_mineralized_n]{b2_mineralized_n()}}}
 }
 \value{
-Total Nitrogen in soil as the sum of available and mineralized Nitrogen
-        Note that N supply is multipled by -1 before being returned because B has to
-        be subtracted to the total N fertilization!
+Total nitrogen in soil as the sum of available and mineralized Nitrogen
+Note that N supply is multipled by -1 before being returned because B has to
+be subtracted to the total N fertilization!
 }
 \description{
-This is component B of the fertilization plan equation, resulting from the available nitrogen in soil and nitrogen mineralized from soil organic matter
+This is component B of the fertilization plan balance, resulting from the available nitrogen in soil and nitrogen mineralized from soil organic matter
 }

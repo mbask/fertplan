@@ -57,7 +57,7 @@ C_N_precip_leach <- function(available_n, rainfall_oct_jan) `: numeric` ({
 #' @importFrom ensurer ensure
 #' @examples
 #' # Returns 30 50
-#' C_N_drain_leach(c("fast", "slow"), c("Clayey", "Sandy"))
+#' C_N_drain_leach(c("Rapido", "Lento"), c("Argilloso", "Sabbioso"))
 C_N_drain_leach <- function(drainage_rate, soil_texture) `: numeric` ({
 
   ensurer::ensure(drainage_rate, +is_character, +is_drainage_rate)
@@ -90,7 +90,7 @@ C_N_drain_leach <- function(drainage_rate, soil_texture) `: numeric` ({
 #' @importFrom ensurer ensure
 #' @examples
 #' # Returns 3.246
-#' C_P_immob_by_Ca(92.3, "Clayey")
+#' C_P_immob_by_Ca(92.3, "Argilloso")
 C_P_immob_by_Ca <- function(Ca_pc, soil_texture) `: numeric` ({
   ensurer::ensure(Ca_pc, +is_numeric, +is_vector_pc)
   ensurer::ensure(soil_texture, +is_character, +is_soil_texture)

@@ -25,10 +25,10 @@ supply/demand for Nitrogen, Phosphorus \(P_2O_5\), and Potassium
 may be installed from this GitHub repository though:
 
 ``` r
-# Install devtools package if not yet present in R library
-# install.packages("devtools")
+# Install remotes package if not yet present in R library
+# install.packages("remotes")
 
-devtools::install_github("mbask/fertplan")
+remotes::install_github("mbask/fertplan")
 ```
 
 ## Usage

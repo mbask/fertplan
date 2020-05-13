@@ -26,10 +26,10 @@ The package provides a set of functions to compute the components of the supply/
 `fertplan` is currently in active development and not yet on CRAN, it may be installed from this GitHub repository though:
 
 ```{r, eval = FALSE}
-# Install devtools package if not yet present in R library
-# install.packages("devtools")
+# Install remotes package if not yet present in R library
+# install.packages("remotes")
 
-devtools::install_github("mbask/fertplan")
+remotes::install_github("mbask/fertplan")
 ```
 
 

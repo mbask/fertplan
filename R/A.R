@@ -45,7 +45,6 @@ coef_maker <- function(abs_or_removal, nutrient) {
       c(crop_col_name, crop_part_col_name))
 
     coeff_dt <- lookup_var_by_crop_part(element_coeff_dt, crops, parts)
-
     unmatched_crops_n <- is.na(coeff_dt[[coef_col_name]])
     if (any(unmatched_crops_n)) {
       warning(paste0(sum(unmatched_crops_n), " crops or parts were not matched in the appropriate guidelines table."))

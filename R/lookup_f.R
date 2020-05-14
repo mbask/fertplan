@@ -16,6 +16,7 @@ get_available <- function(variable = NULL) {
   avail_vars <- c(
     "crop"               = "crop",
     "crop by group"      = "crop by group",
+    "part"               = "part",
     "drainage"           = "drainage",
     "soil texture"       = "soil_texture",
     "organic fertilizer" = "organic_fertilizer",
@@ -32,7 +33,7 @@ get_available <- function(variable = NULL) {
           split(tables_l$all_01_dt, tables_l$all_01_dt$crop_group),
           function(sg_dt) { unique(sg_dt$crop) })
       } else {
-        if (variable == "crop") return(levels(tables_l$all_01_dt[[table_var_name]]))
+        if (variable %in% c("crop", "part")) return(levels(tables_l$all_01_dt[[table_var_name]]))
         if (table_var_name == "drainage") return(levels(tables_l$tab_03_dt[[table_var_name]]))
         if (table_var_name == "soil_texture") return(levels(tables_l$tab_01_wdt[[table_var_name]]))
         if (table_var_name == "organic_fertilizer") return (levels(tables_l$tab_06_dt[[table_var_name]]))

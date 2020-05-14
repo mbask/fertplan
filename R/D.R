@@ -1,20 +1,20 @@
 # D ----------------------------------------------------------------------
 # Perdite per immobilizzazione e dispersione
 
-#' Loss of Nitrogen with denitrification, adsorbation, volatilization
-#'
-#' Coefficient of Nitrogen denitrification, adsorbation, volatilization processes in soil,
-#' as found in page 25 of the "Disciplinare".
-#'
-#' @param B              Nitrogen supply from soil fertility estimate, usually derived with function \code{\link{B_N_in_soil}}
-#' @param drainage_rate  Rate of drainage in soil (either "fast", "normal", "slow", "no drainage")
-#' @param soil_texture   Soil texture (either "Sandy", "Loam", or "Clayey")
-#'
-#' @return Nitrogen denitrification coefficient
-#' @importFrom ensurer ensure
-#' @export
-#' @examples
-#' \dontrun{ D_N_denitrification(30.98, "slow", "Clayey")  # Returns 13.941 }
+# Loss of Nitrogen with denitrification, adsorbation, volatilization
+#
+# Coefficient of Nitrogen denitrification, adsorbation, volatilization processes in soil,
+# as found in page 25 of the "Disciplinare".
+#
+# @param B              Nitrogen supply from soil fertility estimate, usually derived with function \code{\link{B_N_in_soil}}
+# @param drainage_rate  Rate of drainage in soil (either "fast", "normal", "slow", "no drainage")
+# @param soil_texture   Soil texture (either "Sandy", "Loam", or "Clayey")
+#
+# @return Nitrogen denitrification coefficient
+# @importFrom ensurer ensure
+# @export
+# @examples
+# \dontrun{ D_N_denitrification(30.98, "slow", "Clayey")  # Returns 13.941 }
 D_N_denitrification <- function(B, drainage_rate, soil_texture) `: numeric` ({
 
   is_numeric(B)

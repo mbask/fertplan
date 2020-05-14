@@ -37,29 +37,28 @@ Nitrogen fertilization concentration in kg/ha is estimated as the net resultant 
 
 The N flow components include:
 
-  * **$f_{N,a}$** Crop demand for nitrogen on the basis of its expected yield
-  * **$f_{N,b}$** Nitrogen concentration currently in the soil due to its fertility. This component sums two nitrogen pools: **b1** available nitrogen to the crop, and **b2** nitrogen supply from mineralization of organic matter
-  * **$f_{N,c}$** Nitrogen leached due to precipitation during latest winter season
-  * **$f_{N,d}$** Nitrogen loss due to denitrification
-  * **$f_{N,e}$** Residual nitrogen from previous crop
-  * **$f_{N,f}$** Residual nitrogen from previous organic fertilizations
-  * **$f_{N,g}$** Nitrogen supply from atmospheric depositions and from N-fixing bacteria
+  * **$f_{N,a}$** Nitrogen demand of the specific crop proportional to its expected yield and its nitrogen absorption coefficient in percent
+  * **$f_{N,b}$** Nitrogen supply currently in the soil due to its fertility. This component sums two nitrogen pools: **b1** available nitrogen to the crop, and **b2** nitrogen supply from mineralization of organic matter
+  * **$f_{N,c}$** Nitrogen leached due to cumulative precipitation in the period October 1st - January 31st as described on pages 24 and 25 of the *guidelines*. Note that there is an alternative method for estimating N leaching based on tabled values according to drainage rate and soil texture. This latter method is not exported by the package
+# The leaching affects only the available nitrogen part (not total Nitrogen)
+  * **$f_{N,d}$** Nitrogen loss due to denitrification, adsorbation, volatilization processes in soil based on soil texture and drainage rate
+  * **$f_{N,e}$** Residual soil nitrogen from previous crop
+  * **$f_{N,f}$** Residual nitrogen from previous organic fertilizations, if ever performed. If this is the case than the N supply in soil depends on the time since last fertilization, the type and quantity of organic fertilization perfomed
+  * **$f_{N,g}$** Nitrogen supply from atmospheric depositions and from N-fixing bacteria. Yearly availability is estimated to be 20 kg/ha in levelled crops close to urban settlements. This figure has to be appropriately adapted to each crop through a [0,1] coefficient. Note that the N estimate is given in negative sign (ie a flow into the soil).
 
 The final nitrogen balance is computed as the sum of its 7 components:
 $$B_N = \sum_{i=1}^{7}f_{N,i}$$
+
+The main pathway to get to B_N includes 4 steps.
 
 ### First step: load soil analyses
 
 Let's begin with some minimal data from soil physical and chemical analyses on a few sampling points in the field.
 
 ```{r}
-soil_dt <-  data.table::data.table(
-  id = factor(x = c("11", "20", "13", "12", "17")), 
-  N_pc = c(0.164, 0.146, 0.173, 0.137, 0.205), 
-  CNR = c(9.75609756097561, 9.65753424657534, 9.82658959537572, 9.56204379562044, 10.0487804878049), 
-  SOM_pc = c(2.76, 2.43, 2.93, 2.25, 3.56), 
-  Clay_pc = c(37, 37, 38, 40, 36))
-  knitr::kable(soil_dt)
+data(soils)
+soil_dt <- soils[, c("id", "N_pc", "CNR", "SOM_pc", "Clay_pc")]
+knitr::kable(soil_dt)
 ```
 
 The table shows the soil chemical and physical status before the planned crop sowing. The soil analyses elements that will be fed the nitrogen balance estimation are:
@@ -85,21 +84,20 @@ fertplan::i18n_switch("lang_en")
 
 Matching-variables are:
 
-  * **Crop**, this is the name of the crop to be sown and will be used to lookup its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is not allowed. Note that this implemetation of the table has separated the crop column into two features, "actual crop" and "part" (eg fruits, whole plant, and so on). The allowed crop names are:
+  * **Crop**, this is the name of the crop to be sown and will be used to lookup its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is not allowed. Note that this implemetation of the table has separated the crop column into two features, "actual crop" and "part" (eg fruits, whole plant, and so on). The available crops are:
   ```{r, echo = FALSE}
   knitr::kable(fertplan::get_available("crop"))
   ```
-  
-  **TODO: Better documentation for the crop part, and its relationship to coefficient (ass. abs.)**
+  Crops are organized into crop types for convenience:
   
   * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{N,a}$** component. Note that nitrogen demand by crops may greatly differ upon the crop part considered. As an example N coefficients for "sunflower" crop are:
   ```{r, echo = FALSE}
-  knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Girasole" & element == "N",])
+  knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Sunflower" & element == "N",])
   ```
   
   As a reference crop parts include:
   ```{r, echo = FALSE}
-  knitr::kable(unique(fertplan:::tables_l$all_01_dt[, part]))
+  knitr::kable(fertplan::get_available("part"))
   ```
   
   * **Crop type**, this is the type of crop to be sown to be looked up in table 15.3 (page 67) of the *guidelines*. It is used to estimate the time coefficient, as a ratio of an year, during which the mineralization of nitrogen will take place and, thus, will be available to the crop itself. Crop type contributes to b2 sub-component of **$f_{N,b}$** component. Available crop types are:
@@ -135,79 +133,51 @@ Environmental and crop-related variables include:
 Let's now set the variables values and bind them to the soil analysis table. Let's suppose the values are constant among all soil samples, as it may be the case when all sampling points come from a uniform field that will be sown with the same crop:
 
 ```{r}
-soil_dt[
-  , `:=` (
-    crop                 = "Durum wheat",
-    part                 = "Fruits",
-    crop_type            = "Fall / winter crops",
-    expected_yield_kg_ha = 2900,
-    prev_crop            = "Grassland, legumes <5%", 
-    texture              = "Loam", 
-    drainage_rate        = "Slow",
-    oct_jan_2019_pr_mm   = 350,
-    n_supply_prev_frt_kg_ha = 0,
-    n_supply_atm_coeff   = 1)]
-knitr::kable(soil_dt)
+soil_l <- list(
+  crop                 = "Durum wheat",
+  part                 = "Fruits",
+  crop_type            = "Fall / winter crops",
+  expected_yield_kg_ha = 2900L,
+  prev_crop            = "Grassland, legumes <5%", 
+  texture              = "Loam", 
+  drainage_rate        = "Slow",
+  oct_jan_pr_mm        = 350L,
+  n_supply_prev_frt_kg_ha = 0L,
+  n_supply_atm_coeff   = 1)
+knitr::kable(soil_l)
 ```
 
 
 
 ### Third step: estimate the components of N balance
 
-Let's first estimate **b1** and **b2** sub-components that will enter either the **$f_{N,{b|c|d}}$** components:
+Let's compute each component of the nitrogen balance:
 
 ```{r}
-soil_dt[
-  , `:=` (
-    b1_N_kg_ha             = fertplan::b1_available_n(
-      total_n_pc     = N_pc, 
-      texture        = texture), 
-    b2_N_kg_ha             = fertplan::b2_mineralized_n(
-      crop_type      = crop_type,
-      som_pc         = SOM_pc, 
-      cn_ratio       = CNR, 
-      texture        = texture))]
-knitr::kable(soil_dt[, c("id", "b1_N_kg_ha", "b2_N_kg_ha")])
+nutrient_dt <- demand_nutrient(
+  soil_dt, 
+  soil_l, 
+  nutrient = "nitrogen", 
+  blnc_cmpt = TRUE)
+knitr::kable(nutrient_dt)
 ```
 
-
-Now let's proceed on estimating all components:
-```{r}
-soil_dt[
-  , `:=` (
-    A_N_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_n_coef_of(crop, part) / 100,
-      crop_exp_yield = expected_yield_kg_ha),
-    B_N_kg_ha              = fertplan::B_N_in_soil(b1_N_kg_ha, b2_N_kg_ha),
-    C_N_kg_ha              = fertplan::C_N_precip_leach(
-      available_n      = b1_N_kg_ha, 
-      rainfall_oct_jan = oct_jan_2019_pr_mm))][
-  , `:=` (
-    D_N_kg_ha              = fertplan::D_N_denitrification(
-      B             = B_N_kg_ha,
-      drainage_rate = drainage_rate,
-      soil_texture  = texture),
-    E_N_kg_ha              = fertplan::E_N_from_prev_crop(crop = prev_crop),
-    F_N_kg_ha              = fertplan::F_N_prev_fertilization(n_supply = n_supply_prev_frt_kg_ha),
-    G_N_kg_ha              = fertplan::G_N_from_atmosphere(coeff = n_supply_atm_coeff))]
-```
 
 All components were estimated, note that **$f_{N,b}$** is computed as `(b1+b2)*-1`. Remember that positive values are demand pools of N in soil or N flows leaving the field (such as **$f_{N,c}$** component); negative values are current N pools in the soils that are available for assimilation to the crop or that will be available during the time-frame of crop growth. 
 
 ```{r}
+fertzl_dt <- cbind(nutrient_dt, soil_dt)
 fertzl_cols <- grep(
   pattern = "^[A-G]_N_kg_ha$", 
-  x       = colnames(soil_dt), 
+  x       = colnames(nutrient_dt), 
   value   = TRUE)
-id_fertzl_cols <- c("id", fertzl_cols)
-fertzl_dt <- soil_dt[, ..id_fertzl_cols]
 knitr::kable(fertzl_dt)
 ```
 
 
 ### Fourth step: estimate N demand
 
-We are finally arrived to the last step of assembling all components of the N balance. Let's  perform the actual addition of the `r paste0(fertzl_cols, collapse = ", ")` components:
+We are finally arrived to the last step of assembling all components of the N balance. Let's perform the actual addition of the `r paste0(fertzl_cols, collapse = ", ")` components:
 
 ```{r}
 fertzl_dt[, n_demand_kg_ha := rowSums(.SD), .SDcols = fertzl_cols]
@@ -215,6 +185,20 @@ knitr::kable(fertzl_dt[, c("id", "n_demand_kg_ha")])
 ```
 
 All sampling points end up needing a supply of nitrogen of `r fertzl_dt[, mean(n_demand_kg_ha)]` kg/ha on average.
+
+## Alternative pathway
+
+A more direct pathway to get to B_N estimation is to set argument `blnc_cmpt` of `demand_nutrient` function to `FALSE` (the default setting). This will have the effect of returning directly B_N instead of its balance components thereby skipping the fourth step:
+
+```{r}
+nutrient_dt <- demand_nutrient(
+  soil_dt, 
+  soil_l, 
+  nutrient = "nitrogen", 
+  blnc_cmpt = FALSE)
+knitr::kable(nutrient_dt)
+```
+
 
 That's it as far as nitrogen fetilization plan is concerned.
 

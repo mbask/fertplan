@@ -60,23 +60,39 @@ the crop are \< 0 (negative sign).
 
 The N flow components include:
 
-  - **\(f_{N,a}\)** Crop demand for nitrogen on the basis of its
-    expected yield
-  - **\(f_{N,b}\)** Nitrogen concentration currently in the soil due to
-    its fertility. This component sums two nitrogen pools: **b1**
-    available nitrogen to the crop, and **b2** nitrogen supply from
-    mineralization of organic matter
-  - **\(f_{N,c}\)** Nitrogen leached due to precipitation during latest
-    winter season
-  - **\(f_{N,d}\)** Nitrogen loss due to denitrification
-  - **\(f_{N,e}\)** Residual nitrogen from previous crop
+  - **\(f_{N,a}\)** Nitrogen demand of the specific crop proportional to
+    its expected yield and its nitrogen absorption coefficient in
+    percent
+  - **\(f_{N,b}\)** Nitrogen supply currently in the soil due to its
+    fertility. This component sums two nitrogen pools: **b1** available
+    nitrogen to the crop, and **b2** nitrogen supply from mineralization
+    of organic matter
+  - **\(f_{N,c}\)** Nitrogen leached due to cumulative precipitation in
+    the period October 1st - January 31st as described on pages 24 and
+    25 of the *guidelines*. Note that there is an alternative method for
+    estimating N leaching based on tabled values according to drainage
+    rate and soil texture. This latter method is not exported by the
+    package \# The leaching affects only the available nitrogen part
+    (not total Nitrogen)
+  - **\(f_{N,d}\)** Nitrogen loss due to denitrification, adsorbation,
+    volatilization processes in soil based on soil texture and drainage
+    rate
+  - **\(f_{N,e}\)** Residual soil nitrogen from previous crop
   - **\(f_{N,f}\)** Residual nitrogen from previous organic
-    fertilizations
+    fertilizations, if ever performed. If this is the case than the N
+    supply in soil depends on the time since last fertilization, the
+    type and quantity of organic fertilization perfomed
   - **\(f_{N,g}\)** Nitrogen supply from atmospheric depositions and
-    from N-fixing bacteria
+    from N-fixing bacteria. Yearly availability is estimated to be 20
+    kg/ha in levelled crops close to urban settlements. This figure has
+    to be appropriately adapted to each crop through a \[0,1\]
+    coefficient. Note that the N estimate is given in negative sign (ie
+    a flow into the soil).
 
 The final nitrogen balance is computed as the sum of its 7 components:
 \[B_N = \sum_{i=1}^{7}f_{N,i}\]
+
+The main pathway to get to B\_N includes 4 steps.
 
 ### First step: load soil analyses
 
@@ -84,22 +100,33 @@ Let’s begin with some minimal data from soil physical and chemical
 analyses on a few sampling points in the field.
 
 ``` r
-soil_dt <-  data.table::data.table(
-  id = factor(x = c("11", "20", "13", "12", "17")), 
-  N_pc = c(0.164, 0.146, 0.173, 0.137, 0.205), 
-  CNR = c(9.75609756097561, 9.65753424657534, 9.82658959537572, 9.56204379562044, 10.0487804878049), 
-  SOM_pc = c(2.76, 2.43, 2.93, 2.25, 3.56), 
-  Clay_pc = c(37, 37, 38, 40, 36))
-  knitr::kable(soil_dt)
+data(soils)
+soil_dt <- soils[, c("id", "N_pc", "CNR", "SOM_pc", "Clay_pc")]
+knitr::kable(soil_dt)
 ```
 
 | id | N\_pc |       CNR | SOM\_pc | Clay\_pc |
-| :- | ----: | --------: | ------: | -------: |
+| -: | ----: | --------: | ------: | -------: |
+|  1 | 0.139 |  9.568345 |    2.30 |       34 |
+|  2 | 0.165 |  9.818182 |    2.79 |       37 |
+|  3 | 0.160 |  9.750000 |    2.69 |       40 |
+|  4 | 0.164 |  9.817073 |    2.77 |       34 |
+|  5 | 0.122 |  9.344262 |    1.97 |       38 |
+|  6 | 0.145 |  9.586207 |    2.40 |       40 |
+|  7 | 0.159 |  9.748428 |    2.67 |       34 |
+|  8 | 0.163 |  9.754601 |    2.73 |       34 |
+|  9 | 0.143 |  9.580420 |    2.36 |       37 |
+| 10 | 0.152 |  9.671053 |    2.54 |       36 |
 | 11 | 0.164 |  9.756098 |    2.76 |       37 |
-| 20 | 0.146 |  9.657534 |    2.43 |       37 |
-| 13 | 0.173 |  9.826590 |    2.93 |       38 |
 | 12 | 0.137 |  9.562044 |    2.25 |       40 |
+| 13 | 0.173 |  9.826590 |    2.93 |       38 |
+| 14 | 0.189 |  9.947090 |    3.24 |       38 |
+| 15 | 0.145 |  9.586207 |    2.40 |       40 |
+| 16 | 0.162 |  9.753086 |    2.73 |       34 |
 | 17 | 0.205 | 10.048780 |    3.56 |       36 |
+| 18 | 0.148 |  9.662162 |    2.47 |       39 |
+| 19 | 0.154 |  9.675325 |    2.58 |       36 |
+| 20 | 0.146 |  9.657534 |    2.43 |       37 |
 
 The table shows the soil chemical and physical status before the planned
 crop sowing. The soil analyses elements that will be fed the nitrogen
@@ -121,7 +148,7 @@ a few others have to be derived from external sources.
 Let’s first translate the *guidelines* tables into english:
 
 ``` r
-fertplan::i18n_switch("en")
+fertplan::i18n_switch("lang_en")
 ```
 
 Matching-variables are:
@@ -132,7 +159,7 @@ Matching-variables are:
     must match one of the following crop names available. Partial
     matching is not allowed. Note that this implemetation of the table
     has separated the crop column into two features, “actual crop” and
-    “part” (eg fruits, whole plant, and so on). The allowed crop names
+    “part” (eg fruits, whole plant, and so on). The available crops
     are:
 
 | x           |
@@ -183,10 +210,10 @@ Matching-variables are:
 | 44          |
 | 45          |
 | 46          |
-| 47          |
 | Sunflower   |
 | Durum wheat |
 | Soft wheat  |
+| 47          |
 | 48          |
 | 49          |
 | 50          |
@@ -269,30 +296,29 @@ Matching-variables are:
 | 127         |
 | 128         |
 | 129         |
-| 130         |
-| 131         |
 
-**TODO: Better documentation for the crop part, and its relationship to
-coefficient (ass. abs.)**
+Crops are organized into crop types for convenience:
 
   - **Crop part**, this is the part of the crop to be sown that will
     contribute to **\(f_{N,a}\)** component. Note that nitrogen demand
     by crops may greatly differ upon the crop part considered. As an
     example N coefficients for “sunflower” crop are:
 
-| crop\_group | crop | part | coeff | element | coeff\_pc |
-| :---------- | :--- | :--- | :---- | :------ | --------: |
+| crop\_group     | crop      | part        | coeff | element | coeff\_pc |
+| :-------------- | :-------- | :---------- | :---- | :------ | --------: |
+| herbage species | Sunflower | Fruits      | asp.  | N       |      2.80 |
+| herbage species | Sunflower | Whole plant | ass.  | N       |      4.31 |
 
 As a reference crop parts include:
 
 | x           |
 | :---------- |
+|             |
+| Leaves      |
 | Fruits      |
 | Whole plant |
-|             |
-| Spears      |
 | Roots       |
-| Leaves      |
+| Spears      |
 
   - **Crop type**, this is the type of crop to be sown to be looked up
     in table 15.3 (page 67) of the *guidelines*. It is used to estimate
@@ -395,77 +421,147 @@ it may be the case when all sampling points come from a uniform field
 that will be sown with the same crop:
 
 ``` r
-soil_dt[
-  , `:=` (
-    crop                 = "Durum wheat",
-    part                 = "Fruits",
-    crop_type            = "Fall / winter crops",
-    expected_yield_kg_ha = 2900,
-    prev_crop            = "Grassland, legumes <5%", 
-    texture              = "Loam", 
-    drainage_rate        = "Slow",
-    oct_jan_2019_pr_mm   = 350,
-    n_supply_prev_frt_kg_ha = 0,
-    n_supply_atm_coeff   = 1)]
-knitr::kable(soil_dt)
+soil_l <- list(
+  crop                 = "Durum wheat",
+  part                 = "Fruits",
+  crop_type            = "Fall / winter crops",
+  expected_yield_kg_ha = 2900L,
+  prev_crop            = "Grassland, legumes <5%", 
+  texture              = "Loam", 
+  drainage_rate        = "Slow",
+  oct_jan_pr_mm        = 350L,
+  n_supply_prev_frt_kg_ha = 0L,
+  n_supply_atm_coeff   = 1)
+knitr::kable(soil_l)
 ```
 
-| id | N\_pc |       CNR | SOM\_pc | Clay\_pc | crop        | part   | crop\_type          | expected\_yield\_kg\_ha | prev\_crop              | texture | drainage\_rate | oct\_jan\_2019\_pr\_mm | n\_supply\_prev\_frt\_kg\_ha | n\_supply\_atm\_coeff |
-| :- | ----: | --------: | ------: | -------: | :---------- | :----- | :------------------ | ----------------------: | :---------------------- | :------ | :------------- | ---------------------: | ---------------------------: | --------------------: |
-| 11 | 0.164 |  9.756098 |    2.76 |       37 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
-| 20 | 0.146 |  9.657534 |    2.43 |       37 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
-| 13 | 0.173 |  9.826590 |    2.93 |       38 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
-| 12 | 0.137 |  9.562044 |    2.25 |       40 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
-| 17 | 0.205 | 10.048780 |    3.56 |       36 | Durum wheat | Fruits | Fall / winter crops |                    2900 | Grassland, legumes \<5% | Loam    | Slow           |                    350 |                            0 |                     1 |
+<table class="kable_wrapper">
+
+<tbody>
+
+<tr>
+
+<td>
+
+| x           |
+| :---------- |
+| Durum wheat |
+
+</td>
+
+<td>
+
+| x      |
+| :----- |
+| Fruits |
+
+</td>
+
+<td>
+
+| x                   |
+| :------------------ |
+| Fall / winter crops |
+
+</td>
+
+<td>
+
+|    x |
+| ---: |
+| 2900 |
+
+</td>
+
+<td>
+
+| x                       |
+| :---------------------- |
+| Grassland, legumes \<5% |
+
+</td>
+
+<td>
+
+| x    |
+| :--- |
+| Loam |
+
+</td>
+
+<td>
+
+| x    |
+| :--- |
+| Slow |
+
+</td>
+
+<td>
+
+|   x |
+| --: |
+| 350 |
+
+</td>
+
+<td>
+
+| x |
+| -: |
+| 0 |
+
+</td>
+
+<td>
+
+| x |
+| -: |
+| 1 |
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ### Third step: estimate the components of N balance
 
-Let’s first estimate **b1** and **b2** sub-components that will enter
-either the **\(f_{N,{b|c|d}}\)** components:
+Let’s compute each component of the nitrogen balance:
 
 ``` r
-soil_dt[
-  , `:=` (
-    b1_N_kg_ha             = fertplan::b1_available_n(
-      total_n_pc     = N_pc, 
-      texture        = texture), 
-    b2_N_kg_ha             = fertplan::b2_mineralized_n(
-      crop_type      = crop_type,
-      som_pc         = SOM_pc, 
-      cn_ratio       = CNR, 
-      texture        = texture))]
-knitr::kable(soil_dt[, c("id", "b1_N_kg_ha", "b2_N_kg_ha")])
+nutrient_dt <- demand_nutrient(
+  soil_dt, 
+  soil_l, 
+  nutrient = "nitrogen", 
+  blnc_cmpt = TRUE)
+knitr::kable(nutrient_dt)
 ```
 
-| id | b1\_N\_kg\_ha | b2\_N\_kg\_ha |
-| :- | ------------: | ------------: |
-| 11 |         4.264 |        39.744 |
-| 20 |         3.796 |        34.992 |
-| 13 |         4.498 |        42.192 |
-| 12 |         3.562 |        32.400 |
-| 17 |         5.330 |        43.200 |
-
-Now let’s proceed on estimating all components:
-
-``` r
-soil_dt[
-  , `:=` (
-    A_N_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_N_coef_of(crop, part) / 100,
-      crop_exp_yield = expected_yield_kg_ha),
-    B_N_kg_ha              = fertplan::B_N_in_soil(b1_N_kg_ha, b2_N_kg_ha),
-    C_N_kg_ha              = fertplan::C_N_precip_leach(
-      available_n      = b1_N_kg_ha, 
-      rainfall_oct_jan = oct_jan_2019_pr_mm))][
-  , `:=` (
-    D_N_kg_ha              = fertplan::D_N_denitrification(
-      B             = B_N_kg_ha,
-      drainage_rate = drainage_rate,
-      soil_texture  = texture),
-    E_N_kg_ha              = fertplan::E_N_from_prev_crop(crop = prev_crop),
-    F_N_kg_ha              = fertplan::F_N_prev_fertilization(n_supply = n_supply_prev_frt_kg_ha),
-    G_N_kg_ha              = fertplan::G_N_from_atmosphere(coeff = n_supply_atm_coeff))]
-```
+| A\_N\_kg\_ha | B\_N\_kg\_ha | C\_N\_kg\_ha | D\_N\_kg\_ha | E\_N\_kg\_ha | F\_N\_kg\_ha | G\_N\_kg\_ha |
+| -----------: | -----------: | -----------: | -----------: | -----------: | -----------: | -----------: |
+|        66.12 |     \-36.734 |        3.614 |      12.8569 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-44.466 |        4.290 |      15.5631 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-42.896 |        4.160 |      15.0136 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-44.152 |        4.264 |      15.4532 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-31.540 |        3.172 |      11.0390 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-38.330 |        3.770 |      13.4155 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-42.582 |        4.134 |      14.9037 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-43.550 |        4.238 |      15.2425 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-37.702 |        3.718 |      13.1957 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-40.528 |        3.952 |      14.1848 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-44.008 |        4.264 |      15.4028 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-35.962 |        3.562 |      12.5867 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-46.690 |        4.498 |      16.3415 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-48.114 |        4.914 |      16.8399 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-38.330 |        3.770 |      13.4155 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-43.524 |        4.212 |      15.2334 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-48.530 |        5.330 |      16.9855 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-39.416 |        3.848 |      13.7956 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-41.156 |        4.004 |      14.4046 |         \-15 |            0 |         \-20 |
+|        66.12 |     \-38.788 |        3.796 |      13.5758 |         \-15 |            0 |         \-20 |
 
 All components were estimated, note that **\(f_{N,b}\)** is computed as
 `(b1+b2)*-1`. Remember that positive values are demand pools of N in
@@ -475,22 +571,36 @@ assimilation to the crop or that will be available during the time-frame
 of crop growth.
 
 ``` r
+fertzl_dt <- cbind(nutrient_dt, soil_dt)
 fertzl_cols <- grep(
   pattern = "^[A-G]_N_kg_ha$", 
-  x       = colnames(soil_dt), 
+  x       = colnames(nutrient_dt), 
   value   = TRUE)
-id_fertzl_cols <- c("id", fertzl_cols)
-fertzl_dt <- soil_dt[, ..id_fertzl_cols]
 knitr::kable(fertzl_dt)
 ```
 
-| id | A\_N\_kg\_ha | B\_N\_kg\_ha | C\_N\_kg\_ha | D\_N\_kg\_ha | E\_N\_kg\_ha | F\_N\_kg\_ha | G\_N\_kg\_ha |
-| :- | -----------: | -----------: | -----------: | -----------: | -----------: | -----------: | -----------: |
-| 11 |        66.12 |     \-44.008 |        4.264 |      15.4028 |         \-15 |            0 |         \-20 |
-| 20 |        66.12 |     \-38.788 |        3.796 |      13.5758 |         \-15 |            0 |         \-20 |
-| 13 |        66.12 |     \-46.690 |        4.498 |      16.3415 |         \-15 |            0 |         \-20 |
-| 12 |        66.12 |     \-35.962 |        3.562 |      12.5867 |         \-15 |            0 |         \-20 |
-| 17 |        66.12 |     \-48.530 |        5.330 |      16.9855 |         \-15 |            0 |         \-20 |
+| A\_N\_kg\_ha | B\_N\_kg\_ha | C\_N\_kg\_ha | D\_N\_kg\_ha | E\_N\_kg\_ha | F\_N\_kg\_ha | G\_N\_kg\_ha | id | N\_pc |       CNR | SOM\_pc | Clay\_pc |
+| -----------: | -----------: | -----------: | -----------: | -----------: | -----------: | -----------: | -: | ----: | --------: | ------: | -------: |
+|        66.12 |     \-36.734 |        3.614 |      12.8569 |         \-15 |            0 |         \-20 |  1 | 0.139 |  9.568345 |    2.30 |       34 |
+|        66.12 |     \-44.466 |        4.290 |      15.5631 |         \-15 |            0 |         \-20 |  2 | 0.165 |  9.818182 |    2.79 |       37 |
+|        66.12 |     \-42.896 |        4.160 |      15.0136 |         \-15 |            0 |         \-20 |  3 | 0.160 |  9.750000 |    2.69 |       40 |
+|        66.12 |     \-44.152 |        4.264 |      15.4532 |         \-15 |            0 |         \-20 |  4 | 0.164 |  9.817073 |    2.77 |       34 |
+|        66.12 |     \-31.540 |        3.172 |      11.0390 |         \-15 |            0 |         \-20 |  5 | 0.122 |  9.344262 |    1.97 |       38 |
+|        66.12 |     \-38.330 |        3.770 |      13.4155 |         \-15 |            0 |         \-20 |  6 | 0.145 |  9.586207 |    2.40 |       40 |
+|        66.12 |     \-42.582 |        4.134 |      14.9037 |         \-15 |            0 |         \-20 |  7 | 0.159 |  9.748428 |    2.67 |       34 |
+|        66.12 |     \-43.550 |        4.238 |      15.2425 |         \-15 |            0 |         \-20 |  8 | 0.163 |  9.754601 |    2.73 |       34 |
+|        66.12 |     \-37.702 |        3.718 |      13.1957 |         \-15 |            0 |         \-20 |  9 | 0.143 |  9.580420 |    2.36 |       37 |
+|        66.12 |     \-40.528 |        3.952 |      14.1848 |         \-15 |            0 |         \-20 | 10 | 0.152 |  9.671053 |    2.54 |       36 |
+|        66.12 |     \-44.008 |        4.264 |      15.4028 |         \-15 |            0 |         \-20 | 11 | 0.164 |  9.756098 |    2.76 |       37 |
+|        66.12 |     \-35.962 |        3.562 |      12.5867 |         \-15 |            0 |         \-20 | 12 | 0.137 |  9.562044 |    2.25 |       40 |
+|        66.12 |     \-46.690 |        4.498 |      16.3415 |         \-15 |            0 |         \-20 | 13 | 0.173 |  9.826590 |    2.93 |       38 |
+|        66.12 |     \-48.114 |        4.914 |      16.8399 |         \-15 |            0 |         \-20 | 14 | 0.189 |  9.947090 |    3.24 |       38 |
+|        66.12 |     \-38.330 |        3.770 |      13.4155 |         \-15 |            0 |         \-20 | 15 | 0.145 |  9.586207 |    2.40 |       40 |
+|        66.12 |     \-43.524 |        4.212 |      15.2334 |         \-15 |            0 |         \-20 | 16 | 0.162 |  9.753086 |    2.73 |       34 |
+|        66.12 |     \-48.530 |        5.330 |      16.9855 |         \-15 |            0 |         \-20 | 17 | 0.205 | 10.048780 |    3.56 |       36 |
+|        66.12 |     \-39.416 |        3.848 |      13.7956 |         \-15 |            0 |         \-20 | 18 | 0.148 |  9.662162 |    2.47 |       39 |
+|        66.12 |     \-41.156 |        4.004 |      14.4046 |         \-15 |            0 |         \-20 | 19 | 0.154 |  9.675325 |    2.58 |       36 |
+|        66.12 |     \-38.788 |        3.796 |      13.5758 |         \-15 |            0 |         \-20 | 20 | 0.146 |  9.657534 |    2.43 |       37 |
 
 ### Fourth step: estimate N demand
 
@@ -505,15 +615,69 @@ knitr::kable(fertzl_dt[, c("id", "n_demand_kg_ha")])
 ```
 
 | id | n\_demand\_kg\_ha |
-| :- | ----------------: |
+| -: | ----------------: |
+|  1 |           10.8569 |
+|  2 |            6.5071 |
+|  3 |            7.3976 |
+|  4 |            6.6852 |
+|  5 |           13.7910 |
+|  6 |            9.9755 |
+|  7 |            7.5757 |
+|  8 |            7.0505 |
+|  9 |           10.3317 |
+| 10 |            8.7288 |
 | 11 |            6.7788 |
-| 20 |            9.7038 |
-| 13 |            5.2695 |
 | 12 |           11.3067 |
+| 13 |            5.2695 |
+| 14 |            4.7599 |
+| 15 |            9.9755 |
+| 16 |            7.0414 |
 | 17 |            4.9055 |
+| 18 |            9.3476 |
+| 19 |            8.3726 |
+| 20 |            9.7038 |
 
-All sampling points end up needing a supply of nitrogen of 7.59286 kg/ha
-on average.
+All sampling points end up needing a supply of nitrogen of 8.318065
+kg/ha on average.
+
+## Alternative pathway
+
+A more direct pathway to get to B\_N estimation is to set argument
+`blnc_cmpt` of `demand_nutrient` function to `FALSE` (the default
+setting). This will have the effect of returning directly B\_N instead
+of its balance components thereby skipping the fourth step:
+
+``` r
+nutrient_dt <- demand_nutrient(
+  soil_dt, 
+  soil_l, 
+  nutrient = "nitrogen", 
+  blnc_cmpt = FALSE)
+knitr::kable(nutrient_dt)
+```
+
+| nitrogen\_kg\_ha |
+| ---------------: |
+|          10.8569 |
+|           6.5071 |
+|           7.3976 |
+|           6.6852 |
+|          13.7910 |
+|           9.9755 |
+|           7.5757 |
+|           7.0505 |
+|          10.3317 |
+|           8.7288 |
+|           6.7788 |
+|          11.3067 |
+|           5.2695 |
+|           4.7599 |
+|           9.9755 |
+|           7.0414 |
+|           4.9055 |
+|           9.3476 |
+|           8.3726 |
+|           9.7038 |
 
 That’s it as far as nitrogen fetilization plan is concerned.
 

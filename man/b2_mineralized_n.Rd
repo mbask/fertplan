@@ -11,17 +11,17 @@ b2_mineralized_n(crop_type, som_pc, cn_ratio, texture)
 
 \item{som_pc}{Soil Organic Matter percentage}
 
-\item{cn_ratio}{Carbon Nitrogen ratio in soil}
+\item{cn_ratio}{Carbon / nitrogen ratio in soil}
 
-\item{texture}{Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)}
+\item{texture}{Soil texture (one of \code{Argilloso}, \code{Franco}, \code{Sabbioso})}
 }
 \value{
-Quantity of Nitrogen in kg/ha
+Quantity of nitrogen in kg/ha
 }
 \description{
-Note that values of soil organic matter >3% are kept constant at 3%
+Note that values of soil organic matter >3\% are kept constant at 3\%
 }
 \examples{
 # Returns 20.7 kg/ha
-b2_mineralized_n("Girasole", 2.3, 9.57, "Clayey")
+b2_mineralized_n("Girasole", 2.3, 9.57, "Argilloso")
 }

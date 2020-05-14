@@ -2,12 +2,14 @@
 % Please edit documentation in R/A.R
 \name{A_crop_demand}
 \alias{A_crop_demand}
-\title{Demand for the crop (either Nitrogen, and Phosphorus)}
+\title{Demand for the crop (either nitrogen and phosphorus)}
 \usage{
 A_crop_demand(crop_abs, crop_exp_yield)
 }
 \arguments{
-\item{crop_abs}{the absorption rate in [0..1] range. It can be looked up as absorption coefficient in the Allegato 1 table and also by using \code{abs_n_coef_of} function for Nitrogen or other similar functions for other nutrients.}
+\item{crop_abs}{the absorption rate in [0,1] range. It can be looked up
+as absorption coefficient in the Allegato 1 table and also by using \code{\link[=abs_n_coef_of]{abs_n_coef_of()}}
+function for nitrogen or other similar functions for other nutrients.}
 
 \item{crop_exp_yield}{the expected crop yield}
 }
@@ -18,7 +20,7 @@ The crop demand in the same unit as \code{crop_exp_yield}, usually kg/ha.
 N and P are estimated from expected yield and crop absorption rate
 }
 \details{
-This is component A of the Nitrogen and P2O5 fertilization plan equation
+This is component A of the nitrogen and P2O5 fertilization plan balance
 resulting as the crop expected yield times crop absorption rate.
 }
 \examples{

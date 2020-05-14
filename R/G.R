@@ -1,15 +1,15 @@
 # G -----------------------------------------------------------------------
 # Azoto da apporti naturali
 
-#' Supply of Nitrogen from atmosphere or from nitrogen-fixing bacteria
+#' Supply of nitrogen from atmosphere or from nitrogen-fixing bacteria
 #'
 #' Yearly availability is estimated to be 20 kg/ha in levelled crops close
 #' to urban settlements. This figure has to be appropriately adapted
-#' to each crop through a [0..1] coefficient. Page 25 of 2020 Guidelines.
+#' to each crop through a [0,1] coefficient. Page 25 of 2020 Guidelines.
 #' Note that the N estimate is given in negative sign (ie a flow into the soil).
 #'
 #'
-#' @param coeff a simple ratio [0..1] to linearly correct the
+#' @param coeff a simple ratio [0,1] to linearly correct the
 #' estimate, 1 to estimate 20 kg/ha nitrogen, 0 to estimate 0 kg/ha.
 #'
 #' @return Estimate of N from atmosphere of from bacteria in kg/ha

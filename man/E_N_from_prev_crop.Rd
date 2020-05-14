@@ -11,20 +11,18 @@ E_N_from_prev_crop(crop)
 }
 \value{
 Nitrogen quantity in kg/ha, either positive (less N available) or negative (increased N available).
-        Note that N quantity is multipled by -1 before being returned because E has to be subtracted to the total N fertilization!
+Note that N quantity is multipled by -1 before being returned because E has to be subtracted to the total N fertilization!
 }
 \description{
-This is a simple table lookup (table 05 of the "Disciplinare"). Partial matching is respected so that
-\code{E_n_from_prev_crop("Gira")} is matched to "Girasole" and the function returns 0 but
-\code{E_n_from_prev_crop("Prati")} does not match a unique record so that the function returns NA with a warning.
+This is a simple table lookup (table 05 of the "Disciplinare"). Partial matching is not allowed.
 }
 \details{
-Table 05 is a \code{data.table} with values for Nitrogen quantity in kg/ha of `r nrows(tables_l$tab_05_dt)` typical crops:
-`r tables_l$tab_05_dt`
+Table 05 is a \code{data.table} with values for nitrogen quantity in kg/ha for typical crops:
+\code{Barbabietola}, \verb{Cereali autunno-vernini: paglia asportata}, \verb{Cereali autunno-vernini: paglia interrata}, \code{Colza}, \code{Girasole}, \verb{Leguminose da granella (pisello, fagiolo, lenticchia, ecc}, \verb{Mais: stocchi asportati}, \verb{Mais: stocchi interrati}, \verb{Orticole minori a foglia}, \code{Patata}, \verb{Pomodoro, altre orticole (es.: cucurbitacee, crucifere e liliacee)}, \verb{Prati: di breve durata o trifoglio}, \verb{Prati: Medica in buone condizioni}, \verb{Prati: polifita con + del 15\% di leguminose o medicaio diradato}, \verb{Prati: polifita con leguminose dal 5 al 15\%}, \verb{Prati: polifita con meno del 5\% di leguminose}, \code{Soia}, \code{Sorgo}, \verb{Sovescio di leguminose (in copertura autunno-invernale o estiva)}
 }
 \examples{
 # Returns 0 kg/ha
 E_N_from_prev_crop("Girasole")
 # Returns 0 10 kg/ha
-E_N_from_prev_crop(c("Girasole", "Mais: stocchi asp"))
+E_N_from_prev_crop(c("Girasole", "Mais: stocchi asportati"))
 }

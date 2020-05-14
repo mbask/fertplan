@@ -7,9 +7,9 @@
 b1_available_n(total_n_pc, texture)
 }
 \arguments{
-\item{total_n_pc}{Total Nitrogen percentage in soil as appropriatly sampled}
+\item{total_n_pc}{Total nitrogen percentage in soil}
 
-\item{texture}{Soil texture from table 1 (one of "Sandy", "Loam", "Clayey") as appropriatly sampled}
+\item{texture}{Soil texture (one of \code{Argilloso}, \code{Franco}, \code{Sabbioso})}
 }
 \value{
 The available N in soil in kg/ha
@@ -18,6 +18,6 @@ The available N in soil in kg/ha
 Estimate supply of Nitrogen in the soil for the crop (B1)
 }
 \examples{
-b1_available_n(0.139, "Clayey")                    # Returns 3.3777 kg/ha
-b1_available_n(c(0.139, 0.5), c("Clayey", "Loam")) # Returns  3.3777 13.0000
+b1_available_n(0.139, "Argilloso") # Returns 3.3777 kg/ha
+b1_available_n(c(0.139, 0.5), c("Argilloso", "Franco")) # Returns  3.3777 13.0000
 }

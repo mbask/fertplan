@@ -1,3 +1,50 @@
+#' Get available variable values localized in current language
+#'
+#' @param variable character vector pointing at the tabled variable to look up.
+#' One of `r paste0("``", get_available(), "``", collapse = ", ")` or `NULL` (default).
+#'
+#' @return a character vector of available tabled variable values, a list of
+#' variable values (when `variable` is "group_crop"), or a character vector
+#' of available variables to be looked up (when `variable` is `NULL`),
+#' or `NULL` when no matching variables were passed.
+#' @export
+#'
+#' @md
+#' @examples
+#' head(get_available("crop"))
+get_available <- function(variable = NULL) {
+  avail_vars <- c(
+    "crop"               = "crop",
+    "crop by group"      = "crop by group",
+    "drainage"           = "drainage",
+    "soil texture"       = "soil_texture",
+    "organic fertilizer" = "organic_fertilizer",
+    "previous crops"     = "crop")
+
+  if (is.null(variable)) {
+    return(names(avail_vars))
+  } else {
+    is_character(variable)
+    if (variable %in% names(avail_vars)) {
+      table_var_name <- avail_vars[variable]
+      if (table_var_name == "crop by group") {
+        lapply(
+          split(tables_l$all_01_dt, tables_l$all_01_dt$crop_group),
+          function(sg_dt) { unique(sg_dt$crop) })
+      } else {
+        if (variable == "crop") return(levels(tables_l$all_01_dt[[table_var_name]]))
+        if (table_var_name == "drainage") return(levels(tables_l$tab_03_dt[[table_var_name]]))
+        if (table_var_name == "soil_texture") return(levels(tables_l$tab_01_wdt[[table_var_name]]))
+        if (table_var_name == "organic_fertilizer") return (levels(tables_l$tab_06_dt[[table_var_name]]))
+        if (variable == "previous crops") return (levels(tables_l$tab_05_dt[[table_var_name]]))
+      }
+    } else {
+      NULL
+    }
+  }
+}
+
+
 # Matches drainage rate and texture features to dt
 #
 # @param dt             A table from the "Disciplinare" featuring drainage and soil_texture columns
@@ -82,6 +129,25 @@ lookup_var_by_crop_texture <- function(dt, crop, soil_texture) {
   lookup_dt <- data.table::data.table(
     crop         = crop,
     soil_texture = soil_texture)
+  data.table::setindexv(lookup_dt, index_cols)
+
+  dt[lookup_dt, on = index_cols]
+}
+
+
+
+# Matches ccrop feature to dt
+#
+# @param dt             A table from the "Guidelines" featuring crop column
+# @param crop           Crop character vector describing the crop
+#
+# @return               A \code{data.table} matching \code{dt} by \code{crop}
+# @importFrom data.table data.table
+lookup_var_by_crop_05 <- function(dt, crop) {
+
+  index_cols <- c("crop")
+
+  lookup_dt <- data.table::data.table(crop = crop)
   data.table::setindexv(lookup_dt, index_cols)
 
   dt[lookup_dt, on = index_cols]

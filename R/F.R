@@ -4,12 +4,13 @@
 #' Supply of Nitrogen from previous organic fertilizatons
 #'
 #'
-#' @param n_supply            Supply of Nitrogen in kg/ha from the organic fertilization performed
-#' @param organic_fertilizer  Type of organic fertilizer as found in table 06 ("Bovine manure", "Poultry manure", "Conditioners")
-#' @param years_ago           Numeric, the number of years passed from last perfored fertilization
+#' @param n_supply            Supply of nitrogen in kg/ha from the organic fertilization performed
+#' @param organic_fertilizer  Type of organic fertilizer as found in table 06 (one of `r paste0("``", get_available("organic fertilizer"), "``", collapse = ", ")`)
+#' @param years_ago           Numeric, the number of years passed from last performed fertilization
 #'
-#' @return Estimate of supply of Nitrogen currently still in soil
+#' @return Estimate of supply of nitrogen currently still in soil
 #' @importFrom data.table `:=`
+#' @md
 #' @export
 F_N_prev_fertilization <- function(n_supply, organic_fertilizer, years_ago) `: numeric` ({
 
@@ -57,20 +58,23 @@ F_N_prev_fertilization <- function(n_supply, organic_fertilizer, years_ago) `: n
 
 # K -----------------------------------------------------------------------
 
-#' Supply of Potassium from soil fertility
+#' Supply of potassium from soil fertility
 #'
-#' This is component F of the Potassium fertilization plan equation
+#' This is component F of the potassium fertilization plan balance.
 #'
-#' @param k_ppm           Current Potassium concentration in soil (in ppm or mg/kg)
-#' @param soil_texture    Soil texture (one of "Sandy", "Loam", "Clayey", table 2, page 23 of the 'Disciplinare')
+#' @note For soil depth values outside the typical range \[30,40\] cm a warning is issued.
+#'
+#' @param k_ppm           Current potassium concentration in soil (in ppm or mg/kg)
+#' @param soil_texture    Soil texture (one of `r paste0("``", get_available("soil texture"), "``", collapse = ", ")`)
 #' @param soil_depth_cm   Depth of soil tillage in cm (usually 30 or 40 cm)
 #'
-#' @return                Total Potassium (K2O) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)
-#'                        due to its fertility
+#' @return  Total potassium (K2O) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)
+#'          due to its fertility
 #' @export
+#' @md
 #' @examples
 #' # Returns -976.47
-#' F_K_in_soil(449, "Clayey", 30)
+#' F_K_in_soil(449, "Argilloso", 30)
 F_K_in_soil <- function(k_ppm, soil_texture, soil_depth_cm) `: numeric` ({
   ensurer::ensure(soil_texture, +is_character, +is_soil_texture)
   ensurer::ensure(soil_depth_cm, +is_numeric, +is_positive)

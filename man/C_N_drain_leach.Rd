@@ -21,5 +21,5 @@ the other being c1 "Metodo in base alle precipitazioni"
 }
 \examples{
 # Returns 30 50
-C_N_drain_leach(c("fast", "slow"), c("Clayey", "Sandy"))
+C_N_drain_leach(c("Rapido", "Lento"), c("Argilloso", "Sabbioso"))
 }

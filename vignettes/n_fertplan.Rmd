@@ -77,11 +77,17 @@ The *id* feature is not relevant to the balance estimation.
 A few environmental and crop-related variables need to be set. 
 Some variables need to match those set out in the *guidelines* tables, while a few others have to be derived from external sources. 
 
+Let's first translate the *guidelines* tables into english:
+
+```{r}
+fertplan::i18n_switch("lang_en")
+```
+
 Matching-variables are:
 
   * **Crop**, this is the name of the crop to be sown and will be used to lookup its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is not allowed. Note that this implemetation of the table has separated the crop column into two features, "actual crop" and "part" (eg fruits, whole plant, and so on). The allowed crop names are:
   ```{r, echo = FALSE}
-  knitr::kable(unique(fertplan:::tables_l$all_01_dt[, crop]))
+  knitr::kable(fertplan::get_available("crop"))
   ```
   
   **TODO: Better documentation for the crop part, and its relationship to coefficient (ass. abs.)**
@@ -131,13 +137,13 @@ Let's now set the variables values and bind them to the soil analysis table. Let
 ```{r}
 soil_dt[
   , `:=` (
-    crop                 = "Grano duro",
-    part                 = "Frutti",
-    crop_type            = "Colture a ciclo autunno vernino",
+    crop                 = "Durum wheat",
+    part                 = "Fruits",
+    crop_type            = "Fall / winter crops",
     expected_yield_kg_ha = 2900,
-    prev_crop            = "Prati: polifita con meno del 5%", 
+    prev_crop            = "Grassland, legumes <5%", 
     texture              = "Loam", 
-    drainage_rate        = "slow",
+    drainage_rate        = "Slow",
     oct_jan_2019_pr_mm   = 350,
     n_supply_prev_frt_kg_ha = 0,
     n_supply_atm_coeff   = 1)]
@@ -170,7 +176,7 @@ Now let's proceed on estimating all components:
 soil_dt[
   , `:=` (
     A_N_kg_ha              = fertplan::A_crop_demand(
-      crop_abs       = fertplan::rem_N_coef_of(crop, part) / 100,
+      crop_abs       = fertplan::rem_n_coef_of(crop, part) / 100,
       crop_exp_yield = expected_yield_kg_ha),
     B_N_kg_ha              = fertplan::B_N_in_soil(b1_N_kg_ha, b2_N_kg_ha),
     C_N_kg_ha              = fertplan::C_N_precip_leach(

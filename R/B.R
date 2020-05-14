@@ -8,12 +8,12 @@
 # The Nitrogen coefficient has to be applied to the total Nitrogen soil content
 # percentage to get soil available Nitrogen (B1)
 #
-# @param texture Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
+# @param texture Soil texture (one of `r levels(tables_l$tab_01_wdt$soil_texture)`), Guidelines ed. year 2020 page 21, table 2)
 #
 # @return Nitrogen coefficient
 #
 # @examples
-# \dontrun{ b1_available_n_for("Sandy") # Returns 28.4 }
+# \dontrun{ b1_available_n_for("Sabbioso") # Returns 28.4 }
 b1_available_n_for <- function(texture) `: numeric` ({
 
   row_idx <- pmatch(
@@ -29,16 +29,16 @@ b1_available_n_for <- function(texture) `: numeric` ({
 
 #' Estimate supply of Nitrogen in the soil for the crop (B1)
 #'
-#'
-#' @param total_n_pc Total Nitrogen percentage in soil as appropriatly sampled
-#' @param texture    Soil texture from table 1 (one of "Sandy", "Loam", "Clayey") as appropriatly sampled
+#' @param total_n_pc Total nitrogen percentage in soil
+#' @param texture    Soil texture (one of `r paste0("``", get_available("soil texture"), "``", collapse = ", ")`)
 #'
 #' @return The available N in soil in kg/ha
 #' @export
 #' @importFrom ensurer ensure
+#' @md
 #' @examples
-#' b1_available_n(0.139, "Clayey")                    # Returns 3.3777 kg/ha
-#' b1_available_n(c(0.139, 0.5), c("Clayey", "Loam")) # Returns  3.3777 13.0000
+#' b1_available_n(0.139, "Argilloso") # Returns 3.3777 kg/ha
+#' b1_available_n(c(0.139, 0.5), c("Argilloso", "Franco")) # Returns  3.3777 13.0000
 b1_available_n <- function(total_n_pc, texture) `: numeric` ({
   is_soil_texture(texture)
   ensure(total_n_pc, +is_numeric, +is_vector_pc)
@@ -96,15 +96,16 @@ b2_mineralized_n_coeff_for <- function(cn_ratio, texture) `: numeric` ({
 #'
 #' @param crop_type    Crop type for estimation of the time coefficient (Guidelines ed. year 2020 page 22 and Table 15.3 page 67)
 #' @param som_pc       Soil Organic Matter percentage
-#' @param cn_ratio     Carbon Nitrogen ratio in soil
-#' @param texture      Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
+#' @param cn_ratio     Carbon / nitrogen ratio in soil
+#' @param texture      Soil texture (one of `r paste0("``", get_available("soil texture"), "``", collapse = ", ")`)
 #'
-#' @return Quantity of Nitrogen in kg/ha
+#' @return Quantity of nitrogen in kg/ha
 #' @export
 #' @importFrom ensurer ensure
+#' @md
 #' @examples
 #' # Returns 20.7 kg/ha
-#' b2_mineralized_n("Girasole", 2.3, 9.57, "Clayey")
+#' b2_mineralized_n("Girasole", 2.3, 9.57, "Argilloso")
 b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) `: numeric` ({
 
   ensurer::ensure(som_pc, +is_numeric, +is_vector_pc)
@@ -125,15 +126,16 @@ b2_mineralized_n <- function(crop_type, som_pc, cn_ratio, texture) `: numeric` (
 
 #' Supply of Nitrogen from soil fertility
 #'
-#' This is component B of the fertilization plan equation, resulting from the available nitrogen in soil and nitrogen mineralized from soil organic matter
+#' This is component B of the fertilization plan balance, resulting from the available nitrogen in soil and nitrogen mineralized from soil organic matter
 #'
-#' @param b1 Available Nitrogen in soil, typically from function \code{b1_available_n}
-#' @param b2 Mineralized Nitrogen from SOM, typically from function \code{b2_mineralized_n}
+#' @param b1 Available nitrogen in soil, typically from function [b1_available_n()]
+#' @param b2 Mineralized nitrogen from SOM, typically from function [b2_mineralized_n()]
 #'
-#' @return Total Nitrogen in soil as the sum of available and mineralized Nitrogen
+#' @return Total nitrogen in soil as the sum of available and mineralized Nitrogen
 #'         Note that N supply is multipled by -1 before being returned because B has to
 #'         be subtracted to the total N fertilization!
 #' @export
+#' @md
 B_N_in_soil <- function(b1, b2) `: numeric` ({
   is_numeric(b1)
   is_numeric(b2)
@@ -147,36 +149,46 @@ B_N_in_soil <- function(b1, b2) `: numeric` ({
 
 #' Supply of Phosphorus from soil fertility
 #'
-#' This is component B of the Phosphorus fertilization plan equation
+#' This is component B of the Phosphorus fertilization plan balance.
+#'
+#' @note Supply of P is computed by multiplying three components.
+#' One of the components is P "normal" concentration (mg/kg) in soil that
+#' is looked up in table 10 of the guidelines (page 32 as of edition 2020).
+#' Though the tabled concentrations
+#' are given as ranges per soil texture and crop `fertplan` implementation yields
+#' the central average value for each range, as an example the tabled normal P
+#' concentration range for Sunflower in loam soil is \[18,25\] whereas
+#' a value of 21.5 mg/kg is taken by `fertplan` for further elaboration.
 #'
 #' @param crop            One crop or more crops selected from table 10 of the 'Disciplinare' document
 #' @param p_ppm           Current Phospororus concentration in soil (in ppm or mg/kg)
-#' @param soil_texture    Soil texture (one of "Sandy", "Loam", "Clayey", Guidelines ed. year 2020 page 21, table 2)
+#' @param soil_texture    Soil texture (one of `r paste0("``", get_available("soil texture"), "``", collapse = ", ")`)
 #' @param soil_depth_cm   Depth of soil tillage in cm (usually 30 or 40 cm)
 #'
-#' @return                Total Phospohorus (P2O5) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)
-#'                        due to its fertility
+#' @return  Total Phospohorus (P2O5) quantity in excess (negative sign) or in demand (positive sign, hence to be supplied)
+#'          due to its fertility
 #' @importFrom ensurer ensure
 #' @importFrom data.table `:=`
 #' @export
+#' @md
 #' @examples
 #' # Returns 44.85 kg/ha to be supplied by fertilization
 #' B_P_in_soil(
 #'   crop  = "Girasole",
 #'   p_ppm = 10,
-#'   soil_texture = "Loam",
+#'   soil_texture = "Franco",
 #'   soil_depth   = 30)
 #' # Returns -33.15 kg/ha soil Phosphorus in excess
 #' B_P_in_soil(
 #'   crop  = "Girasole",
 #'   p_ppm = 30,
-#'   soil_texture = "Loam",
+#'   soil_texture = "Franco",
 #'   soil_depth   = 30)
 #' # Keeping soil depth constant:
 #' B_P_in_soil(
 #'   c("Girasole", "Barbabietola"),
 #'   c(20, 30),
-#'   c("Loam", "Loam"),
+#'   rep("Franco", 2),
 #'   30)
 B_P_in_soil <- function(crop, p_ppm, soil_texture, soil_depth_cm) {
 

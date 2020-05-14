@@ -1,8 +1,9 @@
 # H -----------------------------------------------------------------------
 
-#' K Leaching due to clay content in soil
+#' Potassium leaching due to clay content in soil
 #'
-#' K Leaching is estimated by the content of clay in soil in percentage
+#' K leaching is estimated from the amount of clay in soil in percentage
+#' (the higher clay amount the lower K is leached)
 #'
 #' @param clay_pc Clay content in soil in \%
 #'

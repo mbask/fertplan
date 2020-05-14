@@ -2,7 +2,7 @@
 % Please edit documentation in R/H.R
 \name{H_K_leaching}
 \alias{H_K_leaching}
-\title{K Leaching due to clay content in soil}
+\title{Potassium leaching due to clay content in soil}
 \usage{
 H_K_leaching(clay_pc)
 }
@@ -13,7 +13,8 @@ H_K_leaching(clay_pc)
 Supply of K2O in kg/ha
 }
 \description{
-K Leaching is estimated by the content of clay in soil in percentage
+K leaching is estimated from the amount of clay in soil in percentage
+(the higher clay amount the lower K is leached)
 }
 \examples{
 # Returns 60 60 60 10 30 kg/ha

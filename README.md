@@ -62,7 +62,8 @@ The N flow components include:
 
   - **\(f_{N,a}\)** Nitrogen demand of the specific crop proportional to
     its expected yield and its nitrogen absorption coefficient in
-    percent
+    percent. Absorption coefficients are tabled per a number of
+    different crops in the *guidelines*
   - **\(f_{N,b}\)** Nitrogen supply currently in the soil due to its
     fertility. This component sums two nitrogen pools: **b1** available
     nitrogen to the crop, and **b2** nitrogen supply from mineralization
@@ -157,10 +158,10 @@ Matching-variables are:
     to lookup its nitrogen demand in table 15.2 (page 63) of the
     *guidelines* to contribute to **\(f_{N,a}\)** component. The name
     must match one of the following crop names available. Partial
-    matching is not allowed. Note that this implemetation of the table
-    has separated the crop column into two features, “actual crop” and
-    “part” (eg fruits, whole plant, and so on). The available crops
-    are:
+    matching is not allowed. Note that `fertplan` implemetation of the
+    table has separated the crop column into two features, the actual
+    “crop” and “part” (eg fruits, whole plant, and so on). The
+    available crops are:
 
 | x           |
 | :---------- |
@@ -374,12 +375,13 @@ As a reference crop parts include:
 | 17                      |
 | 18                      |
 
-  - **Texture**, soil texture, one of Clayey, Loam, Sandy. Soil texture
-    enters in several flows of the nitrogen balance.
+  - **Texture**, soil texture, one of ‘Clayey’, ‘Loam’, ‘Sandy’. Soil
+    texture enters in several flows of the nitrogen balance.
 
   - **Drainage rate**, it contributes to **\(f_{N,d}\)** component, can
-    be one of No drainage, Slow, Normal, Fast. Drainage rate is looked
-    up in table 4 (page 23) of *guidelines* together with soil texture.
+    be one of ‘No drainage’, ‘Slow’, ‘Normal’, ‘Fast’. Drainage rate is
+    looked up in table 4 (page 23) of *guidelines* together with soil
+    texture.
 
 Environmental and crop-related variables include:
 
@@ -401,19 +403,19 @@ Environmental and crop-related variables include:
     fertilization may be passed as a 0-value to this variable.
 
   - **Organic fertilizer**, this is the type of organic fertilizer as
-    found in table 6 (page 25) of the *guidelines*: Conditioners, Bovine
-    manure, Swine and poultry manure. It contributes to the
+    found in table 6 (page 25) of the *guidelines*: ‘Conditioners’,
+    ‘Bovine manure’, ‘Swine and poultry manure’. It contributes to the
     **\(f_{N,f}\)** component.
 
   - **Years from previous organic fertilization**, this contributes to
     the **\(f_{N,f}\)** component, to compute the quantity of available
     N left in the soil, table 6 (page 25) of the *guidelines*. It can
-    either be 1,2,3 years.
+    either be ‘1’, ‘2’, ‘3’ years.
 
-  - **N from atmosphere or N-fixing bacteria**, , this contributes to
-    the **\(f_{N,g}\)** component and takes the form of a coefficient in
-    the range from 0 to 1 to be applied to the value of 20 kg/ha
-    estimated for a yearly crop close to urban settlements.
+  - **N from atmosphere or N-fixing bacteria**, this contributes to the
+    **\(f_{N,g}\)** component and takes the form of a coefficient in the
+    range from 0 to 1 to be applied to the value of 20 kg/ha estimated
+    for a yearly crop close to urban settlements.
 
 Let’s now set the variables values and bind them to the soil analysis
 table. Let’s suppose the values are constant among all soil samples, as
@@ -432,100 +434,7 @@ soil_l <- list(
   oct_jan_pr_mm        = 350L,
   n_supply_prev_frt_kg_ha = 0L,
   n_supply_atm_coeff   = 1)
-knitr::kable(soil_l)
 ```
-
-<table class="kable_wrapper">
-
-<tbody>
-
-<tr>
-
-<td>
-
-| x           |
-| :---------- |
-| Durum wheat |
-
-</td>
-
-<td>
-
-| x      |
-| :----- |
-| Fruits |
-
-</td>
-
-<td>
-
-| x                   |
-| :------------------ |
-| Fall / winter crops |
-
-</td>
-
-<td>
-
-|    x |
-| ---: |
-| 2900 |
-
-</td>
-
-<td>
-
-| x                       |
-| :---------------------- |
-| Grassland, legumes \<5% |
-
-</td>
-
-<td>
-
-| x    |
-| :--- |
-| Loam |
-
-</td>
-
-<td>
-
-| x    |
-| :--- |
-| Slow |
-
-</td>
-
-<td>
-
-|   x |
-| --: |
-| 350 |
-
-</td>
-
-<td>
-
-| x |
-| -: |
-| 0 |
-
-</td>
-
-<td>
-
-| x |
-| -: |
-| 1 |
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
 
 ### Third step: estimate the components of N balance
 
@@ -535,7 +444,7 @@ Let’s compute each component of the nitrogen balance:
 nutrient_dt <- demand_nutrient(
   soil_dt, 
   soil_l, 
-  nutrient = "nitrogen", 
+  nutrient  = "nitrogen", 
   blnc_cmpt = TRUE)
 knitr::kable(nutrient_dt)
 ```

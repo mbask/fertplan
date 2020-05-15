@@ -37,7 +37,7 @@ Nitrogen fertilization concentration in kg/ha is estimated as the net resultant 
 
 The N flow components include:
 
-  * **$f_{N,a}$** Nitrogen demand of the specific crop proportional to its expected yield and its nitrogen absorption coefficient in percent
+  * **$f_{N,a}$** Nitrogen demand of the specific crop proportional to its expected yield and its nitrogen absorption coefficient in percent. Absorption coefficients are tabled per a number of different crops in the *guidelines*
   * **$f_{N,b}$** Nitrogen supply currently in the soil due to its fertility. This component sums two nitrogen pools: **b1** available nitrogen to the crop, and **b2** nitrogen supply from mineralization of organic matter
   * **$f_{N,c}$** Nitrogen leached due to cumulative precipitation in the period October 1st - January 31st as described on pages 24 and 25 of the *guidelines*. Note that there is an alternative method for estimating N leaching based on tabled values according to drainage rate and soil texture. This latter method is not exported by the package
 # The leaching affects only the available nitrogen part (not total Nitrogen)
@@ -84,10 +84,10 @@ fertplan::i18n_switch("lang_en")
 
 Matching-variables are:
 
-  * **Crop**, this is the name of the crop to be sown and will be used to lookup its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is not allowed. Note that this implemetation of the table has separated the crop column into two features, "actual crop" and "part" (eg fruits, whole plant, and so on). The available crops are:
-  ```{r, echo = FALSE}
-  knitr::kable(fertplan::get_available("crop"))
-  ```
+  * **Crop**, this is the name of the crop to be sown and will be used to lookup its nitrogen demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{N,a}$** component. The name must match one of the following crop names available. Partial matching is not allowed. Note that `fertplan` implemetation of the table has separated the crop column into two features, the actual "crop" and "part" (eg fruits, whole plant, and so on). The available crops are:
+```{r, echo = FALSE}
+knitr::kable(fertplan::get_available("crop"))
+```
   Crops are organized into crop types for convenience:
   
   * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{N,a}$** component. Note that nitrogen demand by crops may greatly differ upon the crop part considered. As an example N coefficients for "sunflower" crop are:
@@ -95,10 +95,10 @@ Matching-variables are:
   knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Sunflower" & element == "N",])
   ```
   
-  As a reference crop parts include:
-  ```{r, echo = FALSE}
-  knitr::kable(fertplan::get_available("part"))
-  ```
+As a reference crop parts include:
+```{r, echo = FALSE}
+knitr::kable(fertplan::get_available("part"))
+```
   
   * **Crop type**, this is the type of crop to be sown to be looked up in table 15.3 (page 67) of the *guidelines*. It is used to estimate the time coefficient, as a ratio of an year, during which the mineralization of nitrogen will take place and, thus, will be available to the crop itself. Crop type contributes to b2 sub-component of **$f_{N,b}$** component. Available crop types are:
   ```{r, echo = FALSE}
@@ -106,13 +106,18 @@ Matching-variables are:
   ```
 
  * **Previous crop**, this is the name or type of the previous crop, to be looked up in table 5 (page 24) of the *guidelines*. Previous crop contributes to **$f_{N,e}$** component. Available matches include:
-  ```{r, echo = FALSE}
-  knitr::kable(gsub("%", "\\\\%", fertplan:::tables_l$tab_05_dt[, crop]), escape = FALSE)
-  ```
+```{r, echo = FALSE}
+knitr::kable(gsub(
+  "%", 
+  "\\\\%", 
+  fertplan:::tables_l$tab_05_dt[, crop]), 
+  escape = FALSE)
+```
  
- * **Texture**, soil texture, one of `r levels(fertplan:::tables_l$tab_01_wdt[, soil_texture])`. Soil texture enters in several flows of the nitrogen balance.
+  * **Texture**, soil texture, one of `r paste0("'", get_available('soil texture'), "'", collapse = ", ")`. Soil texture enters in several flows of the nitrogen balance.
 
-  * **Drainage rate**, it contributes to **$f_{N,d}$** component, can be one of `r levels(fertplan:::tables_l$tab_03_dt[, drainage])`. Drainage rate is looked up in table 4 (page 23) of *guidelines* together with soil texture.
+  * **Drainage rate**, it contributes to **$f_{N,d}$** component, can be one of `r paste0("'", get_available('drainage'), "'", collapse = ", ")`. Drainage rate is looked up in table 4 (page 23) of *guidelines* together with soil texture.
+
 
 
 Environmental and crop-related variables include:
@@ -123,11 +128,11 @@ Environmental and crop-related variables include:
   
   * **Previous organic fertilization**, this is the supply of nitrogen in kg/ha from the organic fertilization performed during previous crop(s). It contributes to the **$f_{N,f}$** component. No organic fertilization may be passed as a 0-value to this variable.
   
-  * **Organic fertilizer**, this is the type of organic fertilizer as found in table 6 (page 25) of the *guidelines*: `r levels(fertplan:::tables_l$tab_06_dt[, organic_fertilizer])`. It contributes to the **$f_{N,f}$** component.
+  * **Organic fertilizer**, this is the type of organic fertilizer as found in table 6 (page 25) of the *guidelines*: `r paste0("'", get_available('organic fertilizer'), "'", collapse = ", ")`. It contributes to the **$f_{N,f}$** component.
   
-  * **Years from previous organic fertilization**, this contributes to the **$f_{N,f}$** component, to compute the quantity of available N left in the soil, table 6 (page 25) of the *guidelines*. It can either be `r paste0(unique(fertplan:::tables_l$tab_06_dt[, frequency]), collapse = ",")` years.
+  * **Years from previous organic fertilization**, this contributes to the **$f_{N,f}$** component, to compute the quantity of available N left in the soil, table 6 (page 25) of the *guidelines*. It can either be `r paste0("'", get_available('frequency'), "'", collapse = ", ")` years.
   
-  * **N from atmosphere or N-fixing bacteria**, , this contributes to the **$f_{N,g}$** component and takes the form of a coefficient in the range from 0 to 1 to be applied to the value of 20 kg/ha estimated for a yearly crop close to urban settlements.
+  * **N from atmosphere or N-fixing bacteria**, this contributes to the **$f_{N,g}$** component and takes the form of a coefficient in the range from 0 to 1 to be applied to the value of 20 kg/ha estimated for a yearly crop close to urban settlements.
 
 
 Let's now set the variables values and bind them to the soil analysis table. Let's suppose the values are constant among all soil samples, as it may be the case when all sampling points come from a uniform field that will be sown with the same crop:
@@ -144,7 +149,6 @@ soil_l <- list(
   oct_jan_pr_mm        = 350L,
   n_supply_prev_frt_kg_ha = 0L,
   n_supply_atm_coeff   = 1)
-knitr::kable(soil_l)
 ```
 
 
@@ -157,7 +161,7 @@ Let's compute each component of the nitrogen balance:
 nutrient_dt <- demand_nutrient(
   soil_dt, 
   soil_l, 
-  nutrient = "nitrogen", 
+  nutrient  = "nitrogen", 
   blnc_cmpt = TRUE)
 knitr::kable(nutrient_dt)
 ```

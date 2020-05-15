@@ -79,24 +79,16 @@ vignettes and on the Lazio Region guidelines.
 Environmental features needed for \strong{nitrogen} nutrient:
 \itemize{
 \item \strong{crop}, The crop name to be sown, to be looked up in table 15.2 (page 63 of the guidelines)
-\item \strong{part}, The part of interest of the crop, either
-Foglie
-Frutti
-Pianta
-Radici
-Turioni. Note that parts are specific on the crop chosen.
+\item \strong{part}, The part of interest of the crop, either ````, \code{Foglie}, ``Frutti``, ``Pianta``, ``Radici``, ``Turioni``. Note that parts are specific on the crop chosen.
 \item \strong{crop_type}, The crop type to be sown, to be looked up in table 15.3 (page 67)
 \item \strong{expected_yield_kg_ha}, Expected crop yield in kg/ha
 \item \strong{prev_crop}, name or type of the previous crop, to be looked up in table 5 (page 24)
-\item \strong{texture}, Soil texture , either Argilloso
-Franco
-Sabbioso
-\item \strong{drainage_rate}, Rate of drainage in soil, either Impedito
-Lento
-Normale
-Rapido
+\item \strong{texture}, Soil texture , either \code{Argilloso}, \code{Franco}, \code{Sabbioso}
+\item \strong{drainage_rate}, Rate of drainage in soil, either \code{Impedito}, \code{Lento}, \code{Normale}, \code{Rapido}
 \item \strong{oct_jan_pr_mm}, cumulative precipitation in mm in the 4 months-period October - January
 \item \strong{n_supply_prev_frt_kg_ha}, Supply from organic fertilizations in kg/ha
+\item \strong{years_ago}, time since last organic fertilization [0,3]
+\item \strong{organic_fertilizer}, type of organic fertilizer, either \code{Ammendanti}, \verb{Liquame bovino}, \verb{Liquame suino e pollina}
 \item \strong{n_supply_atm_coeff}, A ratio to correct the N from atmosphere in kg/ha
 }
 

@@ -47,7 +47,7 @@
 #' Environmental features needed for **nitrogen** nutrient:
 #'
 #'  * **crop**, The crop name to be sown, to be looked up in table 15.2 (page 63 of the guidelines)
-#'  * **part**, The part of interest of the crop, either r paste0("``", get_available("part"), "``", collapse = ", ")`. Note that parts are specific on the crop chosen.
+#'  * **part**, The part of interest of the crop, either `r paste0("``", get_available("part"), "``", collapse = ", ")`. Note that parts are specific on the crop chosen.
 #'  * **crop_type**, The crop type to be sown, to be looked up in table 15.3 (page 67)
 #'  * **expected_yield_kg_ha**, Expected crop yield in kg/ha
 #'  * **prev_crop**, name or type of the previous crop, to be looked up in table 5 (page 24)
@@ -55,7 +55,7 @@
 #'  * **drainage_rate**, Rate of drainage in soil, either `r paste0("``", get_available("drainage"), "``", collapse = ", ")`
 #'  * **oct_jan_pr_mm**, cumulative precipitation in mm in the 4 months-period October - January
 #'  * **n_supply_prev_frt_kg_ha**, Supply from organic fertilizations in kg/ha
-#'  * **years_ago**, time since last organic fertilization [0,3]
+#'  * **years_ago**, time since last organic fertilization \[0,3\]
 #'  * **organic_fertilizer**, type of organic fertilizer, either `r paste0("``", get_available("organic fertilizer"), "``", collapse = ", ")`
 #'  * **n_supply_atm_coeff**, A ratio to correct the N from atmosphere in kg/ha
 #'

@@ -6,14 +6,14 @@
 # @param soil_dt   a \code{data.table} of soil samples bound with environmental and crop-related and variables
 # @param blnc_cmpt should the individual potassium components or just the nutrient balance itself be returned?
 #
-# @return a numeric vector of length equal to the number of rows in \code{soil_dt}
+# @return a `data.table` object with as many rows as those in \code{soil_dt} and a unique column named `potassium`
 demand_potassium <- function(soil_dt, blnc_cmpt) `: dt` ({
 
   flow_cmpnts_c <- paste(LETTERS[5:8], "K_kg_ha", sep = "_")
 
   # prevent no visible binding NOTE
   crop <- part <- expected_yield_kg_ha <- K_ppm <- texture <- soil_depth_cm <- NULL
-  Clay_pc <- potassium_kg_ha <- E_K_kg_ha <- F_K_kg_ha <- G_K_kg_ha <- H_K_kg_ha<- NULL
+  Clay_pc <- potassium <- E_K_kg_ha <- F_K_kg_ha <- G_K_kg_ha <- H_K_kg_ha<- NULL
 
   demand_dt <- soil_dt[
     , `:=` (
@@ -38,8 +38,8 @@ demand_potassium <- function(soil_dt, blnc_cmpt) `: dt` ({
   if (blnc_cmpt) {
     demand_dt[, fertzl_cols, with = FALSE]
   } else {
-    demand_dt[, potassium_kg_ha := E_K_kg_ha + (F_K_kg_ha * G_K_kg_ha) + H_K_kg_ha]
-    demand_dt[, "potassium_kg_ha"]
+    demand_dt[, potassium := E_K_kg_ha + (F_K_kg_ha * G_K_kg_ha) + H_K_kg_ha]
+    demand_dt[, "potassium"]
   }
 })
 

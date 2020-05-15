@@ -6,14 +6,14 @@
 # @param soil_dt   a \code{data.table} of soil samples bound with environmental and crop-related and variables
 # @param blnc_cmpt should the individual phosphorus components or just the nutrient balance itself be returned?
 #
-# @return a numeric vector of length equal to the number of rows in \code{soil_dt}
+# @return a `data.table` object with as many rows as those in \code{soil_dt} and a unique column named `phosphorus`
 demand_phosphorus <- function(soil_dt, blnc_cmpt) `: dt` ({
 
   flow_cmpnts_c <- paste(LETTERS[1:3], "P_kg_ha", sep = "_")
 
   # prevent no visible binding NOTE
   crop <- part <- expected_yield_kg_ha <- crop_class <- P_ppm <- texture <- soil_depth_cm <- NULL
-  Limestone_pc <- phosphorus_kg_ha <- A_P_kg_ha <- B_P_kg_ha <- C_P_kg_ha <- NULL
+  Limestone_pc <- phosphorus <- A_P_kg_ha <- B_P_kg_ha <- C_P_kg_ha <- NULL
 
   demand_dt <- soil_dt[
     , `:=` (
@@ -40,8 +40,8 @@ demand_phosphorus <- function(soil_dt, blnc_cmpt) `: dt` ({
   if (blnc_cmpt) {
     demand_dt[, fertzl_cols, with = FALSE]
   } else {
-    demand_dt[, phosphorus_kg_ha := A_P_kg_ha + B_P_kg_ha * C_P_kg_ha]
-    demand_dt[, "phosphorus_kg_ha"]
+    demand_dt[, phosphorus := A_P_kg_ha + B_P_kg_ha * C_P_kg_ha]
+    demand_dt[, "phosphorus"]
   }
 })
 

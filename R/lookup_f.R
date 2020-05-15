@@ -20,7 +20,9 @@ get_available <- function(variable = NULL) {
     "drainage"           = "drainage",
     "soil texture"       = "soil_texture",
     "organic fertilizer" = "organic_fertilizer",
-    "previous crops"     = "crop")
+    "frequency"          = "frequency",
+    "previous crops"     = "crop",
+    "crop class"         = "crop")
 
   if (is.null(variable)) {
     return(names(avail_vars))
@@ -33,11 +35,17 @@ get_available <- function(variable = NULL) {
           split(tables_l$all_01_dt, tables_l$all_01_dt$crop_group),
           function(sg_dt) { unique(sg_dt$crop) })
       } else {
-        if (variable %in% c("crop", "part")) return(levels(tables_l$all_01_dt[[table_var_name]]))
-        if (table_var_name == "drainage") return(levels(tables_l$tab_03_dt[[table_var_name]]))
-        if (table_var_name == "soil_texture") return(levels(tables_l$tab_01_wdt[[table_var_name]]))
-        if (table_var_name == "organic_fertilizer") return (levels(tables_l$tab_06_dt[[table_var_name]]))
-        if (variable == "previous crops") return (levels(tables_l$tab_05_dt[[table_var_name]]))
+        with(
+          tables_l, {
+            if (variable %in% c("crop", "part")) return(levels(all_01_dt[[table_var_name]]))
+            if (variable == "drainage")          return(levels(tab_03_dt[[table_var_name]]))
+            if (variable == "soil texture")      return(levels(tab_01_wdt[[table_var_name]]))
+            if (variable == "organic fertilizer") return (levels(tab_06_dt[[table_var_name]]))
+            if (variable == "previous crops")    return (levels(tab_05_dt[[table_var_name]]))
+            if (variable == "crop class")        return (levels(tab_10_dt[[table_var_name]]))
+            if (variable == "frequency")         return (unique(tab_06_dt[[table_var_name]]))
+          }
+        )
       }
     } else {
       NULL

@@ -14,8 +14,10 @@
 #' head(get_available("crop"))
 get_available <- function(variable = NULL) {
   avail_vars <- c(
+    #variable            = table_var_name
     "crop"               = "crop",
     "crop by group"      = "crop by group",
+    "crop type"          = "crop_type",
     "part"               = "part",
     "drainage"           = "drainage",
     "soil texture"       = "soil_texture",
@@ -38,6 +40,7 @@ get_available <- function(variable = NULL) {
         with(
           tables_l, {
             if (variable %in% c("crop", "part")) return(levels(all_01_dt[[table_var_name]]))
+            if (variable == "crop type")         return(levels(all_02_dt[[table_var_name]]))
             if (variable == "drainage")          return(levels(tab_03_dt[[table_var_name]]))
             if (variable == "soil texture")      return(levels(tab_01_wdt[[table_var_name]]))
             if (variable == "organic fertilizer") return (levels(tab_06_dt[[table_var_name]]))

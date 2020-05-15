@@ -91,9 +91,9 @@ knitr::kable(fertplan::get_available("crop"))
   Crops are organized into crop types for convenience:
   
   * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{N,a}$** component. Note that nitrogen demand by crops may greatly differ upon the crop part considered. As an example N coefficients for "sunflower" crop are:
-  ```{r, echo = FALSE}
-  knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Sunflower" & element == "N",])
-  ```
+```{r, echo = FALSE}
+knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Sunflower" & element == "N",])
+```
   
 As a reference crop parts include:
 ```{r, echo = FALSE}
@@ -101,9 +101,9 @@ knitr::kable(fertplan::get_available("part"))
 ```
   
   * **Crop type**, this is the type of crop to be sown to be looked up in table 15.3 (page 67) of the *guidelines*. It is used to estimate the time coefficient, as a ratio of an year, during which the mineralization of nitrogen will take place and, thus, will be available to the crop itself. Crop type contributes to b2 sub-component of **$f_{N,b}$** component. Available crop types are:
-  ```{r, echo = FALSE}
-  knitr::kable(fertplan:::tables_l$all_02_dt[, crop_type])
-  ```
+```{r, echo = FALSE}
+knitr::kable(fertplan::get_available("crop type"))
+```
 
  * **Previous crop**, this is the name or type of the previous crop, to be looked up in table 5 (page 24) of the *guidelines*. Previous crop contributes to **$f_{N,e}$** component. Available matches include:
 ```{r, echo = FALSE}

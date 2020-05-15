@@ -8,7 +8,7 @@ get_available(variable = NULL)
 }
 \arguments{
 \item{variable}{character vector pointing at the tabled variable to look up.
-One of \code{crop}, \verb{crop by group}, \code{part}, \code{drainage}, \verb{soil texture}, \verb{organic fertilizer}, \code{frequency}, \verb{previous crops}, \verb{crop class} or \code{NULL} (default).}
+One of \code{crop}, \verb{crop by group}, \verb{crop type}, \code{part}, \code{drainage}, \verb{soil texture}, \verb{organic fertilizer}, \code{frequency}, \verb{previous crops}, \verb{crop class} or \code{NULL} (default).}
 }
 \value{
 a character vector of available tabled variable values, a list of

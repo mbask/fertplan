@@ -332,22 +332,22 @@ As a reference crop parts include:
 | x                   |
 | :------------------ |
 | 1                   |
-| Fall / winter crops |
 | 2                   |
 | 3                   |
+| Fall / winter crops |
+| 5                   |
 | Sunflower           |
 | 7                   |
 | 8                   |
 | 9                   |
+| 10                  |
+| 11                  |
+| 12                  |
+| 13                  |
 | 14                  |
 | 15                  |
 | 16                  |
 | 17                  |
-| 5                   |
-| 13                  |
-| 10                  |
-| 12                  |
-| 11                  |
 
   - **Previous crop**, this is the name or type of the previous crop, to
     be looked up in table 5 (page 24) of the *guidelines*. Previous crop
@@ -565,28 +565,28 @@ nutrient_dt <- demand_nutrient(
 knitr::kable(nutrient_dt)
 ```
 
-| nitrogen\_kg\_ha |
-| ---------------: |
-|          10.8569 |
-|           6.5071 |
-|           7.3976 |
-|           6.6852 |
-|          13.7910 |
-|           9.9755 |
-|           7.5757 |
-|           7.0505 |
-|          10.3317 |
-|           8.7288 |
-|           6.7788 |
-|          11.3067 |
-|           5.2695 |
-|           4.7599 |
-|           9.9755 |
-|           7.0414 |
-|           4.9055 |
-|           9.3476 |
-|           8.3726 |
-|           9.7038 |
+| nitrogen |
+| -------: |
+|  10.8569 |
+|   6.5071 |
+|   7.3976 |
+|   6.6852 |
+|  13.7910 |
+|   9.9755 |
+|   7.5757 |
+|   7.0505 |
+|  10.3317 |
+|   8.7288 |
+|   6.7788 |
+|  11.3067 |
+|   5.2695 |
+|   4.7599 |
+|   9.9755 |
+|   7.0414 |
+|   4.9055 |
+|   9.3476 |
+|   8.3726 |
+|   9.7038 |
 
 That’s it as far as nitrogen fetilization plan is concerned.
 

@@ -79,7 +79,7 @@ vignettes and on the Lazio Region guidelines.
 Environmental features needed for \strong{nitrogen} nutrient:
 \itemize{
 \item \strong{crop}, The crop name to be sown, to be looked up in table 15.2 (page 63 of the guidelines)
-\item \strong{part}, The part of interest of the crop, either ````, \code{Foglie}, ``Frutti``, ``Pianta``, ``Radici``, ``Turioni``. Note that parts are specific on the crop chosen.
+\item \strong{part}, The part of interest of the crop, either \verb{?}, \code{Foglie}, \code{Frutto}, \code{Pianta}, \code{Radici}, \code{Seme}, \code{Turione}. Note that parts are specific on the crop chosen.
 \item \strong{crop_type}, The crop type to be sown, to be looked up in table 15.3 (page 67)
 \item \strong{expected_yield_kg_ha}, Expected crop yield in kg/ha
 \item \strong{prev_crop}, name or type of the previous crop, to be looked up in table 5 (page 24)
@@ -121,7 +121,7 @@ guideline of Region Lazio.
 \examples{
 soil_vars <- list(
 crop                 = "Girasole",
-part                 = "Frutti",
+part                 = "Seme",
 expected_yield_kg_ha = 1330L,
 texture              = "Franco",
 soil_depth_cm        = 30L)

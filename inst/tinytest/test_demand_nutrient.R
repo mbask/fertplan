@@ -2,7 +2,7 @@ data("soils")
 data("soils_spatial")
 soil_vars <- list(
   crop                 = "Girasole",
-  part                 = "Frutti",
+  part                 = "Seme",
   expected_yield_kg_ha = 1330L,
   texture              = "Franco",
   crop_type            = "Girasole",

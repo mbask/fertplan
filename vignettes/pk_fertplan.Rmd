@@ -141,7 +141,7 @@ Let's now set the variables values and bind them to the soil analysis table. Let
 ```{r}
 soil_l <- list(
     crop                 = "Durum wheat",
-    part                 = "Fruits",
+    part                 = "Seed",
     crop_class           = "Durum wheat",
     expected_yield_kg_ha = 2900L,
     texture              = "Loam",

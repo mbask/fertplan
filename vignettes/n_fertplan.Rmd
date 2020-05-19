@@ -92,7 +92,7 @@ knitr::kable(fertplan::get_available("crop"))
   
   * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{N,a}$** component. Note that nitrogen demand by crops may greatly differ upon the crop part considered. As an example N coefficients for "sunflower" crop are:
 ```{r, echo = FALSE}
-knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Sunflower" & element == "N",])
+knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Durum wheat" & element == "N",])
 ```
   
 As a reference crop parts include:
@@ -140,7 +140,7 @@ Let's now set the variables values and bind them to the soil analysis table. Let
 ```{r}
 soil_l <- list(
   crop                 = "Durum wheat",
-  part                 = "Fruits",
+  part                 = "Seed",
   crop_type            = "Fall / winter crops",
   expected_yield_kg_ha = 2900L,
   prev_crop            = "Grassland, legumes <5%", 

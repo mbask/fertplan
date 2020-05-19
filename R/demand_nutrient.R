@@ -115,7 +115,7 @@
 #' @examples
 #' soil_vars <- list(
 #' crop                 = "Girasole",
-#' part                 = "Frutti",
+#' part                 = "Seme",
 #' expected_yield_kg_ha = 1330L,
 #' texture              = "Franco",
 #' soil_depth_cm        = 30L)

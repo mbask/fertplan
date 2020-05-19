@@ -12,6 +12,7 @@
 #' @md
 #' @examples
 #' head(get_available("crop"))
+#' get_available("languages")
 get_available <- function(variable = NULL) {
   avail_vars <- c(
     #variable            = table_var_name
@@ -24,7 +25,8 @@ get_available <- function(variable = NULL) {
     "organic fertilizer" = "organic_fertilizer",
     "frequency"          = "frequency",
     "previous crops"     = "crop",
-    "crop class"         = "crop")
+    "crop class"         = "crop",
+    "languages"          = "avail_langs")
 
   if (is.null(variable)) {
     return(names(avail_vars))
@@ -47,6 +49,7 @@ get_available <- function(variable = NULL) {
             if (variable == "previous crops")    return (levels(tab_05_dt[[table_var_name]]))
             if (variable == "crop class")        return (levels(tab_10_dt[[table_var_name]]))
             if (variable == "frequency")         return (unique(tab_06_dt[[table_var_name]]))
+            if (variable == "languages")         return (i18n_l$avail_langs_v)
           }
         )
       }

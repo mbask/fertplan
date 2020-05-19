@@ -2,22 +2,25 @@
 #'
 #' @param variable character vector pointing at the tabled variable to look up.
 #' One of `r paste0("``", get_available(), "``", collapse = ", ")` or `NULL` (default).
+#' @param aux      character vector useful to pass the part when variable is "crop by part group"
 #'
 #' @return a character vector of available tabled variable values, a list of
 #' variable values (when `variable` is "group_crop"), or a character vector
 #' of available variables to be looked up (when `variable` is `NULL`),
 #' or `NULL` when no matching variables were passed.
+#' @importFrom data.table  copy
 #' @export
 #'
 #' @md
 #' @examples
 #' head(get_available("crop"))
 #' get_available("languages")
-get_available <- function(variable = NULL) {
+get_available <- function(variable = NULL, aux = NULL) {
   avail_vars <- c(
     #variable            = table_var_name
     "crop"               = "crop",
     "crop by group"      = "crop by group",
+    "crop by part group" = "crop by part",
     "crop type"          = "crop_type",
     "part"               = "part",
     "drainage"           = "drainage",
@@ -34,10 +37,19 @@ get_available <- function(variable = NULL) {
     is_character(variable)
     if (variable %in% names(avail_vars)) {
       table_var_name <- avail_vars[variable]
-      if (table_var_name == "crop by group") {
+      if (table_var_name %in% c("crop by group", "crop by part")) {
+        if (table_var_name == "crop by part") {
+          # Filtered crops by part, grouped by group
+          is_character(aux)
+          crop_group <- crop <- part <- NULL
+          tmp_dt <- data.table::copy(tables_l$all_01_dt[part == aux])[, crop_group := factor(crop_group)][, crop := factor(crop)]
+        } else {
+          # crops grouped by group
+          tmp_dt <- data.table::copy(tables_l$all_01_dt)
+        }
         lapply(
-          split(tables_l$all_01_dt, tables_l$all_01_dt$crop_group),
-          function(sg_dt) { unique(sg_dt$crop) })
+          X   = split(tmp_dt, tmp_dt$crop_group),
+          FUN = function(sg_dt) { unique(sg_dt$crop) })
       } else {
         with(
           tables_l, {

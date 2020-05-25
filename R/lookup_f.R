@@ -33,6 +33,9 @@ get_available <- function(variable = NULL, aux = NULL, is_removal = FALSE) {
     "crop class"         = "crop",
     "languages"          = "avail_langs")
 
+
+  # Needs refactoring!
+
   if (is.null(variable)) {
     return(names(avail_vars))
   } else {

@@ -4,13 +4,16 @@
 \alias{get_available}
 \title{Get available variable values localized in current language}
 \usage{
-get_available(variable = NULL, aux = NULL)
+get_available(variable = NULL, aux = NULL, is_removal = FALSE)
 }
 \arguments{
 \item{variable}{character vector pointing at the tabled variable to look up.
 One of \code{crop}, \verb{crop by group}, \verb{crop by part group}, \verb{crop type}, \code{part}, \code{drainage}, \verb{soil texture}, \verb{organic fertilizer}, \code{frequency}, \verb{previous crops}, \verb{crop class}, \code{languages} or \code{NULL} (default).}
 
 \item{aux}{character vector useful to pass the part when variable is "crop by part group"}
+
+\item{is_removal}{boolean value useful to select only crops featuring removal
+coefficients, for variable assuming values "crop", "crop by group", "crop by part group", and "part"}
 }
 \value{
 a character vector of available tabled variable values, a list of

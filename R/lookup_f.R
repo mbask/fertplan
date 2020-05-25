@@ -3,6 +3,8 @@
 #' @param variable character vector pointing at the tabled variable to look up.
 #' One of `r paste0("``", get_available(), "``", collapse = ", ")` or `NULL` (default).
 #' @param aux      character vector useful to pass the part when variable is "crop by part group"
+#' @param is_removal boolean value useful to select only crops featuring removal
+#'   coefficients, for variable assuming values "crop", "crop by group", "crop by part group", and "part"
 #'
 #' @return a character vector of available tabled variable values, a list of
 #' variable values (when `variable` is "group_crop"), or a character vector
@@ -15,7 +17,7 @@
 #' @examples
 #' head(get_available("crop"))
 #' get_available("languages")
-get_available <- function(variable = NULL, aux = NULL) {
+get_available <- function(variable = NULL, aux = NULL, is_removal = FALSE) {
   avail_vars <- c(
     #variable            = table_var_name
     "crop"               = "crop",
@@ -42,18 +44,37 @@ get_available <- function(variable = NULL, aux = NULL) {
           # Filtered crops by part, grouped by group
           is_character(aux)
           crop_group <- crop <- part <- NULL
-          tmp_dt <- data.table::copy(tables_l$all_01_dt[part == aux])[, crop_group := factor(crop_group)][, crop := factor(crop)]
+          if (is_removal) {
+            coeff <- NULL
+            tmp_dt <- data.table::copy(tables_l$all_01_dt[part == aux & coeff == "asp."])[, crop_group := factor(crop_group)][, crop := factor(crop)]
+          } else {
+            tmp_dt <- data.table::copy(tables_l$all_01_dt[part == aux])[, crop_group := factor(crop_group)][, crop := factor(crop)]
+          }
         } else {
           # crops grouped by group
-          tmp_dt <- data.table::copy(tables_l$all_01_dt)
+          if (is_removal) {
+            coeff <- NULL
+            tmp_dt <- data.table::copy(tables_l$all_01_dt[coeff == "asp.",])
+          } else {
+            tmp_dt <- data.table::copy(tables_l$all_01_dt)
+          }
         }
         lapply(
           X   = split(tmp_dt, tmp_dt$crop_group),
           FUN = function(sg_dt) { unique(sg_dt$crop) })
       } else {
+        # not (table_var_name %in% c("crop by group", "crop by part"))
         with(
           tables_l, {
-            if (variable %in% c("crop", "part")) return(levels(all_01_dt[[table_var_name]]))
+            if (variable %in% c("crop", "part")) {
+              if (is_removal) {
+                coeff <- NULL
+                tmp_dt <- data.table::copy(tables_l$all_01_dt[coeff == "asp.",])
+              } else {
+                tmp_dt <- data.table::copy(tables_l$all_01_dt)
+              }
+              return(levels(factor(tmp_dt[[table_var_name]])))
+            }
             if (variable == "crop type")         return(levels(all_02_dt[[table_var_name]]))
             if (variable == "drainage")          return(levels(tab_03_dt[[table_var_name]]))
             if (variable == "soil texture")      return(levels(tab_01_wdt[[table_var_name]]))

@@ -297,7 +297,8 @@ Matching-variables are:
 | 127                   |
 | 128                   |
 | 129                   |
-|                       |
+| 130                   |
+| 131                   |
 
 Crops are organized into crop types for convenience:
 
@@ -306,22 +307,27 @@ Crops are organized into crop types for convenience:
     by crops may greatly differ upon the crop part considered. As an
     example N coefficients for “sunflower” crop are:
 
-| crop\_group      | crop      | part        | coeff | element | coeff\_pc |
-| :--------------- | :-------- | :---------- | :---- | :------ | --------: |
-| foraging species | Sunflower | Whole plant | ass.  | N       |      4.31 |
-| foraging species | Sunflower | Seed        | asp.  | N       |      2.80 |
+| crop\_group | crop        | part  | coeff | element | coeff\_pc |
+| :---------- | :---------- | :---- | :---- | :------ | --------: |
+| Herbage     | Durum wheat | Plant | ass.  | N       |      3.11 |
+| Herbage     | Durum wheat | Seed  | asp.  | N       |      2.42 |
 
 As a reference crop parts include:
 
-| x           |
-| :---------- |
-| ?           |
-| Leaves      |
-| Fuit        |
-| Whole plant |
-| Root        |
-| Seed        |
-| Spear       |
+| x             |
+| :------------ |
+| Flower-head   |
+| Head          |
+| Ribs          |
+| Leaves        |
+| Fruit         |
+| Flower+Leaves |
+| Plant         |
+| Root + plant  |
+| Root          |
+| Seed          |
+| Tuber         |
+| Spear         |
 
   - **Crop type**, this is the type of crop to be sown to be looked up
     in table 15.3 (page 67) of the *guidelines*. It is used to estimate

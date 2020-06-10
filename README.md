@@ -158,176 +158,175 @@ Matching-variables are:
     to lookup its nitrogen demand in table 15.2 (page 63) of the
     *guidelines* to contribute to **\(f_{N,a}\)** component. The name
     must match one of the following crop names available. Partial
-    matching is not allowed. Note that `fertplan` implemetation of the
+    matching is not allowed. Note that `fertplan` implementation of the
     table has separated the crop column into two features, the actual
     “crop” and “part” (eg fruits, whole plant, and so on). The
     available crops are:
 
-| x                     |
-| :-------------------- |
-| 1                     |
-| 2                     |
-| 3                     |
-| 4                     |
-| 5                     |
-| 6                     |
-| 7                     |
-| 8                     |
-| 9                     |
-| 10                    |
-| 11                    |
-| 12                    |
-| 13                    |
-| 14                    |
-| 15                    |
-| 16                    |
-| 17                    |
-| 18                    |
-| 19                    |
-| 20                    |
-| 21                    |
-| 22                    |
-| 23                    |
-| 24                    |
-| 25                    |
-| 26                    |
-| 27                    |
-| 28                    |
-| 29                    |
-| 30                    |
-| 31                    |
-| 32                    |
-| 33                    |
-| 34                    |
-| 35                    |
-| 36                    |
-| 37                    |
-| 38                    |
-| 39                    |
-| 40                    |
-| 41                    |
-| 42                    |
-| 43                    |
-| 44                    |
-| 45                    |
-| 46                    |
-| Strawberry            |
-| Sunflower             |
-| Durum wheat           |
-| Soft wheat            |
-| Soft wheat (biscuits) |
-| 49                    |
-| 50                    |
-| 51                    |
-| 52                    |
-| 53                    |
-| 54                    |
-| 55                    |
-| 56                    |
-| 57                    |
-| 58                    |
-| 59                    |
-| 60                    |
-| 61                    |
-| 62                    |
-| 63                    |
-| 64                    |
-| 65                    |
-| 66                    |
-| 67                    |
-| 68                    |
-| 69                    |
-| 70                    |
-| 71                    |
-| 72                    |
-| 73                    |
-| 74                    |
-| 75                    |
-| 76                    |
-| 77                    |
-| 78                    |
-| 79                    |
-| 80                    |
-| 81                    |
-| 82                    |
-| 83                    |
-| 84                    |
-| 85                    |
-| 86                    |
-| 87                    |
-| 88                    |
-| 89                    |
-| 90                    |
-| 91                    |
-| 92                    |
-| 93                    |
-| 94                    |
-| 95                    |
-| 96                    |
-| 97                    |
-| 98                    |
-| 99                    |
-| 100                   |
-| 101                   |
-| 102                   |
-| 103                   |
-| 104                   |
-| 105                   |
-| 106                   |
-| 107                   |
-| 108                   |
-| 109                   |
-| 110                   |
-| 111                   |
-| 112                   |
-| 113                   |
-| 114                   |
-| 115                   |
-| 116                   |
-| 117                   |
-| 118                   |
-| 119                   |
-| 120                   |
-| 121                   |
-| 122                   |
-| 123                   |
-| 124                   |
-| 125                   |
-| 126                   |
-| 127                   |
-| 128                   |
-| 129                   |
-| 130                   |
-| 131                   |
+| x                                                     |
+| :---------------------------------------------------- |
+| Kiwifruit                                             |
+| Garlic                                                |
+| Apricot                                               |
+| Orange                                                |
+| Green asparagus                                       |
+| Oat                                                   |
+| Baby leaf                                             |
+| Sugar beet                                            |
+| Basil                                                 |
+| Chard ribs                                            |
+| Chard leaves                                          |
+| Turnip broccoli                                       |
+| Romanesco broccoli                                    |
+| Fibre hemp                                            |
+| White cabbage                                         |
+| Artichoke                                             |
+| Cardoon, Thistle                                      |
+| Carrot                                                |
+| Chestnut tree                                         |
+| Cauliflower                                           |
+| Cabbage                                               |
+| Ethiopian rape, Ethiopian mustard, Abyssinian mustard |
+| Kohlrabi or German turnip                             |
+| Chickpea                                              |
+| Cucumber                                              |
+| Chicory                                               |
+| Wild cherry, sweet cherry                             |
+| Turnip greens                                         |
+| Onion                                                 |
+| Clementine                                            |
+| Watermelon                                            |
+| Rapeseed                                              |
+| Endive and escarole                                   |
+| Cock’s-foot, orchard grass, cat grass                 |
+| Alfalfa                                               |
+| Winter or summer herbage or temporary grassland       |
+| Mixed winter or summer herbage or temporary grassland |
+| Green bean                                            |
+| Bean                                                  |
+| Dried bean                                            |
+| Spelt or spelled                                      |
+| Broad bean, fava bean, or faba bean                   |
+| Field bean                                            |
+| Festuca arundinacea                                   |
+| Common fig                                            |
+| Fennel                                                |
+| Strawberry                                            |
+| Sunflower                                             |
+| Durum wheat                                           |
+| Common wheat, bread wheat                             |
+| Common wheat, bread wheat (biscuits)                  |
+| Strength Wheat or Superior Breadmaking Wheat          |
+| Endive                                                |
+| Kaki                                                  |
+| Raspberry                                             |
+| Head lettuce                                          |
+| Head lettuce (protected cultivation)                  |
+| Lentil (grain)                                        |
+| Lemon                                                 |
+| Flax (fibre)                                          |
+| Flax (grain)                                          |
+| Ryegrass (Lolium) for silage                          |
+| Italian ryegrass                                      |
+| White lupin                                           |
+| Maize                                                 |
+| Sweet maize                                           |
+| Silage maize                                          |
+| Mandarin orange                                       |
+| Almond                                                |
+| Eggplant                                              |
+| Apple                                                 |
+| Melon, cantalupe, winter melon                        |
+| Cranberry                                             |
+| Medlar and Loquat                                     |
+| Nectarins                                             |
+| Hazelnut                                              |
+| Common walnut                                         |
+| Olive                                                 |
+| Barley                                                |
+| Foxtail millet                                        |
+| Potato                                                |
+| Pepper (bell pepper, sweet pepper)                    |
+| Pear                                                  |
+| Peach                                                 |
+| Poplar                                                |
+| Poplar for biomass                                    |
+| Pea (fresh)                                           |
+| Protein pea (with straw)                              |
+| Protein pea (without straw)                           |
+| Pistachio                                             |
+| Tomato for processing                                 |
+| Tomato for fresh market (field)                       |
+| Tomato for fresh market (greenhouse)                  |
+| Leek                                                  |
+| Clover meadow                                         |
+| Hill meadow-pasture                                   |
+| Polyphite meadows \> 50 % legumes                     |
+| Hill polyphite cultivated meadows                     |
+| Plain permanent meadows                               |
+| Parsley                                               |
+| Radicchio (red chicory)                               |
+| Horseradish                                           |
+| Turnip                                                |
+| Radish                                                |
+| Ribes                                                 |
+| Rice                                                  |
+| Blueberry                                             |
+| Rocket or Arucula (first cut)                         |
+| Rocket or Arucula (second cut)                        |
+| Shallot                                               |
+| Escarole                                              |
+| Celery                                                |
+| Rye                                                   |
+| Soybean                                               |
+| Sorghum                                               |
+| Sorghum grain                                         |
+| Spinach                                               |
+| Spinach (for processing)                              |
+| European plum                                         |
+| Tobacco Bright                                        |
+| Tobacco Bright (whole plant)                          |
+| Tobacco Burley                                        |
+| Tobacco Burley (whole plant)                          |
+| Triticale                                             |
+| Table grape                                           |
+| Gooseberry                                            |
+| Valerianella                                          |
+| Savoy cabbage                                         |
+| Savoy cabbage (for processing)                        |
+| Grapes                                                |
+| Pumpkin                                               |
+| Zucchini (for processing)                             |
+| Zucchini (for fresh market)                           |
 
 Crops are organized into crop types for convenience:
 
   - **Crop part**, this is the part of the crop to be sown that will
     contribute to **\(f_{N,a}\)** component. Note that nitrogen demand
     by crops may greatly differ upon the crop part considered. As an
-    example N coefficients for “sunflower” crop are:
+    example N coefficients for “Durum wheat” crop are:
 
-| crop\_group | crop        | part  | coeff | element | coeff\_pc |
-| :---------- | :---------- | :---- | :---- | :------ | --------: |
-| Herbage     | Durum wheat | Plant | ass.  | N       |      3.11 |
-| Herbage     | Durum wheat | Seed  | asp.  | N       |      2.42 |
+| crop\_group     | crop        | part  | coeff | element | coeff\_pc |
+| :-------------- | :---------- | :---- | :---- | :------ | --------: |
+| Herbaceous crop | Durum wheat | Plant | ass.  | N       |      3.11 |
+| Herbaceous crop | Durum wheat | Seed  | asp.  | N       |      2.42 |
 
 As a reference crop parts include:
 
-| x             |
-| :------------ |
-| Flower-head   |
-| Head          |
-| Ribs          |
-| Leaves        |
-| Fruit         |
-| Flower+Leaves |
-| Plant         |
-| Root + plant  |
-| Root          |
-| Seed          |
-| Tuber         |
-| Spear         |
+| x               |
+| :-------------- |
+| Flower-head     |
+| Head of salad   |
+| Ribs            |
+| Leaves          |
+| Fruit           |
+| Flower + Leaves |
+| Plant           |
+| Root + Plant    |
+| Root            |
+| Seed            |
+| Tuber           |
+| Spear           |
 
   - **Crop type**, this is the type of crop to be sown to be looked up
     in table 15.3 (page 67) of the *guidelines*. It is used to estimate
@@ -337,51 +336,51 @@ As a reference crop parts include:
     sub-component of **\(f_{N,b}\)** component. Available crop types
     are:
 
-| x                   |
-| :------------------ |
-| 1                   |
-| 2                   |
-| 3                   |
-| Fall / winter crops |
-| 5                   |
-| Sunflower           |
-| 7                   |
-| 8                   |
-| 9                   |
-| 10                  |
-| 11                  |
-| 12                  |
-| 13                  |
-| 14                  |
-| 15                  |
-| 16                  |
-| 17                  |
+| x                                   |
+| :---------------------------------- |
+| Orchards in production              |
+| Sugar beet                          |
+| Hemp                                |
+| Fall / winter crops                 |
+| Cocksfoot                           |
+| Sunflower                           |
+| Flax                                |
+| White lupin                         |
+| Maize                               |
+| Vegetables                          |
+| Short-cycle vegetables (\<3 months) |
+| Long-cycle vegetables (\>1 year)    |
+| Meadows                             |
+| Rice                                |
+| Soybean                             |
+| Sorghum                             |
+| Tobacco                             |
 
   - **Previous crop**, this is the name or type of the previous crop, to
     be looked up in table 5 (page 24) of the *guidelines*. Previous crop
     contributes to **\(f_{N,e}\)** component. Available matches include:
 
-| x                       |
-| :---------------------- |
-| 1                       |
-| 2                       |
-| 3                       |
-| 4                       |
-| Sunflower               |
-| 6                       |
-| 7                       |
-| 8                       |
-| 9                       |
-| 10                      |
-| 15                      |
-| 11                      |
-| 12                      |
-| 13                      |
-| 14                      |
-| Grassland, legumes \<5% |
-| 16                      |
-| 17                      |
-| 18                      |
+| x                                                                       |
+| :---------------------------------------------------------------------- |
+| Sugar beet                                                              |
+| Fall-Winter cereals: straw is removed                                   |
+| Fall-Winter cereals: straw is buried                                    |
+| Rapeseed                                                                |
+| Sunflower                                                               |
+| Grain legumes (pea, bean, lentil, etc.)                                 |
+| Maize (o corn): stalks asported                                         |
+| Maize (o corn): buried stalks                                           |
+| Minor leaf vegetables                                                   |
+| Potato                                                                  |
+| Tomatoes, other vegetables (e.g. cucurbits, cruciferous and liliaceous) |
+| Meadows: short-lived or clover                                          |
+| Meadows: alfalfa in good condition                                      |
+| Meadows: polyphite \>15% legumes                                        |
+| Meadows: polyphyte 5-15% fodder legumes                                 |
+| Meadows: polyphyte \<5% fodder legumes                                  |
+| Soybean                                                                 |
+| Sorghum                                                                 |
+| Green manure of leguminous plants (in autumn-winter or summer coverage) |
 
   - **Texture**, soil texture, one of ‘Clayey’, ‘Loam’, ‘Sandy’. Soil
     texture enters in several flows of the nitrogen balance.
@@ -411,7 +410,7 @@ Environmental and crop-related variables include:
     fertilization may be passed as a 0-value to this variable.
 
   - **Organic fertilizer**, this is the type of organic fertilizer as
-    found in table 6 (page 25) of the *guidelines*: ‘Conditioners’,
+    found in table 6 (page 25) of the *guidelines*: ‘Amendments’,
     ‘Bovine manure’, ‘Swine and poultry manure’. It contributes to the
     **\(f_{N,f}\)** component.
 
@@ -436,7 +435,7 @@ soil_l <- list(
   part                 = "Seed",
   crop_type            = "Fall / winter crops",
   expected_yield_kg_ha = 2900L,
-  prev_crop            = "Grassland, legumes <5%", 
+  prev_crop            = "Meadows: polyphyte <5% fodder legumes", 
   texture              = "Loam", 
   drainage_rate        = "Slow",
   oct_jan_pr_mm        = 350L,

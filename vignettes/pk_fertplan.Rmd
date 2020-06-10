@@ -101,13 +101,13 @@ fertplan::i18n_switch("lang_en")
 
 Matching-variables are:
 
-  * **Crop**, this is the name of the crop to be sown and will be used to look up its phosphorus or potassium demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{P,a}$** or **$f_{K,e}$** components. The name must match one of the following crop names available. Partial matching is not allowed. Note that `fertplan` implemetation of the table has separated the crop column into two features, the actual "crop" and "part" (eg fruits, whole plant, and so on). The available crops are:
+  * **Crop**, this is the name of the crop to be sown and will be used to look up its phosphorus or potassium demand in table 15.2 (page 63) of the *guidelines* to contribute to **$f_{P,a}$** or **$f_{K,e}$** components. The name must match one of the following crop names available. Partial matching is not allowed. Note that `fertplan` implementation of the table has separated the crop column into two features, the actual "crop" and "part" (eg fruits, whole plant, and so on). The available crops are:
   
 ```{r, echo = FALSE}
 knitr::kable(fertplan::get_available("crop"))
 ```
 
-  * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{P,a}$** or **$f_{K,e}$** components. Note that the nutrient demand by crops may greatly differ upon the crop part considered. As an example N coefficients for "sunflower" crop are:
+  * **Crop part**, this is the part of the crop to be sown that will contribute to **$f_{P,a}$** or **$f_{K,e}$** components. Note that the nutrient demand by crops may greatly differ upon the crop part considered. As an example P and K coefficients for "sunflower" crop are:
 
 ```{r, echo = FALSE}
 knitr::kable(fertplan:::tables_l$all_01_dt[crop == "Sunflower" & element %in% c("P2O5", "K2O"), ])

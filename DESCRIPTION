@@ -1,7 +1,7 @@
 Package: fertplan
 Type: Package
 Title: Compute Components Of NPK Fertilization Plans 
-Version: 0.4.0
+Version: 0.4.1
 Date: 2020-06-10
 Authors@R: c(person("Marco", "Bascietto", role = c("aut", "cre"),
                      email = "marco.bascietto@crea.gov.it"),

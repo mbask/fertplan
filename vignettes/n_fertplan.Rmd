@@ -43,7 +43,7 @@ The N flow components include:
 # The leaching affects only the available nitrogen part (not total Nitrogen)
   * **$f_{N,d}$** Nitrogen loss due to denitrification, adsorbation, volatilization processes in soil based on soil texture and drainage rate
   * **$f_{N,e}$** Residual soil nitrogen from previous crop
-  * **$f_{N,f}$** Residual nitrogen from previous organic fertilizations, if ever performed. If this is the case than the N supply in soil depends on the time since last fertilization, the type and quantity of organic fertilization perfomed
+  * **$f_{N,f}$** Residual nitrogen from previous organic fertilizations, if ever performed. If this is the case than the N supply in soil depends on the time since last fertilization, the type and quantity of organic fertilization performed
   * **$f_{N,g}$** Nitrogen supply from atmospheric depositions and from N-fixing bacteria. Yearly availability is estimated to be 20 kg/ha in levelled crops close to urban settlements. This figure has to be appropriately adapted to each crop through a [0,1] coefficient. Note that the N estimate is given in negative sign (ie a flow into the soil).
 
 The final nitrogen balance is computed as the sum of its 7 components:

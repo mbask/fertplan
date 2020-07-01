@@ -82,7 +82,7 @@ The N flow components include:
   - **\(f_{N,f}\)** Residual nitrogen from previous organic
     fertilizations, if ever performed. If this is the case than the N
     supply in soil depends on the time since last fertilization, the
-    type and quantity of organic fertilization perfomed
+    type and quantity of organic fertilization performed
   - **\(f_{N,g}\)** Nitrogen supply from atmospheric depositions and
     from N-fixing bacteria. Yearly availability is estimated to be 20
     kg/ha in levelled crops close to urban settlements. This figure has
